@@ -1,7 +1,7 @@
 {
-  "name": "bulletproof-nodejs",
+  "name": "sem5pi-23-24-grupo59",
   "version": "1.0.0",
-  "description": "Bulletproof node.js",
+  "description": "Projeto Integrador - LAPR5 - 2023/2024",
   "main": "src/app.ts",
   "scripts": {
     "build": "tsc",
@@ -16,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/santiq/bulletproof-nodejs.git"
+    "url": "git+https://github.com/pedrocastrosousa/sem5pi-23-24-grupo59"
   },
   "keywords": [
     "boilerplay",
@@ -28,7 +28,7 @@
     "node",
     "express"
   ],
-  "author": "Santiago Quinteros",
+  "author": "Grupo 59 - 3DJ",
   "license": "ISC",
   "dependencies": {
     "acorn": "^7.1.0",
