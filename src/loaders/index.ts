@@ -21,6 +21,12 @@ export default async ({ expressApp }) => {
     schema: '../persistence/schemas/roleSchema',
   };
 
+   const edificioSchema = {
+     // compare with the approach followed in repos and services
+     name: 'edificioSchema',
+     schema: '../persistence/schemas/edificioSchema',
+   };
+
   const roleController = {
     name: config.controllers.role.name,
     path: config.controllers.role.path
@@ -41,21 +47,42 @@ export default async ({ expressApp }) => {
     path: config.services.role.path
   }
 
+  const edificioController = {
+    name: config.controllers.edificio.name,
+    path: config.controllers.edificio.path
+  }
+
+  const edificioService = {
+    name: config.services.edificio.name,
+    path: config.services.edificio.path
+  }
+
+  const edificioRepo = {
+    name: config.repos.edificio.name,
+    path: config.repos.edificio.path
+  }
+
+
+
   await dependencyInjectorLoader({
     mongoConnection,
     schemas: [
       userSchema,
-      roleSchema
+      roleSchema,
+      edificioSchema
     ],
     controllers: [
-      roleController
+      roleController,
+      edificioController
     ],
     repos: [
       roleRepo,
-      userRepo
+      userRepo,
+      edificioRepo
     ],
     services: [
-      roleService
+      roleService,
+      edificioService
     ]
   });
   Logger.info('✌️ Schemas, Controllers, Repositories, Services, etc. loaded');
