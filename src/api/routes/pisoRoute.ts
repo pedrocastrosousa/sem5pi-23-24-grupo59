@@ -27,6 +27,7 @@ console.log('piso route');
   route.put('/editarPiso',
     celebrate({
       body: Joi.object({
+        id: Joi.string().required(),
         nome: Joi.string().required(), 
         descricao: Joi.string().required(),
         edificio: Joi.string().required()

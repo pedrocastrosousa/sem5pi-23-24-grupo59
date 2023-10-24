@@ -2,7 +2,9 @@ import { AggregateRoot } from "../../core/domain/AggregateRoot";
 import { UniqueEntityID } from "../../core/domain/UniqueEntityID";
 import { Guard } from "../../core/logic/Guard";
 import { Result } from "../../core/logic/Result";
+import { Edificio } from "../edificio/edificio";
 import { PisoDescricao } from "./pisoDescricao";
+import { PisoId } from "./pisoId";
 import { PisoNome } from "./pisoNome";
 
 
@@ -10,12 +12,15 @@ import { PisoNome } from "./pisoNome";
 interface PisoProps {
   nome: PisoNome;
   descricao: PisoDescricao;
-  edificio: string;
+  edificio: Edificio;
 }
 
 export class Piso extends AggregateRoot<PisoProps>{
   get id(): UniqueEntityID {
     return this._id;
+  }
+  get pisoId (): PisoId {
+    return new PisoId(this.pisoId.toValue());
   }
 
   get nome(): PisoNome {
@@ -26,7 +31,7 @@ export class Piso extends AggregateRoot<PisoProps>{
     return this.props.descricao;
   }
   
-  get edificio(): string {
+  get edificio(): Edificio {
     return this.props.edificio;
   }
 
@@ -37,7 +42,7 @@ export class Piso extends AggregateRoot<PisoProps>{
   set descricao (value: PisoDescricao) {
     this.props.descricao = value;
   }
-  set edificio ( value: string) {
+  set edificio ( value: Edificio) {
     this.props.edificio = value;
   }
 
