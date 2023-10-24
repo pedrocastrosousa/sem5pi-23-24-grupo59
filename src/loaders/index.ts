@@ -27,6 +27,12 @@ export default async ({ expressApp }) => {
      schema: '../persistence/schemas/edificioSchema',
    };
 
+   const pisoSchema = {
+    // compare with the approach followed in repos and services
+    name: 'pisoSchema',
+    schema: '../persistence/schemas/pisoSchema',
+  };
+
   const roleController = {
     name: config.controllers.role.name,
     path: config.controllers.role.path
@@ -61,7 +67,19 @@ export default async ({ expressApp }) => {
     name: config.repos.edificio.name,
     path: config.repos.edificio.path
   }
+  const pisoController = {
+    name: config.controllers.piso.name,
+    path: config.controllers.piso.path
+  }
 
+  const pisoRepo = {
+    name: config.repos.piso.name,
+    path: config.repos.piso.path
+  }
+  const pisoService = {
+    name: config.services.piso.name,
+    path: config.services.piso.path
+  }
 
 
   await dependencyInjectorLoader({
@@ -69,20 +87,24 @@ export default async ({ expressApp }) => {
     schemas: [
       userSchema,
       roleSchema,
-      edificioSchema
+      edificioSchema,
+      pisoSchema
     ],
     controllers: [
       roleController,
-      edificioController
+      edificioController,
+      pisoController
     ],
     repos: [
       roleRepo,
       userRepo,
-      edificioRepo
+      edificioRepo,
+      pisoRepo
     ],
     services: [
       roleService,
-      edificioService
+      edificioService,
+      pisoService
     ]
   });
   Logger.info('✌️ Schemas, Controllers, Repositories, Services, etc. loaded');

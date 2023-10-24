@@ -48,6 +48,10 @@ export default {
     edificio:{
       name: "EdificioController",
       path: "../controllers/edificioController"
+    },
+    piso: {
+      name: "PisoController",
+      path: "../controllers/pisoController"
     }
   },
 
@@ -63,6 +67,10 @@ export default {
     edificio:{
       name: "EdificioRepo",
       path: "../repos/edificioRepo"
+    },
+    piso: {
+      name: "PisoRepo",
+      path: "../repos/pisoRepo"
     }
   },
 
@@ -74,6 +82,10 @@ export default {
     edificio:{
       name: "EdificioService",
       path: "../services/edificioService"
+    },
+    piso: {
+      name: "PisoService",
+      path: "../services/pisoService"
     }
   },
 };
