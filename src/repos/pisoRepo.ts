@@ -46,30 +46,28 @@ export default class PisoRepo implements IPisoRepo {
 
     const query = { domainId: piso.id.toString() };
 
-    console.log('');
+    
 
     const pisoDocument = await this.pisoSchema.findOne(query);
 
     try {
       if (pisoDocument === null) {
-        console.log('repo 49');
+        
 
         const rawPiso: any = PisoMap.toPersistence(piso);
-                      
-
+        
         const pisoCreated = await this.pisoSchema.create(rawPiso);
-
+        
         return PisoMap.toDomain(pisoCreated);
 
       } else {
 
         pisoDocument.nome = piso.nome.value;
         pisoDocument.descricao = piso.descricao.value;
-        pisoDocument.edificio = piso.edificio.codigoEdificio.toString();
-        console.log('Document inserted successfully!');
-
+        pisoDocument.edificio = piso.edificio;
+       
         await pisoDocument.save();
-        console.log('repo 59');
+        
 
         return piso;
       }

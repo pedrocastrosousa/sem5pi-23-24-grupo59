@@ -7,6 +7,7 @@ const EdificioSchema = new mongoose.Schema(
       type: String,
       unique: true
     },
+    
     codigoEdificio: {
       type: String,
       unique: true

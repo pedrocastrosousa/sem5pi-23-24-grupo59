@@ -35,34 +35,33 @@ export default class PisoService implements IPisoService {
 
       const nome = await PisoNome.create(pisoDTO.nome).getValue();
       const descricao = await PisoDescricao.create(pisoDTO.descricao).getValue();
-      let edificio: Edificio;
-      console.log('servicopiso 38');
-      const edificioOrError = await this.getEdificio(edificio);
-      console.log('servicopiso 41');
-
+      let edificioo: Edificio;
+      const edificioOrError = await this.getEdificio(pisoDTO.edificio);
+      
       if (edificioOrError.isFailure) {
+
         return Result.fail<IPisoDTO>(edificioOrError.error);
-
       } else {
-
-        edificioOrError.getValue();
+        edificioo = edificioOrError.getValue();
       }
+      
       const pisoOrError = await Piso.create({
         nome: nome,
         descricao: descricao,
-        edificio: edificio,
+        edificio: edificioo,
       });
-
+      
       if (pisoOrError.isFailure) {
         return Result.fail<IPisoDTO>(pisoOrError.errorValue());
       }
-      console.log('servico60');
-
+      
+    
       const pisoResult = pisoOrError.getValue();
 
       await this.pisoRepo.save(pisoResult);
 
       const pisoDTOResult = PisoMap.toDTO(pisoResult) as IPisoDTO;
+      
       return Result.ok<IPisoDTO>(pisoDTOResult)
     } catch (e) {
       throw e;
@@ -77,14 +76,14 @@ export default class PisoService implements IPisoService {
         return Result.fail<IPisoDTO>("Piso not found");
       }
       else {
-        console.log('linha 63');
+        
         piso.nome = PisoNome.create(pisoDTO.nome).getValue();
         piso.descricao = PisoDescricao.create(pisoDTO.descricao).getValue();
         await this.pisoRepo.save(piso);
-        console.log('piso service 68');
+        
 
         const pisoDTOResult = PisoMap.toDTO(piso) as IPisoDTO;
-        console.log('piso service 71');
+        
 
         return Result.ok<IPisoDTO>(pisoDTOResult)
       }
@@ -95,11 +94,12 @@ export default class PisoService implements IPisoService {
 
 
 
-  private async getEdificio(edificio: Edificio): Promise<Result<Edificio>> {
-    const edificioExists = await this.edificioRepo.findByDomain(edificio);
-
+  private async getEdificio(edificio: string): Promise<Result<Edificio>> {
+    
+    const edificioExists = await this.edificioRepo.findByDomainId(edificio);
+    
     if (edificioExists) {
-      return Result.ok<Edificio>(edificio);
+      return Result.ok<Edificio>(edificioExists);
     } else {
       return Result.fail<Edificio>("Couldn't find edificio by id=" + edificio);
     }

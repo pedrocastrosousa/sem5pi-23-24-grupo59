@@ -11,6 +11,7 @@ export class CodigoEdificio extends ValueObject<CodigoEdificioProps> {
     get value(): string {
         return this.props.value;
     }
+    
 
     private constructor(props: CodigoEdificioProps) {
         super(props);

@@ -73,7 +73,7 @@ export default class EdificioService implements IEdificioService {
       const edificioResult = edificioOrError.getValue();
 
       await this.edificioRepo.save(edificioResult);
-      console.log('service ed 76');
+      
       const edificioDTOResult = EdificioMap.toDTO(edificioResult) as IEdificioDTO;
       return Result.ok<IEdificioDTO>(edificioDTOResult);
     } catch (e) {

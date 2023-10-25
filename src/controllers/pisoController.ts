@@ -15,7 +15,6 @@ export default class PisoController implements IPisoController /* TODO: extends 
   ) { }
 
   public async createPiso(req: Request, res: Response, next: NextFunction) {
-    console.log('controler 22');
     try {
       const pisoOrError = await this.pisoServiceInstance.createPiso(req.body as IPisoDTO) as Result<IPisoDTO>;
 
@@ -34,7 +33,6 @@ export default class PisoController implements IPisoController /* TODO: extends 
    public async updatePiso(req: Request, res: Response, next: NextFunction) {
      try {
        const pisoOrError = await this.pisoServiceInstance.updatePiso(req.body as IPisoDTO) as Result<IPisoDTO>;
-        console.log('controler 37');
        if (pisoOrError.isFailure) {
          return res.status(404).send();
        }
