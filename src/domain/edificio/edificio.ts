@@ -54,9 +54,10 @@ export class Edificio extends AggregateRoot<EdificioProps>{
     public static create (props: EdificioProps, id?: UniqueEntityID): Result<Edificio> {
 
         const guardedProps = [
-          { argument: props.descricaoEdificio, argumentName: 'descricao' },
-          { argument: props.nomeEdificio, argumentName: 'nome' },
-          { argument: props.dimensaoMaximaPisos, argumentName: 'dimensao' },
+          { argument: props.descricaoEdificio, argumentName: 'codigoEdificio' },
+          { argument: props.descricaoEdificio, argumentName: 'descricaoEdificio' },
+          { argument: props.nomeEdificio, argumentName: 'nomeEdificio' },
+          { argument: props.dimensaoMaximaPisos, argumentName: 'dimensaoMaximaPisos' },
         ];
     
         const guardResult = Guard.againstNullOrUndefinedBulk(guardedProps);

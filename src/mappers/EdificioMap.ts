@@ -36,11 +36,37 @@ export class EdificioMap extends Mapper<Edificio> {
       },
       new UniqueEntityID(edificio.id),
     );
-
     edificioOrError.isFailure ? console.log(edificioOrError.error) : '';
 
     return edificioOrError.isSuccess ? edificioOrError.getValue() : null;
   }
+
+
+
+  public static async toDomainMariana(raw: any): Promise<Edificio> {
+
+    const descricaoOrError = DescricaoEdificio.create(raw.descricao).getValue();
+    const nomeOrError = NomeEdificio.create(raw.nome).getValue();
+   // const props = raw.props;
+    const comprimento = raw.dimensoes.comprimento;
+    const largura = raw.dimensoes.largura;
+   const dimensoesOrError = DimensaoMaximaPisos.create1(largura, comprimento).getValue();
+   // const dimensoesOrError = DimensaoMaximaPisos.create(raw.dimensaoMaximaPisos).getValue();
+
+    const edificioOrError = Edificio.create({
+      descricaoEdificio: descricaoOrError,
+      nomeEdificio: nomeOrError,
+      dimensaoMaximaPisos: dimensoesOrError,
+    }
+      , new UniqueEntityID(raw.domainId));
+
+    edificioOrError.isFailure ? console.log(edificioOrError.error) : "";
+    return edificioOrError.isSuccess ? edificioOrError.getValue() : null;
+
+  }
+
+
+
 
   public static toPersistence(edificio: Edificio): any {
     return {

@@ -9,8 +9,6 @@ export class PisoDescricao extends ValueObject<PisoDescricaoProps> {
   get value(): string {
     return this.props.value;
   }
-
-
   
   private constructor(props: PisoDescricaoProps) {
     super(props);
