@@ -36,6 +36,7 @@ export default class TipoRobotRepo implements ITipoRobotRepo {
 
     try {
       if (tipoRobotDocument === null) {
+         
         const rawTipoRobot: any = TipoRobotMap.toPersistence(tipoRobot);
 
         const tipoRobotCreated = await this.tipoRobotSchema.create(rawTipoRobot);

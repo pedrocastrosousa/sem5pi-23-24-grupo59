@@ -10,42 +10,42 @@ interface TipoRobotProps {
 }
 
 export class TipoRobot extends AggregateRoot<TipoRobotProps> {
-  get id(): UniqueEntityID {
-    return this._id;
-  }
+         get id(): UniqueEntityID {
+           return this._id;
+         }
 
-  get idTipoRobot(): IdTipoRobot {
-    return new IdTipoRobot(this.idTipoRobot.toValue());
-  }
+         get tipoRobotId(): IdTipoRobot {
+           return new IdTipoRobot(this.tipoRobotId.toValue());
+         }
 
-  get designacaoTipoRobot(): DesignacaoTipoRobot {
-    return this.props.designacaoTipoRobot;
-  }
+         get designacaoTipoRobot(): DesignacaoTipoRobot {
+           return this.props.designacaoTipoRobot;
+         }
 
-  set idTipoRobot(designacaoTipoRobot: DesignacaoTipoRobot) {
-    this.props.designacaoTipoRobot = designacaoTipoRobot;
-  }
+         set idTipoRobot(designacaoTipoRobot: DesignacaoTipoRobot) {
+           this.props.designacaoTipoRobot = designacaoTipoRobot;
+         }
 
-  private constructor(props: TipoRobotProps, id?: UniqueEntityID) {
-    super(props, id);
-  }
+         private constructor(props: TipoRobotProps, id?: UniqueEntityID) {
+           super(props, id);
+         }
 
-  public static create(props: TipoRobotProps, id?: UniqueEntityID): Result<TipoRobot> {
-    const guardedProps = [{ argument: props.designacaoTipoRobot, argumentName: 'designacao' }];
+         public static create(props: TipoRobotProps, id?: UniqueEntityID): Result<TipoRobot> {
+           const guardedProps = [{ argument: props.designacaoTipoRobot, argumentName: 'designacao' }];
 
-    const guardResult = Guard.againstNullOrUndefinedBulk(guardedProps);
+           const guardResult = Guard.againstNullOrUndefinedBulk(guardedProps);
 
-    if (!guardResult.succeeded) {
-      return Result.fail<TipoRobot>(guardResult.message);
-    } else {
-      return Result.ok<TipoRobot>(
-        new TipoRobot(
-          {
-            ...props,
-          },
-          id,
-        ),
-      );
-    }
-  }
-}
+           if (!guardResult.succeeded) {
+             return Result.fail<TipoRobot>(guardResult.message);
+           } else {
+             return Result.ok<TipoRobot>(
+               new TipoRobot(
+                 {
+                   ...props,
+                 },
+                 id,
+               ),
+             );
+           }
+         }
+       }

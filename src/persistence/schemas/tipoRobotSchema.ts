@@ -3,7 +3,7 @@ import mongoose, { Schema } from 'mongoose';
 
 const TipoRobotSchema = new mongoose.Schema(
     {
-        idTipoRobot: { 
+        domainId: { 
           type: String,
           unique: true
         },

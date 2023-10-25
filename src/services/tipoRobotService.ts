@@ -8,6 +8,7 @@ import { Result } from '../core/logic/Result';
 import { DesignacaoTipoRobot } from '../domain/tipoRobot/designacaoTipoRobot';
 import { forEach } from 'lodash';
 import { TipoRobotMap } from '../mappers/TipoRobotMap';
+import { IdTipoRobot } from '../domain/tipoRobot/idTipoRobot';
 
 @Service()
 export default class TipoRobotService implements ITipoRobotService {
@@ -15,9 +16,9 @@ export default class TipoRobotService implements ITipoRobotService {
 
   public async createTipoRobot(tipoRobotDTO: ITipoRobotDTO): Promise<Result<ITipoRobotDTO>> {
     try {
-      const designacaoTipoRobot = DesignacaoTipoRobot.create(tipoRobotDTO.designacaoTipoRobot).getValue();
+      const designacaoTipoRobot = await DesignacaoTipoRobot.create(tipoRobotDTO.designacaoTipoRobot).getValue();
       
-      const tipoRobotOrError = TipoRobot.create({
+      const tipoRobotOrError = await TipoRobot.create({
         designacaoTipoRobot: designacaoTipoRobot,
       });
 
@@ -28,8 +29,9 @@ export default class TipoRobotService implements ITipoRobotService {
       const tipoRobotResult = tipoRobotOrError.getValue();
 
       await this.tipoRobotRepo.save(tipoRobotResult);
-
+  
       const tipoRobotDTOResult = TipoRobotMap.toDTO(tipoRobotResult) as ITipoRobotDTO;
+
       return Result.ok<ITipoRobotDTO>(tipoRobotDTOResult);
     } catch (e) {
       throw e;

@@ -14,5 +14,6 @@ export default () => {
   role(app);
   edificio(app);
   piso(app);
+  tipoRobot(app);
   return app;
 };

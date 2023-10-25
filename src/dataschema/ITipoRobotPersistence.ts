@@ -1,4 +1,4 @@
 export interface ITipoRobotPersistence {
-    idTipoRobot: string;
+    domainId: string;
     designacaoTipoRobot: string;
 }

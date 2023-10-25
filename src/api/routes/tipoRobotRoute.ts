@@ -16,7 +16,6 @@ export default (app: Router) => {
     '',
     celebrate({
       body: Joi.object({
-        idTipoRobot: Joi.number().required(),
         designacaoTipoRobot: Joi.string().required(),
       }),
     }),

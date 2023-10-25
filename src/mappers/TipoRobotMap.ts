@@ -10,32 +10,32 @@ import { UniqueEntityID } from '../core/domain/UniqueEntityID';
 import { DesignacaoTipoRobot } from '../domain/tipoRobot/designacaoTipoRobot';
 
 export class TipoRobotMap extends Mapper<TipoRobot> {
-  public static toDTO(tipoRobot: TipoRobot): ITipoRobotDTO {
-    return {
-      id: tipoRobot.id.toString(),
-      designacaoTipoRobot: tipoRobot.designacaoTipoRobot.designacao,
-    };
-  }
+         public static toDTO(tipoRobot: TipoRobot): ITipoRobotDTO {
+           return {
+             id: tipoRobot.id.toString(),
+             designacaoTipoRobot: tipoRobot.designacaoTipoRobot.designacao,
+           };
+         }
 
-  public static toDomain(tipoRobot: any | Model<ITipoRobotPersistence & Document>): TipoRobot {
-    const designacaoTipoRobot = DesignacaoTipoRobot.create(tipoRobot.designacaoTipoRobot.designacao);
-  
-    const tipoRobotOrError = TipoRobot.create(
-      {
-        designacaoTipoRobot: designacaoTipoRobot.getValue(),
-      },
-      new UniqueEntityID(tipoRobot.id),
-    );
+         public static toDomain(tipoRobot: any | Model<ITipoRobotPersistence & Document>): TipoRobot {
+           const designacaoTipoRobotOrError = DesignacaoTipoRobot.create(tipoRobot.designacaoTipoRobot);
 
-    tipoRobotOrError.isFailure ? console.log(tipoRobotOrError.error) : '';
+           const tipoRobotOrError = TipoRobot.create(
+             {
+               designacaoTipoRobot: designacaoTipoRobotOrError.getValue(),
+             },
+             new UniqueEntityID(tipoRobot.domainId),
+           );
 
-    return tipoRobotOrError.isSuccess ? tipoRobotOrError.getValue() : null;
-  }
+           tipoRobotOrError.isFailure ? console.log(tipoRobotOrError.error) : '';
 
-  public static toPersistence(tipoRobot: TipoRobot): any {
-    return {
-      domainId: tipoRobot.id.toString(),
-      name: tipoRobot.designacaoTipoRobot,
-    };
-  }
-}
+           return tipoRobotOrError.isSuccess ? tipoRobotOrError.getValue() : null;
+         }
+
+         public static toPersistence(tipoRobot: TipoRobot): any {
+           return {
+             domainId: tipoRobot.id.toString(),
+             designacaoTipoRobot: tipoRobot.designacaoTipoRobot.designacao,
+           };
+         }
+       }
