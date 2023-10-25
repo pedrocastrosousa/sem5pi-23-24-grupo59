@@ -27,6 +27,12 @@ export default async ({ expressApp }) => {
      schema: '../persistence/schemas/edificioSchema',
    };
 
+   const tipoRobotSchema = {
+    // compare with the approach followed in repos and services
+    name: 'tipoRobotSchema',
+    schema: '../persistence/schemas/tipoRobotSchema',
+  };
+
   const roleController = {
     name: config.controllers.role.name,
     path: config.controllers.role.path
@@ -62,27 +68,44 @@ export default async ({ expressApp }) => {
     path: config.repos.edificio.path
   }
 
+  const tipoRobotController = {
+    name: config.controllers.tipoRobot.name,
+    path: config.controllers.tipoRobot.path
+  }
 
+  const tipoRobotService = {
+    name: config.services.tipoRobot.name,
+    path: config.services.tipoRobot.path
+  }
+
+  const tipoRobotRepo = {
+    name: config.repos.tipoRobot.name,
+    path: config.repos.tipoRobot.path
+  }
 
   await dependencyInjectorLoader({
     mongoConnection,
     schemas: [
       userSchema,
       roleSchema,
-      edificioSchema
+      edificioSchema,
+      tipoRobotSchema
     ],
     controllers: [
       roleController,
-      edificioController
+      edificioController, 
+      tipoRobotController
     ],
     repos: [
       roleRepo,
       userRepo,
-      edificioRepo
+      edificioRepo,
+      tipoRobotRepo
     ],
     services: [
       roleService,
-      edificioService
+      edificioService,
+      tipoRobotService
     ]
   });
   Logger.info('✌️ Schemas, Controllers, Repositories, Services, etc. loaded');
