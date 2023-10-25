@@ -51,6 +51,10 @@ export default {
     piso: {
       name: "PisoController",
       path: "../controllers/pisoController"
+    },
+    tipoRobot:{
+      name: "TipoRobotController",
+      path: "../controllers/tipoRobotController"
     }
   },
 
@@ -70,6 +74,10 @@ export default {
     piso: {
       name: "PisoRepo",
       path: "../repos/pisoRepo"
+    },
+    tipoRobot:{
+      name: "TipoRobotRepo",
+      path: "../repos/tipoRobotRepo"
     }
   },
 
@@ -85,6 +93,11 @@ export default {
     piso: {
       name: "PisoService",
       path: "../services/pisoService"
+    },
+    tipoRobot: {
+      name: "TipoRobotService",
+      path: "../services/tipoRobotService"
     }
+    
   },
 };
