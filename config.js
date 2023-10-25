@@ -20,7 +20,6 @@ export default {
    * That long string from mlab
    */
   databaseURL: process.env.MONGODB_URI || "mongodb+srv://1200967:DsTqN5R2VPWqJuBH@cluster0.1fp1yyf.mongodb.net/?retryWrites=true&w=majority",
-
   /**
    * Your secret sauce
    */
@@ -48,6 +47,10 @@ export default {
     edificio:{
       name: "EdificioController",
       path: "../controllers/edificioController"
+    },
+    piso: {
+      name: "PisoController",
+      path: "../controllers/pisoController"
     }
   },
 
@@ -63,6 +66,10 @@ export default {
     edificio:{
       name: "EdificioRepo",
       path: "../repos/edificioRepo"
+    },
+    piso: {
+      name: "PisoRepo",
+      path: "../repos/pisoRepo"
     }
   },
 
@@ -74,6 +81,10 @@ export default {
     edificio:{
       name: "EdificioService",
       path: "../services/edificioService"
+    },
+    piso: {
+      name: "PisoService",
+      path: "../services/pisoService"
     }
   },
 };

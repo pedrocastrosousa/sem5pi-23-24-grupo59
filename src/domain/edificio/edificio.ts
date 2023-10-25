@@ -6,8 +6,10 @@ import { DescricaoEdificio } from "./descricaoEdificio";
 import { NomeEdificio } from "./nomeEdificio";
 import { DimensaoMaximaPisos } from "./dimensaoMaximaPisos";
 import { CodigoEdificio } from "./codigoEdificio";
+import { EdificioId } from "./edificioId";
 
 interface EdificioProps {
+    codigoEdificio: CodigoEdificio;
     descricaoEdificio: DescricaoEdificio;
     nomeEdificio: NomeEdificio;
     dimensaoMaximaPisos: DimensaoMaximaPisos;
@@ -19,8 +21,11 @@ export class Edificio extends AggregateRoot<EdificioProps>{
         return this._id;
     }
 
+    get edificioId (): EdificioId {
+        return new EdificioId(this.edificioId.toValue());
+      }
     get codigoEdificio(): CodigoEdificio {
-        return new CodigoEdificio(this.codigoEdificio.toValue());
+        return this.props.codigoEdificio;
     }
 
     get descricaoEdificio(): DescricaoEdificio {
@@ -54,9 +59,10 @@ export class Edificio extends AggregateRoot<EdificioProps>{
     public static create (props: EdificioProps, id?: UniqueEntityID): Result<Edificio> {
 
         const guardedProps = [
-          { argument: props.descricaoEdificio, argumentName: 'descricao' },
-          { argument: props.nomeEdificio, argumentName: 'nome' },
-          { argument: props.dimensaoMaximaPisos, argumentName: 'dimensao' },
+          { argument: props.descricaoEdificio, argumentName: 'codigoEdificio' },
+          { argument: props.descricaoEdificio, argumentName: 'descricaoEdificio' },
+          { argument: props.nomeEdificio, argumentName: 'nomeEdificio' },
+          { argument: props.dimensaoMaximaPisos, argumentName: 'dimensaoMaximaPisos' },
         ];
     
         const guardResult = Guard.againstNullOrUndefinedBulk(guardedProps);

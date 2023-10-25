@@ -16,9 +16,7 @@ export default (app: Router) => {
     '',
     celebrate({
       body: Joi.object({
-        id: Joi.string()
-          .regex(/^[a-zA-Z0-9\s]{1,5}$/)
-          .required(),
+        codigoEdificio: Joi.string().required(),
         descricaoEdificio: Joi.string().required(),
         nomeEdificio: Joi.string().optional(),
         dimensaoMaximaPisos: Joi.object().required(),

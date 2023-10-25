@@ -4,6 +4,7 @@ import user from './routes/userRoute';
 import role from './routes/roleRoute';
 import edificio from './routes/edificioRoute';
 import tipoRobot from './routes/tipoRobotRoute';
+import piso from './routes/pisoRoute';
 
 export default () => {
   const app = Router();
@@ -12,7 +13,6 @@ export default () => {
   user(app);
   role(app);
   edificio(app);
-  tipoRobot(app);
-
+  piso(app);
   return app;
 };

@@ -20,6 +20,7 @@ export class DimensaoMaximaPisos extends ValueObject<DimensaoMaximaPisosProps>{
     public constructor(props: DimensaoMaximaPisosProps){
         super(props);
     }
+    
 
     public static create(props: DimensaoMaximaPisosProps): Result<DimensaoMaximaPisos> {
 
@@ -40,4 +41,12 @@ export class DimensaoMaximaPisos extends ValueObject<DimensaoMaximaPisosProps>{
         } 
         
     }
+
+
+    public static create1(largura: number, comprimento: number): Result<DimensaoMaximaPisos> {
+        if (comprimento <= 0 || largura <= 0) {
+          return Result.fail<DimensaoMaximaPisos>("As dimensões do piso devem ser superiores a 0.");
+        }
+        return Result.ok<DimensaoMaximaPisos>(new DimensaoMaximaPisos({ largura, comprimento }));
+      }
 }

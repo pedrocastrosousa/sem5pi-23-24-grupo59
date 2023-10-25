@@ -7,6 +7,7 @@ import { Document, FilterQuery, Model } from 'mongoose';
 import { IEdificioPersistence } from '../dataschema/IEdificioPersistence';
 import IEdificioRepo from '../services/IRepos/IEdificioRepo';
 import { EdificioMap } from '../mappers/EdificioMap';
+import { EdificioId } from '../domain/edificio/edificioId';
 
 
 @Service()
@@ -22,11 +23,11 @@ export default class EdificioRepo implements IEdificioRepo {
   }
 
   public async exists(edificio: Edificio): Promise<boolean> {
-    const idX = edificio.id instanceof CodigoEdificio ? (<CodigoEdificio>edificio.id).toValue() : edificio.id;
-
+    const idX = edificio.id instanceof EdificioId ? (<EdificioId> edificio.id).toValue() : edificio.id;
+   
     const query = { domainId: idX };
     const roleDocument = await this.edificioSchema.findOne(query as FilterQuery<IEdificioPersistence & Document>);
-
+    
     return !!roleDocument === true;
   }
 
@@ -38,11 +39,11 @@ export default class EdificioRepo implements IEdificioRepo {
     try {
       if (edificioDocument === null) {
         const rawEdificio: any = EdificioMap.toPersistence(edificio);
-
         const edificioCreated = await this.edificioSchema.create(rawEdificio);
-
+        
         return EdificioMap.toDomain(edificioCreated);
       } else {
+        edificioDocument.codigoEdificio = edificio.codigoEdificio.value;
         edificioDocument.descricaoEdificio = edificio.descricaoEdificio.descricao;
         edificioDocument.nomeEdificio = edificio.nomeEdificio.nome;
         edificioDocument.dimensaoMaximaPisos = edificio.dimensaoMaximaPisos;
@@ -54,15 +55,27 @@ export default class EdificioRepo implements IEdificioRepo {
       throw err;
     }
   }
+ 
+  public async findByDomainId(id: string): Promise<Edificio> {
+    const query = { domainId: id };
+    const edificioRecord = await this.edificioSchema.findOne(query as FilterQuery<IEdificioPersistence & Document>);
+    
+    if (edificioRecord != null) {
+      return EdificioMap.toDomainMariana(edificioRecord);
+    } else return null;
+  }
+  
 
-  public async findByDomainId(codigoEdificio: CodigoEdificio | string): Promise<Edificio> {
+  public async findByDomain(codigoEdificio: Edificio | string): Promise<Edificio> {
     const query = { domainId: codigoEdificio };
     const edificioRecord = await this.edificioSchema.findOne(query as FilterQuery<IEdificioPersistence & Document>);
 
-    if (edificioRecord != null) {
-      return EdificioMap.toDomain(edificioRecord);
-    } else return null;
-  }
+       if (edificioRecord != null) {
+        return EdificioMap.toDomainMariana(edificioRecord);
+      } else return null;
+}
+
+  
 
   public async findAll(): Promise<Edificio[]> {
     try {
