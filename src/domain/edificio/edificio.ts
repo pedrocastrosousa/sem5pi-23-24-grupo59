@@ -8,6 +8,7 @@ import { DimensaoMaximaPisos } from "./dimensaoMaximaPisos";
 import { CodigoEdificio } from "./codigoEdificio";
 
 interface EdificioProps {
+    codigoEdificio: CodigoEdificio;
     descricaoEdificio: DescricaoEdificio;
     nomeEdificio: NomeEdificio;
     dimensaoMaximaPisos: DimensaoMaximaPisos;
@@ -20,7 +21,7 @@ export class Edificio extends AggregateRoot<EdificioProps>{
     }
 
     get codigoEdificio(): CodigoEdificio {
-        return new CodigoEdificio(this.codigoEdificio.toValue());
+        return this.props.codigoEdificio;
     }
 
     get descricaoEdificio(): DescricaoEdificio {

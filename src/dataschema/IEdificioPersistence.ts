@@ -1,5 +1,6 @@
 export interface IEdificioPersistence {
-    id: string;
+    domainId: string;
+    codigoEdificio: string;
     descricaoEdificio: string;
     nomeEdificio: string;
     dimensaoMaximaPisos: {

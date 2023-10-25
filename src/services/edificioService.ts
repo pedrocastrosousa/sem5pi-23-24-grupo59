@@ -10,6 +10,7 @@ import { DescricaoEdificio } from '../domain/edificio/descricaoEdificio';
 import { NomeEdificio } from '../domain/edificio/nomeEdificio';
 import { DimensaoMaximaPisos } from '../domain/edificio/dimensaoMaximaPisos';
 import { forEach } from 'lodash';
+import { CodigoEdificio } from '../domain/edificio/codigoEdificio';
 
 @Service()
 export default class EdificioService implements IEdificioService {
@@ -54,10 +55,12 @@ export default class EdificioService implements IEdificioService {
 
   public async createEdificio(edificioDTO: IEdificioDTO): Promise<Result<IEdificioDTO>> {
     try {
+      const codigoEdificio = CodigoEdificio.create(edificioDTO.codigoEdificio).getValue();
       const descricaoEdificio = DescricaoEdificio.create(edificioDTO.descricaoEdificio).getValue();
       const nomeEdificio = NomeEdificio.create(edificioDTO.nomeEdificio).getValue();
       const dimensaoMaximaPisos = DimensaoMaximaPisos.create(edificioDTO.dimensaoMaximaPisos).getValue();
       const edificioOrError = Edificio.create({
+        codigoEdificio: codigoEdificio,
         descricaoEdificio: descricaoEdificio,
         nomeEdificio: nomeEdificio,
         dimensaoMaximaPisos: dimensaoMaximaPisos,
@@ -70,7 +73,7 @@ export default class EdificioService implements IEdificioService {
       const edificioResult = edificioOrError.getValue();
 
       await this.edificioRepo.save(edificioResult);
-
+      console.log('service ed 76');
       const edificioDTOResult = EdificioMap.toDTO(edificioResult) as IEdificioDTO;
       return Result.ok<IEdificioDTO>(edificioDTOResult);
     } catch (e) {
@@ -80,7 +83,7 @@ export default class EdificioService implements IEdificioService {
 
   public async updateEdificio(edificioDTO: IEdificioDTO): Promise<Result<IEdificioDTO>> {
     try {
-      const edificio = await this.edificioRepo.findByDomainId(edificioDTO.id);
+      const edificio = await this.edificioRepo.findByDomainId(edificioDTO.codigoEdificio);
 
       if (edificio === null) {
         return Result.fail<IEdificioDTO>('Role not found');

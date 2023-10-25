@@ -22,7 +22,7 @@ export default class EdificioRepo implements IEdificioRepo {
   }
 
   public async exists(edificio: Edificio): Promise<boolean> {
-    const idX = edificio.id instanceof CodigoEdificio ? (<CodigoEdificio>edificio.id).toValue() : edificio.id;
+    const idX = edificio.id instanceof CodigoEdificio ? (<CodigoEdificio>edificio.id) : edificio.id;
 
     const query = { domainId: idX };
     const roleDocument = await this.edificioSchema.findOne(query as FilterQuery<IEdificioPersistence & Document>);
@@ -38,11 +38,11 @@ export default class EdificioRepo implements IEdificioRepo {
     try {
       if (edificioDocument === null) {
         const rawEdificio: any = EdificioMap.toPersistence(edificio);
-
         const edificioCreated = await this.edificioSchema.create(rawEdificio);
-
+        console.log('repo 42');
         return EdificioMap.toDomain(edificioCreated);
       } else {
+        edificioDocument.codigoEdificio = edificio.codigoEdificio.value;
         edificioDocument.descricaoEdificio = edificio.descricaoEdificio.descricao;
         edificioDocument.nomeEdificio = edificio.nomeEdificio.nome;
         edificioDocument.dimensaoMaximaPisos = edificio.dimensaoMaximaPisos;
@@ -54,19 +54,21 @@ export default class EdificioRepo implements IEdificioRepo {
       throw err;
     }
   }
-
+ 
   public async findByDomainId(codigoEdificio: CodigoEdificio | string): Promise<Edificio> {
     const query = { domainId: codigoEdificio };
     const edificioRecord = await this.edificioSchema.findOne(query as FilterQuery<IEdificioPersistence & Document>);
+    console.log('eed repo 62');
+
     if (edificioRecord != null) {
       return EdificioMap.toDomain(edificioRecord);
     } else return null;
   }
+  
 
   public async findByDomain(codigoEdificio: Edificio | string): Promise<Edificio> {
     const query = { domainId: codigoEdificio };
     const edificioRecord = await this.edificioSchema.findOne(query as FilterQuery<IEdificioPersistence & Document>);
-       console.log(edificioRecord);
 
        if (edificioRecord != null) {
         return EdificioMap.toDomainMariana(edificioRecord);
