@@ -51,6 +51,22 @@ interface PassagemProps {
 
             return Result.ok<Passagem>(passagem);
         }
+
+
+    }
+
+
+
+    updatePiso1(piso1: Piso): void {
+        if (piso1) {
+            this.props.piso1 = piso1;
+        }
+    }
+
+    updatePiso2(piso2: Piso): void {
+        if (piso2) {
+            this.props.piso2 = piso2;
+        }
     }
 
 

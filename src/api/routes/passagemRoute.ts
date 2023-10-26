@@ -21,4 +21,24 @@ console.log('passagem route');
         }),
     }),
     async (req, res, next) => ctrl.createPassagem(req, res, next) );
+
+    route.get('/listarPassagens', async (req, res, next) => {
+      ctrl.listarPassagens(req, res, next);
+  });
+
+  route.put('/editarPassagem',
+        celebrate({
+            body: Joi.object({
+              domainId: Joi.string().required(),
+                piso1: Joi.string(),
+                piso2: Joi.string(),
+               
+            }),
+          
+        }),
+        async (req, res, next) => ctrl.updatePassagem(req, res, next));
+
+
+
 }
+

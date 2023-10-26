@@ -3,8 +3,6 @@ import { UniqueEntityID } from "../core/domain/UniqueEntityID";
 import { Mapper } from "../core/infra/Mapper";
 import { Passagem } from "../domain/passagem/passagem";
 import { IPassagemDTO } from "../dto/IPassagemDTO";
-import { CoordenadaPiso1 } from "../domain/passagem/coordenadaPiso1";
-import { CoordenadaPiso2 } from "../domain/passagem/coordenadaPiso2";
 import Container from "typedi";
 import PisoRepo from "../repos/pisoRepo";
 
@@ -47,4 +45,18 @@ export class PassagemMap extends Mapper<Passagem> {
         }
         return a;
     }
+
+    public static async toDomainBulk(rawList: any[]): Promise<Passagem[]> {
+        const passagens: Passagem[] = [];
+    
+        for (const raw of rawList) {
+          const passagem = await this.toDomain(raw);
+          if (passagem) {
+            passagens.push(passagem);
+          }
+        }
+    
+        return passagens;
+      }
+
 }

@@ -15,11 +15,10 @@ export default class PassagemController implements IPassagemController /* TODO: 
 
   public async createPassagem(req: Request, res: Response, next: NextFunction) {
     try {
-              console.log('passagem controller 19');
 
       const passagemOrError = await this.passagemServiceInstance.createPassagem(req.body as IPassagemDTO) as Result<IPassagemDTO>;
       if (passagemOrError.isFailure) {
-        return res.status(402).send();
+        return res.status(400).json({error: passagemOrError.error});
       }
 
       const passagemDTO = passagemOrError.getValue();
@@ -29,4 +28,37 @@ export default class PassagemController implements IPassagemController /* TODO: 
       return next(e);
     }
   }
+
+  public async listarPassagens(req: Request, res: Response, next: NextFunction) {
+    try {
+      const passagemListOrError = await this.passagemServiceInstance.getPassagem();
+      if (passagemListOrError.isFailure) {
+        return res.status(400).send();
+      }
+      return res.json(passagemListOrError.getValue()).status(200);
+    }
+    catch (e) {
+      return res.json(e.message).status(400);
+    }
+  }
+
+  public async updatePassagem(req: Request, res: Response, next: NextFunction) {
+    const passagemId = req.body.domainId;
+    const passagemDTO: IPassagemDTO = req.body;
+
+    if (!passagemId) {
+      return res.status(400).json({ error: 'ID passagem erro' });
+    }
+    try {
+      const passagemListOrError = await this.passagemServiceInstance.updatePassagem(passagemId, passagemDTO);
+
+      if (passagemListOrError.isFailure) {
+        return res.status(400).json({ error: passagemListOrError.error });
+      }
+      return res.json(passagemListOrError.getValue()).status(200);
+    } catch (e) {
+      return res.json(e.message).status(400);
+    }
+  }
+
 };
