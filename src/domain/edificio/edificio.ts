@@ -24,6 +24,7 @@ export class Edificio extends AggregateRoot<EdificioProps>{
     get edificioId (): EdificioId {
         return new EdificioId(this.edificioId.toValue());
       }
+      
     get codigoEdificio(): CodigoEdificio {
         return this.props.codigoEdificio;
     }

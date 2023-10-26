@@ -7,7 +7,6 @@ import { CoordenadaPiso2 } from "./coordenadaPiso2";
 import { PassagemId } from "./passagemId";
 
 interface PassagemProps {
-    id: PassagemId;
     coordenadaPiso1: CoordenadaPiso1;
     coordenadaPiso2: CoordenadaPiso2;
   }

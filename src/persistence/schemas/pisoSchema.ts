@@ -19,7 +19,6 @@ const PisoSchema = new mongoose.Schema(
     descricao: {  
       type: String,  // Assuming DescricaoPiso is a string
       required: true,
-      index: true,
     },
     edificio: { 
       type: String, // Assuming Edificio is a string
@@ -31,5 +30,5 @@ const PisoSchema = new mongoose.Schema(
     timestamps: true
   }
 );
-PisoSchema.index({ numPiso: 1, edificio: 1 }, { unique: true });
+PisoSchema.index({ nome: 1, edificio: 1 }, { unique: true });
 export default mongoose.model<IPisoPersistence & mongoose.Document>('Piso', PisoSchema);

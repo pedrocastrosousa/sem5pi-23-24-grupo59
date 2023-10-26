@@ -1,5 +1,5 @@
 import { IEdificioPersistence } from '../../dataschema/IEdificioPersistence';
-import mongoose, { Schema } from 'mongoose';
+import mongoose from 'mongoose';
 
 const EdificioSchema = new mongoose.Schema(
   {
@@ -10,12 +10,15 @@ const EdificioSchema = new mongoose.Schema(
     
     codigoEdificio: {
       type: String,
+      required: true,
       unique: true
     },
 
     descricaoEdificio: {
       type: String,
-      index: true,
+      required: true,
+      unique:true,
+      index:true,
     },
 
     nomeEdificio: {

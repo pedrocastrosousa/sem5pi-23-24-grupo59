@@ -3,13 +3,15 @@ import { Inject, Service } from "typedi";
 import { Passagem } from "../domain/passagem/passagem";
 import { PassagemMap } from "../mappers/PassagemMap";
 import { IPassagemPersistence } from "../dataschema/IPassagemPersistence";
+import { PassagemId } from "../domain/passagem/passagemId";
+import IPassagemRepo from "../services/IRepos/IPassagemRepo";
 
 @Service()
 export default class PassagemRepo implements IPassagemRepo {
     private models: any;
 
     constructor(
-        @Inject('PassagemSchema') private PassagemSchema: Model<IPassagemPersistence & Document>,
+        @Inject('passagemSchema') private passagemSchema: Model<IPassagemPersistence & Document>,
     ) { }
 
     private createBaseQuery(): any {
@@ -18,41 +20,38 @@ export default class PassagemRepo implements IPassagemRepo {
         }
     }
 
-    public async findById(id: string): Promise<Passagem> {
-        const query = { domainId: id };
-        const PassagemRecord = await this.PassagemSchema.findOne( query as FilterQuery<IPassagemPersistence & Document> );
-        if( PassagemRecord != null)
-          return PassagemMap.toDomain(PassagemRecord);
+    public async findByDomainId(passagemId: PassagemId| string): Promise<Passagem> {
+        const query = { domainId:  passagemId };
+        const passagemRecord = await this.passagemSchema.findOne(query as FilterQuery<IPassagemPersistence & Document>);
+        if (passagemRecord != null)
+          return PassagemMap.toDomain(passagemRecord);
         else return null;
-    }
+      }
+
     public async exists(t: Passagem): Promise<boolean> {
         throw new Error('Method not implemented.');
     }
 
-    public async save(Passagem: Passagem): Promise<Passagem> {
+    public async save(passagem: Passagem): Promise<Passagem> {
 
-        const query = { domainId: Passagem.id.toString() };
+        const query = { domainId: passagem.id.toString() };
 
-        const PassagemDocument = await this.PassagemSchema.findOne(query);
+        const passagemDocument = await this.passagemSchema.findOne(query);
 
         try {
-            if (PassagemDocument === null) {
-                const rawPassagem: any = PassagemMap.toPersistence(Passagem);
-                const PassagemCreated = await this.PassagemSchema.create(rawPassagem);
-                return PassagemMap.toDomain(PassagemCreated);
+            if (passagemDocument === null) {
+                const rawPassagem: any = PassagemMap.toPersistence(passagem);
+                const passagemCreated = await this.PassagemSchema.create(rawPassagem);
+                return PassagemMap.toDomain(passagemCreated);
             } else {
-                PassagemDocument.coordenadaspiso1.x = Passagem.coordenadaPiso1.props.x;
-                PassagemDocument.coordenadaspiso1.y = Passagem.coordenadaPiso1.props.y;
-                PassagemDocument.coordenadaspiso1.piso = Passagem.coordenadaPiso1.props.piso.pisoId.toString();
-  
-                PassagemDocument.coordenadaspiso2.x = Passagem.coordenadaPiso2.props.x;
-                PassagemDocument.coordenadaspiso2.y = Passagem.coordenadaPiso2.props.y;
-                PassagemDocument.coordenadaspiso2.piso = Passagem.coordenadaPiso2.props.piso.pisoId.toString();
-  
+                passagemDocument.coordenadaspiso1 = passagem.coordenadaPiso1;
+              
+                passagemDocument.coordenadaspiso2 = passagem.coordenadaPiso2;
+             
                 console.log('Document inserted successfully!');
-                await PassagemDocument.save();
+                await passagemDocument.save();
 
-                return Passagem;
+                return passagem;
             }
         } catch (err) {
             throw err;

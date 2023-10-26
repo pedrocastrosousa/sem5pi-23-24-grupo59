@@ -12,6 +12,13 @@ export class CoordenadaPiso2 extends AggregateRoot<CoordenadaPiso2Props>{
     get piso(): Piso {
         return this.props.piso;
     }
+    get x(): number {
+        return this.props.x;
+    }
+
+    get y(): number {
+        return this.props.y;
+    }
 
     public static create(x: number, y: number, piso: Piso): Result<CoordenadaPiso2> {
       

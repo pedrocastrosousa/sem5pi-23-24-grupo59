@@ -5,12 +5,11 @@ import { Result } from "../../core/logic/Result";
 import { Edificio } from "../edificio/edificio";
 import { PisoDescricao } from "./pisoDescricao";
 import { PisoId } from "./pisoId";
-import { PisoNome } from "./pisoNome";
 
 
 
 interface PisoProps {
-  nome: PisoNome;
+  nome: string;
   descricao: PisoDescricao;
   edificio: Edificio;
 }
@@ -23,7 +22,7 @@ export class Piso extends AggregateRoot<PisoProps>{
     return new PisoId(this.pisoId.toValue());
   }
 
-  get nome(): PisoNome {
+  get nome(): string {
     return this.props.nome;
   }
 
@@ -35,7 +34,7 @@ export class Piso extends AggregateRoot<PisoProps>{
     return this.props.edificio;
   }
 
-  set nome (value: PisoNome) {
+  set nome (value: string) {
     this.props.nome = value;
   }
   

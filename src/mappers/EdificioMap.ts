@@ -20,45 +20,18 @@ export class EdificioMap extends Mapper<Edificio> {
       descricaoEdificio: edificio.descricaoEdificio.descricao,
       nomeEdificio: edificio.nomeEdificio.nome,
       dimensaoMaximaPisos: {
-        largura: edificio.dimensaoMaximaPisos.largura,
-        comprimento: edificio.dimensaoMaximaPisos.comprimento,
+        largura: edificio.dimensaoMaximaPisos.props.largura,
+        comprimento: edificio.dimensaoMaximaPisos.props.comprimento,
       } 
     }as IEdificioDTO;
   }
 
-  
-  public static toDomainMariana(edificio: any | Model<IEdificioPersistence & Document>): Edificio {
-    const codigoEdificio = CodigoEdificio.create(edificio.codigoEdificio);
-    const descricaoEdificio = DescricaoEdificio.create(edificio.descricaoEdificio);
-    const nomeEdificio = NomeEdificio.create(edificio.nomeEdificio);
-    const comprimento = edificio.dimensaoMaximaPisos.comprimento;
-    const largura = edificio.dimensaoMaximaPisos.largura;
-    const dimensaoMaximaPisos = DimensaoMaximaPisos.create1(largura, comprimento).getValue();
-    const edificioOrError = Edificio.create(
-      {
-        codigoEdificio: codigoEdificio.getValue(),
-        descricaoEdificio: descricaoEdificio.getValue(),
-        nomeEdificio: nomeEdificio.getValue(),
-        dimensaoMaximaPisos: dimensaoMaximaPisos,
-      },
-      new UniqueEntityID(edificio.id),
-    );
-   
-    edificioOrError.isFailure ? console.log(edificioOrError.error) :"";
-
-    return edificioOrError.isSuccess ? edificioOrError.getValue() : null;
-  }
-
-
 
   public static async toDomain(raw: any): Promise<Edificio> {
     
-    const codigoOrError = CodigoEdificio.create(raw.codigoEdificio.toString()).getValue();
-    
-
-    const descricaoOrError = DescricaoEdificio.create(raw.descricaoEdificio.toString()).getValue();
-    
-    const nomeOrError = NomeEdificio.create(raw.nomeEdificio.toString()).getValue();
+    const codigoOrError = CodigoEdificio.create(raw.codigoEdificio).getValue();
+    const descricaoOrError = DescricaoEdificio.create(raw.descricaoEdificio).getValue();
+    const nomeOrError = NomeEdificio.create(raw.nomeEdificio).getValue();
     const comprimento = raw.dimensaoMaximaPisos.comprimento;
     const largura = raw.dimensaoMaximaPisos.largura;
     const dimensoesOrError = DimensaoMaximaPisos.create1(largura, comprimento).getValue();

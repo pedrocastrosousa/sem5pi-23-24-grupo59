@@ -6,7 +6,6 @@ import { IPisoPersistence } from '../dataschema/IPisoPersistence';
 import { IPisoDTO } from '../dto/IPisoDTO';
 import EdificioRepo from "../repos/edificioRepo";
 import { Container } from 'typedi';
-import { PisoNome } from "../domain/piso/pisoNome";
 import { PisoDescricao } from "../domain/piso/pisoDescricao";
 import e from "express";
 
@@ -16,24 +15,23 @@ export class PisoMap extends Mapper<Piso> {
   public static toDTO(piso: Piso): IPisoDTO {
     return {
       id: piso.id.toString(),
-      nome: piso.nome.value,
+      nome: piso.nome,
       descricao: piso.descricao.value,
       edificio: piso.edificio.id.toString()
-    }
+    } as IPisoDTO;
 
   }
 
-  public static async toDomain(piso: any | Model<IPisoPersistence & Document>): Promise<Piso> {
-    const pisoNomeOrError = PisoNome.create(piso.pisoNome);
+  public static async toDomain(piso: any ): Promise<Piso> {
+
     const pisoDescricaoOrError = PisoDescricao.create(piso.pisoDescricao);
     const repo = Container.get(EdificioRepo);
     const edificioo = await repo.findByDomainId(piso.edificio);
     
-
     const pisoOrError = Piso.create({
-      nome: pisoNomeOrError.getValue(),
+      nome: piso.nome,
       descricao: pisoDescricaoOrError.getValue(),
-      edificio: edificioo,
+      edificio: edificioo
     }
       , new UniqueEntityID(piso.domainId))
 
@@ -44,7 +42,8 @@ export class PisoMap extends Mapper<Piso> {
 
   public static toPersistence(piso: Piso): any {
     const a = {
-      nome: piso.nome.value,
+      domainId: piso.id.toString(),
+      nome: piso.nome,
       descricao: piso.descricao.value,
       edificio: piso.edificio.id.toString()
     }
