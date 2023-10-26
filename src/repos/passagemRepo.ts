@@ -41,13 +41,12 @@ export default class PassagemRepo implements IPassagemRepo {
         try {
             if (passagemDocument === null) {
                 const rawPassagem: any = PassagemMap.toPersistence(passagem);
-                const passagemCreated = await this.PassagemSchema.create(rawPassagem);
+                const passagemCreated = await this.passagemSchema.create(rawPassagem);
                 return PassagemMap.toDomain(passagemCreated);
             } else {
-                passagemDocument.coordenadaspiso1 = passagem.coordenadaPiso1;
-              
-                passagemDocument.coordenadaspiso2 = passagem.coordenadaPiso2;
-             
+                passagemDocument.piso1 = passagem.piso1.id.toString();
+                passagemDocument.piso2 = passagem.piso2.id.toString();
+            
                 console.log('Document inserted successfully!');
                 await passagemDocument.save();
 

@@ -23,35 +23,28 @@ export default class PassagemService implements IPassagemService {
   public async createPassagem(passagemDTO: IPassagemDTO): Promise<Result<IPassagemDTO>> {
     try {
 
-    let piso1: Piso;
-    console.log('passagem service 27');
-    console.log(passagemDTO.coordenadasPiso1);
-    console.log('passagem service 27');
+    let pisoo1: Piso;
 
-    const piso1OrError = await this.getPiso(passagemDTO.coordenadasPiso1.piso);
-
+    const piso1OrError = await this.getPiso(passagemDTO.piso1);
       if (piso1OrError.isFailure) {
         return Result.fail<IPassagemDTO>(piso1OrError.error);
      
       } else {
-        piso1 = piso1OrError.getValue();
+        pisoo1 = piso1OrError.getValue();
       }
-      console.log('passagem service 34');
 
-    let piso2: Piso;
-    const piso2OrError = await this.getPiso(passagemDTO.coordenadasPiso2.piso);
+    let pisoo2: Piso;
+    const piso2OrError = await this.getPiso(passagemDTO.piso2);
     if (piso2OrError.isFailure) {
       return Result.fail<IPassagemDTO>(piso1OrError.error);
     } else {
-      piso2 = piso2OrError.getValue();
+      pisoo2 = piso2OrError.getValue();
     }
 
-     const coordenadaPiso1 = await CoordenadaPiso1.create(passagemDTO.coordenadasPiso1.x, passagemDTO.coordenadasPiso1.y , piso1).getValue();
-     const coordenadaPiso2 = await CoordenadaPiso2.create(passagemDTO.coordenadasPiso2.x, passagemDTO.coordenadasPiso2.y , piso2 ).getValue();
-     
+   
       const PassagemOrError = await Passagem.create({
-        coordenadaPiso1: coordenadaPiso1,
-        coordenadaPiso2: coordenadaPiso2,
+       piso1: pisoo1,
+       piso2: pisoo2
       });
 
       if (PassagemOrError.isFailure) {
@@ -73,7 +66,7 @@ export default class PassagemService implements IPassagemService {
   private async getPiso (pisoId: string): Promise<Result<Piso>> {
 
     const piso = await this.pisoRepo.findByDomainId( pisoId );
-console.log(piso);
+
     if (piso) {
       return Result.ok<Piso>(piso);
     } else {

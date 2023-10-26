@@ -5,42 +5,32 @@ import { Passagem } from "../domain/passagem/passagem";
 import { IPassagemDTO } from "../dto/IPassagemDTO";
 import { CoordenadaPiso1 } from "../domain/passagem/coordenadaPiso1";
 import { CoordenadaPiso2 } from "../domain/passagem/coordenadaPiso2";
+import Container from "typedi";
+import PisoRepo from "../repos/pisoRepo";
 
 
 export class PassagemMap extends Mapper<Passagem> {
 
     public static toDTO(passagem: Passagem): IPassagemDTO {
-        return {
-            coordenadaPiso1: {
-                x: passagem.coordenadaPiso1.x,
-                y: passagem.coordenadaPiso1.y,
-                piso: passagem.coordenadaPiso1.piso,
-            },
-            coordenadaPiso2: {
-                x: passagem.coordenadaPiso2.x,
-                y: passagem.coordenadaPiso2.y,
-                piso: passagem.coordenadaPiso2.piso,
-            }
-        }as unknown as IPassagemDTO ;
-    }
+        return {       
+                piso1: passagem.piso1.id.toString(),
+                piso2: passagem.piso2.id.toString(),
+            }as unknown as IPassagemDTO ;
+
+        }
+    
 
     public static async toDomain(raw: any): Promise<Passagem> {
 
-
-        const xPiso1OrError = raw.coordenadaPiso1.x;
-        const yPiso1OrError = raw.coordenadaPiso1.y;
-        const piso1OrError = raw.coordenadaPiso1.piso;
-
-        const xPiso2OrError = raw.coordenadaPiso2.x;
-        const yPiso2OrError = raw.coordenadaPiso2.y;
-        const piso2OrError = raw.coordenadaPiso2.piso;
-
-        const coordenadaPiso1OrError = CoordenadaPiso1.create(xPiso1OrError, yPiso1OrError, piso1OrError).getValue();
-        const coordenadaPiso2OrError = CoordenadaPiso2.create(xPiso2OrError, yPiso2OrError, piso2OrError).getValue();
+        const repo = Container.get(PisoRepo);
+        const pisoo1 = await repo.findByDomainId(raw.piso1);
+        const repo1 = Container.get(PisoRepo);
+        const pisoo2 = await repo1.findByDomainId(raw.piso2);
+        
 
         const passagemOrError = Passagem.create({
-            coordenadaPiso1: coordenadaPiso1OrError,
-            coordenadaPiso2: coordenadaPiso2OrError
+        piso1: pisoo1,
+        piso2: pisoo2
         },
             new UniqueEntityID(raw.domainId));
 
@@ -52,8 +42,8 @@ export class PassagemMap extends Mapper<Passagem> {
     public static toPersistence(passagem: Passagem): any {
         const a = {
             domainId: passagem.id.toString(),
-            coordenadaPiso1: passagem.coordenadaPiso1,
-            coordenadaPiso2: passagem.coordenadaPiso2,
+            piso1: passagem.piso1.id.toString(),
+            piso2: passagem.piso2.id.toString()
         }
         return a;
     }

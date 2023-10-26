@@ -7,57 +7,22 @@ const PassagemSchema = new mongoose.Schema(
       type: String,
       unique: true
     },
-
-    coordenadasPiso1: {
-      x: {
-        type: Number,  // Assuming X is a number
-        required: true,
-        validate: {
-          validator: Number.isInteger,  // Ensure it's an integer
-          message: 'X must be an integer',
-        },
-      },
-      y: {
-        type: Number,  // Assuming Y is a number
-        required: true,
-        validate: {
-          validator: Number.isInteger,  // Ensure it's an integer
-          message: 'Y must be an integer',
-        },
-      },
-      piso: {
-        type: String,
-        required: true,
-      }
+    piso1: {
+      type: String,
+      required: true,
+      index: true
     },
 
-    coordenadasPiso2: {
-      x: {
-        type: Number,  // Assuming X is a number
-        required: true,
-        validate: {
-          validator: Number.isInteger,  // Ensure it's an integer
-          message: 'X must be an integer',
-        },
-      },
-      y: {
-        type: Number,  // Assuming Y is a number
-        required: true,
-        validate: {
-          validator: Number.isInteger,  // Ensure it's an integer
-          message: 'Y must be an integer',
-        },
-      },
-      piso: {
-        type: String,
-        required: true,
-      }
-    },
-
+    piso2: {
+      type: String,
+      required: true,
+      index: true
+    }
   },
+
   { timestamps: true },
 );
 
-PassagemSchema.index({ coordenadasPiso1: 1, coordenadasPiso2: 1 }, { unique: true });
+PassagemSchema.index({ piso1: 1, piso2: 1 }, { unique: true });
 
 export default mongoose.model<IPassagemPersistence & mongoose.Document>('Passagem', PassagemSchema);

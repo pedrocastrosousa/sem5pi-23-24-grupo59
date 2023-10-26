@@ -16,17 +16,9 @@ console.log('passagem route');
   route.post('/criarPassagem',
     celebrate({
       body: Joi.object({
-        coordenadaPiso1: Joi.object({
-          x: Joi.number().integer().required(),
-          y: Joi.number().integer().required(),
-          piso: Joi.string().required(),
+          piso1: Joi.string().required(),
+          piso2: Joi.string().required(),
         }),
-        coordenadaPiso2: Joi.object({
-          x: Joi.number().integer().required(),
-          y: Joi.number().integer().required(),
-          piso: Joi.string().required(),
-        }),
-      })
     }),
     async (req, res, next) => ctrl.createPassagem(req, res, next) );
 }
