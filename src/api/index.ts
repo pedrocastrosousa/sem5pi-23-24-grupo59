@@ -5,6 +5,7 @@ import role from './routes/roleRoute';
 import edificio from './routes/edificioRoute';
 import tipoRobot from './routes/tipoRobotRoute';
 import piso from './routes/pisoRoute';
+import sala from './routes/salaRoute';
 import passagem from './routes/passagemRoute';
 
 export default () => {
@@ -15,7 +16,9 @@ export default () => {
   role(app);
   edificio(app);
   piso(app);
+	sala(app);
   tipoRobot(app);
   passagem(app);
+
   return app;
 };

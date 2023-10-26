@@ -20,6 +20,7 @@ export default {
    * That long string from mlab
    */
   databaseURL: process.env.MONGODB_URI || "mongodb+srv://1200967:DsTqN5R2VPWqJuBH@cluster0.1fp1yyf.mongodb.net/?retryWrites=true&w=majority",
+
   /**
    * Your secret sauce
    */
@@ -52,6 +53,10 @@ export default {
       name: "PisoController",
       path: "../controllers/pisoController"
     },
+    sala: {
+      name: "SalaController",
+      path: "../controllers/salaController"
+    },
     tipoRobot:{
       name: "TipoRobotController",
       path: "../controllers/tipoRobotController"
@@ -79,6 +84,10 @@ export default {
       name: "PisoRepo",
       path: "../repos/pisoRepo"
     },
+    sala: {
+      name: "SalaRepo",
+      path: "../repos/salaRepo"
+    },
     tipoRobot:{
       name: "TipoRobotRepo",
       path: "../repos/tipoRobotRepo"
@@ -101,6 +110,10 @@ export default {
     piso: {
       name: "PisoService",
       path: "../services/pisoService"
+    },
+    sala: {
+      name: "SalaService",
+      path:"../services/salaService"
     },
     tipoRobot: {
       name: "TipoRobotService",

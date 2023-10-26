@@ -33,12 +33,18 @@ export default async ({ expressApp }) => {
     schema: '../persistence/schemas/pisoSchema',
   };
 
+  const salaSchema = {
+    // compare with the approach followed in repos and services
+    name: 'salaSchema',
+    schema: '../persistence/schemas/salaSchema',
+  };
+
    const tipoRobotSchema = {
     // compare with the approach followed in repos and services
     name: 'tipoRobotSchema',
     schema: '../persistence/schemas/tipoRobotSchema',
   };
-  
+
   const passagemSchema = {
     // compare with the approach followed in repos and services
     name: 'passagemSchema',
@@ -92,6 +98,20 @@ export default async ({ expressApp }) => {
     name: config.services.piso.name,
     path: config.services.piso.path
   }
+
+  const salaController = {
+    name: config.controllers.sala.name,
+    path: config.controllers.sala.path
+  }
+  const salaService = {
+    name: config.services.sala.name,
+    path: config.services.sala.path
+  }
+  const salaRepo = {
+    name: config.repos.sala.name,
+    path: config.repos.sala.path
+  }
+
   const tipoRobotController = {
     name: config.controllers.tipoRobot.name,
     path: config.controllers.tipoRobot.path
@@ -128,13 +148,15 @@ export default async ({ expressApp }) => {
       roleSchema,
       edificioSchema,
       pisoSchema,
+      salaSchema,
       tipoRobotSchema,
       passagemSchema
     ],
     controllers: [
       roleController,
       edificioController,
-      pisoController, 
+      pisoController,
+      salaController,
       tipoRobotController,
       passagemController
     ],
@@ -143,6 +165,7 @@ export default async ({ expressApp }) => {
       userRepo,
       edificioRepo,
       pisoRepo,
+      salaRepo,
       tipoRobotRepo,
       passagemRepo
     ],
