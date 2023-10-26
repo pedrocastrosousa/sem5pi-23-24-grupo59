@@ -173,6 +173,7 @@ export default async ({ expressApp }) => {
       roleService,
       edificioService,
       pisoService,
+      salaService,
       tipoRobotService,
       passagemService,
 
