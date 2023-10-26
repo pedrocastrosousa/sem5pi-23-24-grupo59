@@ -36,7 +36,7 @@ export class Elevador extends AggregateRoot<ElevadorProps> {
     }
 
     get modelo(): ModeloElevador {
-        return this.props.marca;
+        return this.props.modelo;
     }
 
     get descricao(): DescricaoElevador {
