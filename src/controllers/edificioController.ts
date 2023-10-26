@@ -15,20 +15,19 @@ export default class EdificioController
   implements IEdificioController /* TODO: extends ../core/infra/BaseController */ {
   constructor(@Inject(config.services.edificio.name) private edificioServiceInstance: IEdificioService) {}
   public async findAll(req: Request, res: Response, next: NextFunction) {
-     /*try {
-       const edificioOrError = (await this.edificioServiceInstance.findAll(req.body as IEdificioDTO)) as Result<
-         IEdificioDTO[]
-       >;
+    try {
+      const edificioOrError = await this.edificioServiceInstance.findAll();
 
-       if (edificioOrError.isFailure) {
-         return res.status(402).send();
-       }
+      if (edificioOrError.isFailure) {
+        return res.status(402).send();
+      }
 
-       const edificioDTO = edificioOrError.getValue();
-       return res.json(edificioDTO).status(201);
-     } catch (e) {
-       return next(e);
-     }*/
+      const edificioDTO = edificioOrError.getValue();
+
+      return res.status(200).json(edificioDTO);
+    } catch (e) {
+      return next(e);
+    }
   }
   public async createEdificio(req: Request, res: Response, next: NextFunction) {
     try {

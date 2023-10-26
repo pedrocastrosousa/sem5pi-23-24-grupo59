@@ -26,14 +26,8 @@ export default (app: Router) => {
     (req, res, next) => ctrl.createEdificio(req, res, next),
   );
 
-  route.put(
+  route.get(
     '',
-    celebrate({
-      body: Joi.object({
-        id: Joi.string().required(),
-        name: Joi.string().required(),
-      }),
-    }),
-    (req, res, next) => ctrl.updateEdificio(req, res, next),
+    (req, res, next) => ctrl.findAll(req, res, next),
   );
 };
