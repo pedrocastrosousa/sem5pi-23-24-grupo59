@@ -28,6 +28,7 @@ export class Edificio extends AggregateRoot<EdificioProps>{
     get codigoEdificio(): CodigoEdificio {
         return this.props.codigoEdificio;
     }
+    
 
     get descricaoEdificio(): DescricaoEdificio {
         return this.props.descricaoEdificio;
@@ -60,9 +61,8 @@ export class Edificio extends AggregateRoot<EdificioProps>{
     public static create (props: EdificioProps, id?: UniqueEntityID): Result<Edificio> {
 
         const guardedProps = [
-          { argument: props.descricaoEdificio, argumentName: 'codigoEdificio' },
+          { argument: props.codigoEdificio, argumentName: 'codigoEdificio' },
           { argument: props.descricaoEdificio, argumentName: 'descricaoEdificio' },
-          { argument: props.nomeEdificio, argumentName: 'nomeEdificio' },
           { argument: props.dimensaoMaximaPisos, argumentName: 'dimensaoMaximaPisos' },
         ];
     

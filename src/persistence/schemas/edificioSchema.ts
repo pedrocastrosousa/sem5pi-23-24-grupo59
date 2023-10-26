@@ -5,20 +5,19 @@ const EdificioSchema = new mongoose.Schema(
   {
     domainId: {
       type: String,
-      unique: true
+      unique: true,
     },
-    
+
     codigoEdificio: {
       type: String,
       required: true,
-      unique: true
+      unique: true,
     },
 
     descricaoEdificio: {
       type: String,
       required: true,
-      unique:true,
-      index:true,
+      index: true,
     },
 
     nomeEdificio: {

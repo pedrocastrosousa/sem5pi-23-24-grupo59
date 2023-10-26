@@ -37,17 +37,20 @@ export default class EdificioRepo implements IEdificioRepo {
 
     try {
       if (edificioDocument === null) {
+        
         const rawEdificio: any = EdificioMap.toPersistence(edificio);
+        
         const edificioCreated = await this.edificioSchema.create(rawEdificio);
-
+        
         return EdificioMap.toDomain(edificioCreated);
+   
       } else {
+        const nomeEdificio = edificio.nomeEdificio ? edificio.nomeEdificio.nome : null;
         edificioDocument.codigoEdificio = edificio.codigoEdificio.value;
         edificioDocument.descricaoEdificio = edificio.descricaoEdificio.descricao;
-        edificioDocument.nomeEdificio = edificio.nomeEdificio.nome;
+        edificioDocument.nomeEdificio = nomeEdificio;
         edificioDocument.dimensaoMaximaPisos = edificio.dimensaoMaximaPisos;
         await edificioDocument.save();
-
         return edificio;
       }
     } catch (err) {
@@ -65,14 +68,13 @@ export default class EdificioRepo implements IEdificioRepo {
   }
 
   public async findAll(): Promise<Edificio[]> {
-    const edificioRecord = await this.edificioSchema.find();
-
+    const edificioRecord = await this.edificioSchema.find().populate('dimensaoMaximaPisos');
     if (edificioRecord != null) {
       const edificioPromises = edificioRecord.map(async postRecord => {
         return await EdificioMap.toDomain(postRecord);
       });
-
       const edificios = await Promise.all(edificioPromises);
+     
       return edificios;
     } else {
       return null;

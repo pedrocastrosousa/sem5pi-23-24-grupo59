@@ -48,6 +48,7 @@ export default class EdificioController
 
   public async updateEdificio(req: Request, res: Response, next: NextFunction) {
     try {
+      
       const edificioOrError = (await this.edificioServiceInstance.updateEdificio(req.body as IEdificioDTO)) as Result<
         IEdificioDTO
       >;

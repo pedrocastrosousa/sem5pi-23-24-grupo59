@@ -11,24 +11,22 @@ import { DescricaoEdificio } from '../domain/edificio/descricaoEdificio';
 import { NomeEdificio } from '../domain/edificio/nomeEdificio';
 import { DimensaoMaximaPisos } from '../domain/edificio/dimensaoMaximaPisos';
 import { CodigoEdificio } from '../domain/edificio/codigoEdificio';
-import e from 'express';
 
 export class EdificioMap extends Mapper<Edificio> {
   public static toDTO(edificio: Edificio): IEdificioDTO {
+    const nomeEdificio = edificio.nomeEdificio ? edificio.nomeEdificio.nome : null;
     return {
       codigoEdificio: edificio.codigoEdificio.value,
       descricaoEdificio: edificio.descricaoEdificio.descricao,
-      nomeEdificio: edificio.nomeEdificio.nome,
+      nomeEdificio: nomeEdificio,
       dimensaoMaximaPisos: {
-        largura: edificio.dimensaoMaximaPisos.props.largura,
-        comprimento: edificio.dimensaoMaximaPisos.props.comprimento,
-      } 
-    }as IEdificioDTO;
+        largura: edificio.dimensaoMaximaPisos.largura,
+        comprimento: edificio.dimensaoMaximaPisos.comprimento,
+      },
+    } as IEdificioDTO;
   }
 
-
   public static async toDomain(raw: any): Promise<Edificio> {
-    
     const codigoOrError = CodigoEdificio.create(raw.codigoEdificio).getValue();
     const descricaoOrError = DescricaoEdificio.create(raw.descricaoEdificio).getValue();
     const nomeOrError = NomeEdificio.create(raw.nomeEdificio).getValue();
@@ -36,28 +34,29 @@ export class EdificioMap extends Mapper<Edificio> {
     const largura = raw.dimensaoMaximaPisos.largura;
     const dimensoesOrError = DimensaoMaximaPisos.create1(largura, comprimento).getValue();
 
+    const edificioOrError = Edificio.create(
+      {
+        codigoEdificio: codigoOrError,
+        descricaoEdificio: descricaoOrError,
+        nomeEdificio: nomeOrError,
+        dimensaoMaximaPisos: dimensoesOrError,
+      },
+      new UniqueEntityID(raw.domainId),
+    );
 
-    const edificioOrError = Edificio.create({
-      codigoEdificio: codigoOrError, 
-      descricaoEdificio: descricaoOrError,
-      nomeEdificio: nomeOrError,
-      dimensaoMaximaPisos: dimensoesOrError,
-    }
-      , new UniqueEntityID(raw.domainId));
-
-    edificioOrError.isFailure ? console.log(edificioOrError.error) : "";
+    edificioOrError.isFailure ? console.log(edificioOrError.error) : '';
     return edificioOrError.isSuccess ? edificioOrError.getValue() : null;
-
   }
 
-
   public static toPersistence(edificio: Edificio): any {
+    const nomeEdificio = edificio.nomeEdificio ? edificio.nomeEdificio.nome : null;
+
     return {
       domainId: edificio.id.toString(),
       codigoEdificio: edificio.codigoEdificio.value,
       descricaoEdificio: edificio.descricaoEdificio.descricao,
-      nomeEdificio: edificio.nomeEdificio.nome,
-      dimensaoMaximaPisos: edificio.dimensaoMaximaPisos
+      nomeEdificio: nomeEdificio,
+      dimensaoMaximaPisos: edificio.dimensaoMaximaPisos,
     };
   }
 }

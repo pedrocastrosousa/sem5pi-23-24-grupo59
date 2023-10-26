@@ -22,17 +22,11 @@ export default class EdificioService implements IEdificioService {
 
       if (edificios === null) {
         return Result.fail<IEdificioDTO[]>('Edificio not found');
-      } else {
-
-        let edificioDTOResult: IEdificioDTO[] = [];
-
-        for (let index = 0; index < edificios.length; index++) {
-          const edificioDTO = EdificioMap.toDTO(edificios[index]) as IEdificioDTO;
-          edificioDTOResult.push(edificioDTO);
-        }
-
-        return Result.ok<IEdificioDTO[]>(edificioDTOResult);
       }
+
+      const edificioDTOResult: IEdificioDTO[] = edificios.map(edificio => EdificioMap.toDTO(edificio) as IEdificioDTO);
+
+      return Result.ok<IEdificioDTO[]>(edificioDTOResult);
     } catch (e) {
       throw e;
     }
@@ -59,6 +53,7 @@ export default class EdificioService implements IEdificioService {
       const descricaoEdificio = DescricaoEdificio.create(edificioDTO.descricaoEdificio).getValue();
       const nomeEdificio = NomeEdificio.create(edificioDTO.nomeEdificio).getValue();
       const dimensaoMaximaPisos = DimensaoMaximaPisos.create(edificioDTO.dimensaoMaximaPisos).getValue();
+
       const edificioOrError = Edificio.create({
         codigoEdificio: codigoEdificio,
         descricaoEdificio: descricaoEdificio,
@@ -67,11 +62,11 @@ export default class EdificioService implements IEdificioService {
       });
 
       if (edificioOrError.isFailure) {
+        
         return Result.fail<IEdificioDTO>(edificioOrError.errorValue());
       }
 
       const edificioResult = edificioOrError.getValue();
-
       await this.edificioRepo.save(edificioResult);
       
       const edificioDTOResult = EdificioMap.toDTO(edificioResult) as IEdificioDTO;
@@ -83,16 +78,14 @@ export default class EdificioService implements IEdificioService {
 
   public async updateEdificio(edificioDTO: IEdificioDTO): Promise<Result<IEdificioDTO>> {
     try {
-      const edificio = await this.edificioRepo.findByDomainId(edificioDTO.codigoEdificio);
-
+      const edificio = await this.edificioRepo.findByDomainId(edificioDTO.id);
       if (edificio === null) {
-        return Result.fail<IEdificioDTO>('Role not found');
+        return Result.fail<IEdificioDTO>('Edificio not found');
       } else {
         edificio.descricaoEdificio = DescricaoEdificio.create(edificioDTO.descricaoEdificio).getValue();
         edificio.nomeEdificio = NomeEdificio.create(edificioDTO.nomeEdificio).getValue();
         edificio.dimensaoMaximaPisos = DimensaoMaximaPisos.create(edificioDTO.dimensaoMaximaPisos).getValue();
         await this.edificioRepo.save(edificio);
-
         const edificioDTOResult = EdificioMap.toDTO(edificio) as IEdificioDTO;
         return Result.ok<IEdificioDTO>(edificioDTOResult);
       }
