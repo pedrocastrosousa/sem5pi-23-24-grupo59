@@ -55,6 +55,10 @@ export default {
     tipoRobot:{
       name: "TipoRobotController",
       path: "../controllers/tipoRobotController"
+    },
+    passagem: {
+      name: "PassagemController",
+      path: "../controllers/passagemController"
     }
   },
 
@@ -78,6 +82,10 @@ export default {
     tipoRobot:{
       name: "TipoRobotRepo",
       path: "../repos/tipoRobotRepo"
+    },
+    passagem: {
+      name: "PassagemRepo",
+      path: "../repos/passagemRepo"
     }
   },
 
@@ -97,7 +105,10 @@ export default {
     tipoRobot: {
       name: "TipoRobotService",
       path: "../services/tipoRobotService"
+    },
+    passagem: {
+      name: "PassagemService",
+      path: "../services/passagemService"
     }
-    
   },
 };

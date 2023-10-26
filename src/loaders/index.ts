@@ -38,6 +38,12 @@ export default async ({ expressApp }) => {
     name: 'tipoRobotSchema',
     schema: '../persistence/schemas/tipoRobotSchema',
   };
+  
+  const passagemSchema = {
+    // compare with the approach followed in repos and services
+    name: 'passagemSchema',
+    schema: '../persistence/schemas/passagemSchema',
+  };
 
   const roleController = {
     name: config.controllers.role.name,
@@ -101,6 +107,20 @@ export default async ({ expressApp }) => {
     path: config.repos.tipoRobot.path
   }
 
+  const passagemController = {
+    name: config.controllers.passagem.name,
+    path: config.controllers.passagem.path
+  }
+
+  const passagemRepo = {
+    name: config.repos.passagem.name,
+    path: config.repos.passagem.path
+  }
+  const passagemService = {
+    name: config.services.passagem.name,
+    path: config.services.passagem.path
+  }
+
   await dependencyInjectorLoader({
     mongoConnection,
     schemas: [
@@ -108,26 +128,31 @@ export default async ({ expressApp }) => {
       roleSchema,
       edificioSchema,
       pisoSchema,
-      tipoRobotSchema
+      tipoRobotSchema,
+      passagemSchema
     ],
     controllers: [
       roleController,
       edificioController,
       pisoController, 
-      tipoRobotController
+      tipoRobotController,
+      passagemController
     ],
     repos: [
       roleRepo,
       userRepo,
       edificioRepo,
       pisoRepo,
-      tipoRobotRepo
+      tipoRobotRepo,
+      passagemRepo
     ],
     services: [
       roleService,
       edificioService,
       pisoService,
-      tipoRobotService
+      tipoRobotService,
+      passagemService,
+
     ]
   });
   Logger.info('✌️ Schemas, Controllers, Repositories, Services, etc. loaded');

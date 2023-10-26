@@ -5,6 +5,7 @@ import role from './routes/roleRoute';
 import edificio from './routes/edificioRoute';
 import tipoRobot from './routes/tipoRobotRoute';
 import piso from './routes/pisoRoute';
+import passagem from './routes/passagemRoute';
 
 export default () => {
   const app = Router();
@@ -15,5 +16,6 @@ export default () => {
   edificio(app);
   piso(app);
   tipoRobot(app);
+  passagem(app);
   return app;
 };
