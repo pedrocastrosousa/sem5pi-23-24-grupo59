@@ -44,5 +44,29 @@ export default class PisoController implements IPisoController /* TODO: extends 
        return next(e);
      }
    };
+
+   public async listarEdificiosComMinMaxPisos(req: Request, res: Response, next: NextFunction) {
+
+    const minPiso = req.query.min as string;
+    const maxPiso = req.query.max as string;
+
+    // Check if the query parameters exist
+    if (!minPiso || !maxPiso) {
+      res.status(400).json({ error: 'Parâmetros min e max são obrigatórios.' });
+      return;
+    }
+
+    try {
+      const pisoListOrError = await this.pisoServiceInstance.getEdificiosComMinMaxPisos(minPiso, maxPiso);
+
+      if (pisoListOrError.isFailure) {
+        return res.status(400).send();
+      }
+      return res.json(pisoListOrError.getValue()).status(200);
+    }
+    catch (e) {
+      return res.json(e.message).status(400);
+    }
+  }
    
 };

@@ -89,4 +89,29 @@ export default class PisoRepo implements IPisoRepo {
     }
   }
 
+  public async findEdificiosByPisoCountRange(minCount: number, maxCount: number): Promise<string[]> {
+    const pipeline = [
+        {
+            $group: {
+                _id: '$edificio',
+                count: { $sum: 1 }
+            }
+        },
+        {
+            $match: {
+                count: { $gte: minCount, $lte: maxCount }
+            }
+        }
+    ];
+
+    const result = await this.pisoSchema.aggregate(pipeline);
+
+    if (result.length > 0) {
+        const edificios = result.map((item) => item._id.toString());
+        return edificios;
+    } else {
+        return null;
+    }
+}
+
 }
