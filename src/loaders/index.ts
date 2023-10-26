@@ -4,6 +4,7 @@ import mongooseLoader from './mongoose';
 import Logger from './logger';
 
 import config from '../../config';
+import e from 'express';
 
 export default async ({ expressApp }) => {
   const mongoConnection = await mongooseLoader();
@@ -49,6 +50,12 @@ export default async ({ expressApp }) => {
     // compare with the approach followed in repos and services
     name: 'passagemSchema',
     schema: '../persistence/schemas/passagemSchema',
+  };
+
+  const elevadorSchema = {
+    // compare with the approach followed in repos and services
+    name: 'elevadorSchema',
+    schema: '../persistence/schemas/elevadorSchema',
   };
 
   const roleController = {
@@ -141,6 +148,21 @@ export default async ({ expressApp }) => {
     path: config.services.passagem.path
   }
 
+  const elevadorController = {
+    name: config.controllers.elevador.name,
+    path: config.controllers.elevador.path
+  }
+
+  const elevadorRepo = {
+    name: config.repos.elevador.name,
+    path: config.repos.elevador.path
+  }
+
+  const elevadorService = {
+    name: config.services.elevador.name,
+    path: config.services.elevador.path
+  }
+
   await dependencyInjectorLoader({
     mongoConnection,
     schemas: [
@@ -150,7 +172,8 @@ export default async ({ expressApp }) => {
       pisoSchema,
       salaSchema,
       tipoRobotSchema,
-      passagemSchema
+      passagemSchema,
+      elevadorSchema
     ],
     controllers: [
       roleController,
@@ -158,7 +181,8 @@ export default async ({ expressApp }) => {
       pisoController,
       salaController,
       tipoRobotController,
-      passagemController
+      passagemController,
+      elevadorController
     ],
     repos: [
       roleRepo,
@@ -167,7 +191,8 @@ export default async ({ expressApp }) => {
       pisoRepo,
       salaRepo,
       tipoRobotRepo,
-      passagemRepo
+      passagemRepo,
+      elevadorRepo
     ],
     services: [
       roleService,
@@ -176,7 +201,7 @@ export default async ({ expressApp }) => {
       salaService,
       tipoRobotService,
       passagemService,
-
+      elevadorService
     ]
   });
   Logger.info('✌️ Schemas, Controllers, Repositories, Services, etc. loaded');

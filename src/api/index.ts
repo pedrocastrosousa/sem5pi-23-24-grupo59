@@ -7,6 +7,7 @@ import tipoRobot from './routes/tipoRobotRoute';
 import piso from './routes/pisoRoute';
 import sala from './routes/salaRoute';
 import passagem from './routes/passagemRoute';
+import elevador from './routes/elevadorRoute';
 
 export default () => {
   const app = Router();
@@ -19,6 +20,7 @@ export default () => {
 	sala(app);
   tipoRobot(app);
   passagem(app);
+  elevador(app);
 
   return app;
 };
