@@ -44,10 +44,12 @@ export default class EdificioRepo implements IEdificioRepo {
         return EdificioMap.toDomain(edificioCreated);
       } else {
         const nomeEdificio = edificio.nomeEdificio ? edificio.nomeEdificio.nome : edificioDocument.nomeEdificio;
-        edificioDocument.codigoEdificio = edificio.codigoEdificio.value;
         edificioDocument.descricaoEdificio = edificio.descricaoEdificio.descricao;
         edificioDocument.nomeEdificio = nomeEdificio;
-        edificioDocument.dimensaoMaximaPisos = edificio.dimensaoMaximaPisos;
+        edificioDocument.dimensaoMaximaPisos = {
+          comprimento: edificio.dimensaoMaximaPisos.props.comprimento,
+          largura: edificio.dimensaoMaximaPisos.props.largura,
+        };
         await edificioDocument.save();
         edificio.nomeEdificio = NomeEdificio.create(nomeEdificio).getValue();
         return edificio;
