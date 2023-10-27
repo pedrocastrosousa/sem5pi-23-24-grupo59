@@ -1,13 +1,13 @@
 import { Service, Inject } from 'typedi';
 
 import { Edificio } from '../domain/edificio/edificio';
-import { CodigoEdificio } from '../domain/edificio/codigoEdificio';
 
 import { Document, FilterQuery, Model } from 'mongoose';
 import { IEdificioPersistence } from '../dataschema/IEdificioPersistence';
 import IEdificioRepo from '../services/IRepos/IEdificioRepo';
 import { EdificioMap } from '../mappers/EdificioMap';
 import { EdificioId } from '../domain/edificio/edificioId';
+import { NomeEdificio } from '../domain/edificio/nomeEdificio';
 
 @Service()
 export default class EdificioRepo implements IEdificioRepo {
@@ -43,12 +43,13 @@ export default class EdificioRepo implements IEdificioRepo {
 
         return EdificioMap.toDomain(edificioCreated);
       } else {
-        const nomeEdificio = edificio.nomeEdificio ? edificio.nomeEdificio.nome : null;
+        const nomeEdificio = edificio.nomeEdificio ? edificio.nomeEdificio.nome : edificioDocument.nomeEdificio;
         edificioDocument.codigoEdificio = edificio.codigoEdificio.value;
         edificioDocument.descricaoEdificio = edificio.descricaoEdificio.descricao;
         edificioDocument.nomeEdificio = nomeEdificio;
         edificioDocument.dimensaoMaximaPisos = edificio.dimensaoMaximaPisos;
         await edificioDocument.save();
+        edificio.nomeEdificio = NomeEdificio.create(nomeEdificio).getValue();
         return edificio;
       }
     } catch (err) {
