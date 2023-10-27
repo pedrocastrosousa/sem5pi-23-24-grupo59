@@ -10,24 +10,35 @@ import { Result } from "../core/logic/Result";
 import { CategoriaSala } from '../domain/sala/categoriaSala';
 import { DimensaoSala } from '../domain/sala/dimensaoSala';
 import { DescricaoSala } from '../domain/sala/descricaoSala';
+import { NomeSala } from '../domain/sala/nomeSala';
+import IPisoRepo from './IRepos/IPisoRepo';
+import { Piso } from '../domain/piso/piso';
 
 @Service()
 export default class SalaService implements ISalaService {
   constructor(
-    @Inject(config.repos.sala.name) private salaRepo: ISalaRepo
+    @Inject(config.repos.sala.name) private salaRepo: ISalaRepo,
+    @Inject(config.repos.piso.name) private pisoRepo: IPisoRepo,
   ) { }
 
   public async createSala(salaDTO: ISalaDTO): Promise<Result<ISalaDTO>> {
     try {
+      const name = NomeSala.create( salaDTO.nomeSala ).getValue();
+      const categoria = CategoriaSala.create( salaDTO.categoriaSala ).getValue();
+      const dimensao = DimensaoSala.create( salaDTO.dimensaoSala.x1, salaDTO.dimensaoSala.y1, salaDTO.dimensaoSala.x2, salaDTO.dimensaoSala.y2 ).getValue();
+      const descricao = DescricaoSala.create( salaDTO.descricaoSala ).getValue();
+      
+      const piso = await this.pisoRepo.findByDomainId(salaDTO.piso);
+      if (piso === null) {
+        return Result.fail<ISalaDTO>('Não foi possível encontrar o piso inserido.');
+      }
 
-      const categoria = await CategoriaSala.create( salaDTO.categoriaSala ).getValue();
-      const dimensao = await DimensaoSala.create( salaDTO.dimensaoSala.x1, salaDTO.dimensaoSala.y1, salaDTO.dimensaoSala.x2, salaDTO.dimensaoSala.y2 ).getValue();
-      const descricao = await DescricaoSala.create( salaDTO.descricaoSala ).getValue();
-
-      const salaOrError = await Sala.create({
+      const salaOrError = Sala.create({
+        nomeSala: name,
         categoriaSala: categoria,
         dimensaoSala: dimensao,
-        descricaoSala: descricao
+        descricaoSala: descricao,
+        piso: piso
       });
 
       if (salaOrError.isFailure) {

@@ -20,7 +20,7 @@ export default class SalaController implements ISalaController /* TODO: extends 
       const salaOrError = await this.salaServiceInstance.createSala(req.body as ISalaDTO) as Result<ISalaDTO>;
       
       if (salaOrError.isFailure) {
-        return res.status(402).send();
+        return res.status(400).json({error: salaOrError.error});
       }
 
       const salaDTO = salaOrError.getValue();

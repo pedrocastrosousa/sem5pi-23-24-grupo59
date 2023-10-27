@@ -16,6 +16,10 @@ export class DescricaoSala extends ValueObject<DescricaoSalaProps> {
   }
 
   public static create(descricaoSala: string): Result<DescricaoSala> {
-    return Result.ok<DescricaoSala>(new DescricaoSala({ descricao: descricaoSala }))
+    if (descricaoSala.length > 250){
+      return Result.fail<DescricaoSala>('Descrição da sala demasiado longa. Máximo de 250 caracteres');//alterar para conseguir retornar como jason
+    }
+    return Result.ok<DescricaoSala>(new DescricaoSala({ descricao: descricaoSala }));
   }
+  
 }

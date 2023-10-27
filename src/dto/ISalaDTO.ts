@@ -1,5 +1,6 @@
 export interface ISalaDTO{
     // IDSala: string;
+    nomeSala: string;
     categoriaSala: string;
     dimensaoSala: {
         x1: number;
@@ -8,4 +9,5 @@ export interface ISalaDTO{
         y2: number;
     };
     descricaoSala: string;
+    piso: string;
 }

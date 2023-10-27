@@ -12,7 +12,7 @@ import config from "../../../config";
 const route = Router();
 
 export default (app: Router) => {
-    app.use('/sala', route);
+    app.use('/salas', route);
 
     const ctrl = Container.get(config.controllers.sala.name) as ISalaController;
 
@@ -20,6 +20,7 @@ export default (app: Router) => {
         celebrate({
             body: Joi.object({
                 // IDSala: Joi.string().required(),
+                nomeSala: Joi.string().required(),
                 categoriaSala: Joi.string().required(),
                 dimensaoSala: Joi.object({
                     x1: Joi.number().integer().required(),
@@ -27,7 +28,8 @@ export default (app: Router) => {
                     x2: Joi.number().integer().required(),
                     y2: Joi.number().integer().required()
                 }),
-                descricaoSala: Joi.string().required()
+                descricaoSala: Joi.string().required(),
+                piso: Joi.string().required()
             })
         }),
         async (req, res, next) => ctrl.createSala(req, res, next));

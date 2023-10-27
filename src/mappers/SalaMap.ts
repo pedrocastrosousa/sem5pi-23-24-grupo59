@@ -12,14 +12,16 @@ export class SalaMap extends Mapper<Sala> {
   
   public static toDTO( sala: Sala): ISalaDTO {
     return {
-        categoriaSala: sala.categoriaSala.categoria,
-        dimensaoSala: {
-            x1: sala.dimensaoSala.props.x1,
-            y1: sala.dimensaoSala.props.y1,
-            x2: sala.dimensaoSala.props.x2,
-            y2: sala.dimensaoSala.props.y2,
-        },
-        descricaoSala: sala.descricaoSala.descricao,
+      nomeSala: sala.nomeSala.nome,
+      categoriaSala: sala.categoriaSala.categoria,
+      dimensaoSala: {
+          x1: sala.dimensaoSala.props.x1,
+          y1: sala.dimensaoSala.props.y1,
+          x2: sala.dimensaoSala.props.x2,
+          y2: sala.dimensaoSala.props.y2,
+      },
+      descricaoSala: sala.descricaoSala.descricao,
+      piso: sala.piso.id.toString()
     } as ISalaDTO;
   }
 
@@ -37,6 +39,7 @@ export class SalaMap extends Mapper<Sala> {
   public static toPersistence (sala: Sala): any {
     const a = {
         domainId: sala.id.toString(),
+        nomeSala: sala.nomeSala.nome,
         categoriaSala: sala.categoriaSala.categoria,
         dimensaoSala:{
           x1: sala.dimensaoSala.props.x1,
@@ -44,7 +47,8 @@ export class SalaMap extends Mapper<Sala> {
           x2: sala.dimensaoSala.props.x2,
           y2: sala.dimensaoSala.props.y2
         },
-        descricaoSala: sala.descricaoSala.descricao
+        descricaoSala: sala.descricaoSala.descricao,
+        piso: sala.piso.id.toValue()
     }
     return a;
   }

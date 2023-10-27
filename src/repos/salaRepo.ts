@@ -32,7 +32,6 @@ export default class SalaRepo implements ISalaRepo {
     }
 
     public async save(sala: Sala): Promise<Sala> {
-        console.log('LOG SALA SAVE REPO', sala);
         const query = { domainId: sala.id.toString() };
 
         const salaDocument = await this.salaSchema.findOne(query);
@@ -41,18 +40,18 @@ export default class SalaRepo implements ISalaRepo {
             if (salaDocument === null) {
                 const rawSala: any = SalaMap.toPersistence(sala);
                 const salaCreated = await this.salaSchema.create(rawSala);
-                console.log('FOOOOODAS MAS ESTA MRD VEM PARA AQUI???', salaDocument);
                 return SalaMap.toDomain(salaCreated);
             } else {
+                salaDocument.nomeSala = sala.nomeSala.nome;
                 salaDocument.categoriaSala = sala.categoriaSala.categoria;
                 salaDocument.dimensaoSala.x1 = sala.dimensaoSala.props.x1;
                 salaDocument.dimensaoSala.y1 = sala.dimensaoSala.props.y1;
                 salaDocument.dimensaoSala.x2 = sala.dimensaoSala.props.x2;
                 salaDocument.dimensaoSala.y2 = sala.dimensaoSala.props.y2;
                 salaDocument.descricaoSala = sala.descricaoSala.descricao;
+                salaDocument.piso = sala.piso.id.toString();
                 console.log('Document inserted successfully!');
                 await salaDocument.save();
-                console.log('LOG SALA DOCUMENT', salaDocument);
                 return sala;
             }
         } catch (err) {

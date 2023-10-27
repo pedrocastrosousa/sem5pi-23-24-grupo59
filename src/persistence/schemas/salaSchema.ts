@@ -8,8 +8,15 @@ const SalaSchema = new mongoose.Schema(
             unique: true 
         },
 
+        nomeSala: {
+            type: String,
+            unique: true,
+            index: true
+            // required: true,
+        },
+
         categoriaSala: {
-            type: String,  //ENUMCAT!!! enum da categoria ver como se faz
+            type: String,  
             // required: true,
         },
         
@@ -19,7 +26,12 @@ const SalaSchema = new mongoose.Schema(
         },
         
         descricaoSala: {
-            type: String,  // Assuming DescricaoSala is a string
+            type: String,  
+            // required: true,
+        },
+
+        piso: {
+            type: String,  
             // required: true,
         },
     },
