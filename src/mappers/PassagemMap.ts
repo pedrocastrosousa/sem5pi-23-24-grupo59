@@ -11,8 +11,10 @@ export class PassagemMap extends Mapper<Passagem> {
 
     public static toDTO(passagem: Passagem): IPassagemDTO {
         return {       
-                piso1: passagem.piso1.id.toString(),
-                piso2: passagem.piso2.id.toString(),
+id: passagem.id.toString(),
+                piso1: passagem.piso1.codigoPiso,
+                piso2: passagem.piso2.codigoPiso,
+                codigoPassagem: passagem.codigoPassagem
             }as unknown as IPassagemDTO ;
 
         }
@@ -21,14 +23,15 @@ export class PassagemMap extends Mapper<Passagem> {
     public static async toDomain(raw: any): Promise<Passagem> {
 
         const repo = Container.get(PisoRepo);
-        const pisoo1 = await repo.findByDomainId(raw.piso1);
+        const pisoo1 = await repo.findByCodigo(raw.piso1);
         const repo1 = Container.get(PisoRepo);
-        const pisoo2 = await repo1.findByDomainId(raw.piso2);
+        const pisoo2 = await repo1.findByCodigo(raw.piso2);
         
 
         const passagemOrError = Passagem.create({
         piso1: pisoo1,
-        piso2: pisoo2
+        piso2: pisoo2,
+        codigoPassagem: raw.codigoPassagem
         },
             new UniqueEntityID(raw.domainId));
 
@@ -40,8 +43,9 @@ export class PassagemMap extends Mapper<Passagem> {
     public static toPersistence(passagem: Passagem): any {
         const a = {
             domainId: passagem.id.toString(),
-            piso1: passagem.piso1.id.toString(),
-            piso2: passagem.piso2.id.toString()
+            piso1: passagem.piso1.codigoPiso,
+            piso2: passagem.piso2.codigoPiso,
+            codigoPassagem: passagem.codigoPassagem
         }
         return a;
     }

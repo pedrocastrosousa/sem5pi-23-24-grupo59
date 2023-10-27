@@ -68,6 +68,14 @@ export default class EdificioRepo implements IEdificioRepo {
     } else return null;
   }
 
+  public async findByCodigo(codigoEdificio1: string): Promise<Edificio> {
+    const query = { codigoEdificio: codigoEdificio1 };
+    const edificioRecord = await this.edificioSchema.findOne(query as FilterQuery<IEdificioPersistence & Document>);
+    if (edificioRecord != null)
+        return EdificioMap.toDomain(edificioRecord);
+    else return null;
+}
+
   public async findAll(): Promise<Edificio[]> {
     const edificioRecord = await this.edificioSchema.find();
 

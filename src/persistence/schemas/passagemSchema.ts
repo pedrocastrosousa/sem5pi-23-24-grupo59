@@ -17,6 +17,11 @@ const PassagemSchema = new mongoose.Schema(
       type: String,
       required: true,
       index: true
+    },
+    codigoPassagem: {
+      type: String,
+      unique: true,
+      index: true,
     }
   },
 

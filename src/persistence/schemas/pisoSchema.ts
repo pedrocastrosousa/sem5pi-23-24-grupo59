@@ -25,6 +25,12 @@ const PisoSchema = new mongoose.Schema(
       required: true,
       index: true,
      },
+     
+     codigoPiso: {
+      type: String,
+      unique: true,
+      index: true,
+    }
   },
   {
     timestamps: true

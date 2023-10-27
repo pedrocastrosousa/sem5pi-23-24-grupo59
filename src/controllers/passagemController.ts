@@ -52,7 +52,7 @@ export default class PassagemController implements IPassagemController /* TODO: 
   }
 
   public async updatePassagem(req: Request, res: Response, next: NextFunction) {
-    const passagemId = req.body.domainId;
+    const passagemId = req.params.id;
     const passagemDTO: IPassagemDTO = req.body;
 
     if (!passagemId) {

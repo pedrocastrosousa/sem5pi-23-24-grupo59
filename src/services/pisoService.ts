@@ -38,18 +38,18 @@ export default class PisoService implements IPisoService {
 
       let edificioo: Edificio;
       const edificioOrError = await this.getEdificio(pisoDTO.edificio);
-      
       if (edificioOrError.isFailure) {
 
         return Result.fail<IPisoDTO>(edificioOrError.error);
       } else {
         edificioo = edificioOrError.getValue();
       }
-      
+
       const pisoOrError = await Piso.create({
         nome: pisoDTO.nome,
         descricao: descricao,
         edificio: edificioo,
+        codigoPiso: pisoDTO.codigoPiso
       });
       
       if (pisoOrError.isFailure) {
@@ -71,7 +71,7 @@ export default class PisoService implements IPisoService {
 
   public async updatePiso(pisoDTO: IPisoDTO): Promise<Result<IPisoDTO>> {
     try {
-      const piso = await this.pisoRepo.findByDomainId(pisoDTO.id);
+      const piso = await this.pisoRepo.findByCodigo(pisoDTO.codigoPiso);
 
       if (piso === null) {
         return Result.fail<IPisoDTO>("Piso not found");
@@ -92,15 +92,15 @@ export default class PisoService implements IPisoService {
 
 
 
-  private async getEdificio(edificioId: string): Promise<Result<Edificio>> {
-    
-    const edificioExists = await this.edificioRepo.findByDomainId(edificioId);
-    const found = !!edificioExists;
+  private async getEdificio(edificioCodigo: string): Promise<Result<Edificio>> {
 
+    //const edificio = await this.edificioRepo.findByDomainId(edificioCodigo);
+    const edificioExists = await this.edificioRepo.findByCodigo(edificioCodigo);
+    const found = !!edificioExists;
     if (found) {
       return Result.ok<Edificio>(edificioExists);
     } else {
-      return Result.fail<Edificio>("Couldn't find edificio by id=" + edificioId);
+      return Result.fail<Edificio>("Couldn't find edificio by id=" + edificioCodigo);
     }
   }
 

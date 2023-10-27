@@ -47,6 +47,7 @@ export default class PassagemRepo implements IPassagemRepo {
             } else {
                 passagemDocument.piso1 = passagem.piso1.id.toString();
                 passagemDocument.piso2 = passagem.piso2.id.toString();
+                passagemDocument.codigoPassagem = passagem.codigoPassagem;
 
                 console.log('Document inserted successfully!');
                 await passagemDocument.save();
@@ -65,6 +66,16 @@ export default class PassagemRepo implements IPassagemRepo {
         }
     }
 
+
+    public async findByCodigo(codigo: string): Promise<Passagem> {
+        const query = { codigoPassagem: codigo };
+        const passagemRecord = await this.passagemSchema.findOne(query as FilterQuery<IPassagemPersistence & Document>);
+        if (passagemRecord != null)
+            return PassagemMap.toDomain(passagemRecord);
+        else return null;
+    }
+
+
     public async findById(id: string): Promise<Passagem> {
         const query = { _id: id };
         const passagemRecord = await this.passagemSchema.findOne(query as FilterQuery<IPassagemPersistence & Document>);
@@ -75,17 +86,17 @@ export default class PassagemRepo implements IPassagemRepo {
 
     public async findAllByEdificio(edificio1: string, edificio2: string): Promise<string[]> {
         const passagens = await this.passagemSchema.find({
-            $or: [
+            $and: [
               {
-                $or: [
-                  { 'passagem.piso1.edificio.domainId': edificio1 },
-                  { 'passagem.piso2.edificio.domainId': edificio2 },
+                $and: [
+                  { 'passagem.piso1.edificio.codigo': edificio1 },
+                  { 'passagem.piso2.edificio.codigo': edificio2 },
                 ],
               },
                 {
-                    $or: [
-                    { 'passagem.piso1.edificio.domainId': edificio2 },
-                    { 'passagem.piso2.edificio.domainId': edificio1 },
+                    $and: [
+                    { 'passagem.piso1.edificio.codigo': edificio2 },
+                    { 'passagem.piso2.edificio.codigo': edificio1 },
                     ],
                 },
              
