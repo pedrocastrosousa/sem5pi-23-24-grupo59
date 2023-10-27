@@ -35,7 +35,7 @@ export class EdificioMap extends Mapper<Edificio> {
     const dimensoesOrError = DimensaoMaximaPisos.create1(largura, comprimento);
 
     const edificioOrError = Edificio.create({
-      codigoEdificio: codigoOrError, 
+      codigoEdificio: codigoOrError,
       descricaoEdificio: descricaoOrError,
       nomeEdificio: nomeOrError,
       dimensaoMaximaPisos: dimensoesOrError.getValue(),
@@ -53,8 +53,11 @@ export class EdificioMap extends Mapper<Edificio> {
       domainId: edificio.id.toString(),
       codigoEdificio: edificio.codigoEdificio.value,
       descricaoEdificio: edificio.descricaoEdificio.descricao,
-      nomeEdificio: edificio.nomeEdificio.nome,
-      dimensaoMaximaPisos: edificio.dimensaoMaximaPisos
-    };
+      nomeEdificio: nomeEdificio,
+      dimensaoMaximaPisos: {
+        comprimento: edificio.dimensaoMaximaPisos.props.comprimento,
+        largura: edificio.dimensaoMaximaPisos.props.largura,
+      }
+    }
   }
 }

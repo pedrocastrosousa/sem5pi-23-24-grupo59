@@ -68,7 +68,7 @@ export default class EdificioRepo implements IEdificioRepo {
   }
 
   public async findAll(): Promise<Edificio[]> {
-    const edificioRecord = await this.edificioSchema.find().populate('dimensaoMaximaPisos');
+    const edificioRecord = await this.edificioSchema.find();
     if (edificioRecord != null) {
       const edificioPromises = edificioRecord.map(async postRecord => {
         return await EdificioMap.toDomain(postRecord);
