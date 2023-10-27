@@ -15,6 +15,7 @@ import { CodigoEdificio } from '../domain/edificio/codigoEdificio';
 export class EdificioMap extends Mapper<Edificio> {
   public static toDTO(edificio: Edificio): IEdificioDTO {
     const nomeEdificio = edificio.nomeEdificio ? edificio.nomeEdificio.nome : null;
+    
     return {
       codigoEdificio: edificio.codigoEdificio.value,
       descricaoEdificio: edificio.descricaoEdificio.descricao,
@@ -33,7 +34,6 @@ export class EdificioMap extends Mapper<Edificio> {
     const comprimento = raw.dimensaoMaximaPisos.comprimento;
     const largura = raw.dimensaoMaximaPisos.largura;
     const dimensoesOrError = DimensaoMaximaPisos.create1(largura, comprimento);
-
     const edificioOrError = Edificio.create({
       codigoEdificio: codigoOrError, 
       descricaoEdificio: descricaoOrError,
@@ -54,7 +54,10 @@ export class EdificioMap extends Mapper<Edificio> {
       codigoEdificio: edificio.codigoEdificio.value,
       descricaoEdificio: edificio.descricaoEdificio.descricao,
       nomeEdificio: edificio.nomeEdificio.nome,
-      dimensaoMaximaPisos: edificio.dimensaoMaximaPisos
+      dimensaoMaximaPisos: {
+        largura: edificio.dimensaoMaximaPisos.largura,
+        comprimento: edificio.dimensaoMaximaPisos.comprimento,
+      },
     };
   }
 }

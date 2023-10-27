@@ -19,12 +19,11 @@ export default class EdificioService implements IEdificioService {
   public async findAll(): Promise<Result<IEdificioDTO[]>> {
     try {
       const edificios = await this.edificioRepo.findAll();
-
       if (edificios === null) {
         return Result.fail<IEdificioDTO[]>('Edificio not found');
       }
-
-      const edificioDTOResult: IEdificioDTO[] = edificios.map(edificio => EdificioMap.toDTO(edificio) as IEdificioDTO);
+      
+      const edificioDTOResult: IEdificioDTO[] = edificios.map(edificio => EdificioMap.toDTO(edificio));
 
       return Result.ok<IEdificioDTO[]>(edificioDTOResult);
     } catch (e) {

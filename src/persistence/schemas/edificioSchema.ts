@@ -17,7 +17,6 @@ const EdificioSchema = new mongoose.Schema(
     descricaoEdificio: {
       type: String,
       required: true,
-      unique: true,
       index: true,
     },
 
@@ -31,7 +30,7 @@ const EdificioSchema = new mongoose.Schema(
       type: Object,
       comprimento: {
         type: Number,
-        required: false,
+        required: true,
         validate: {
           validator: Number.isInteger,
           message: 'Comprimento deve ser inteiro',
@@ -39,7 +38,7 @@ const EdificioSchema = new mongoose.Schema(
       },
       largura: {
         type: Number,
-        required: false,
+        required: true,
         validate: {
           validator: Number.isInteger,
           message: 'Largura deve ser inteiro',

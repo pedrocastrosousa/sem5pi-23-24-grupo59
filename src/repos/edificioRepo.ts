@@ -32,19 +32,16 @@ export default class EdificioRepo implements IEdificioRepo {
 
   public async save(edificio: Edificio): Promise<Edificio> {
     const query = { domainId: edificio.id.toString() };
-    
+
     const edificioDocument = await this.edificioSchema.findOne(query);
-    
+
     try {
       if (edificioDocument === null) {
-        
-        const rawEdificio: any = EdificioMap.toPersistence(edificio);       
-        
+        const rawEdificio: any = EdificioMap.toPersistence(edificio);
+
         const edificioCreated = await this.edificioSchema.create(rawEdificio);
-        
-        
+
         return EdificioMap.toDomain(edificioCreated);
-   
       } else {
         const nomeEdificio = edificio.nomeEdificio ? edificio.nomeEdificio.nome : null;
         edificioDocument.codigoEdificio = edificio.codigoEdificio.value;
@@ -69,18 +66,13 @@ export default class EdificioRepo implements IEdificioRepo {
   }
 
   public async findAll(): Promise<Edificio[]> {
-    
     const edificioRecord = await this.edificioSchema.find();
-    
+
     if (edificioRecord != null) {
-      const edificioPromises = edificioRecord.map(
-        async postRecord => {
-        
+      const edificioPromises = edificioRecord.map(async postRecord => {
         return await EdificioMap.toDomain(postRecord);
       });
-      
       const edificios = await Promise.all(edificioPromises);
-      console.log(edificios.at(0));
       return edificios;
     } else {
       return null;
