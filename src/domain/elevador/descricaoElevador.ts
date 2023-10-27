@@ -15,6 +15,10 @@ export class DescricaoElevador extends ValueObject<DescricaoElevadorProps> {
   }
 
   public static create(descricaoElevador: string): Result<DescricaoElevador> {
+    if (descricaoElevador === null || descricaoElevador === undefined) {
+      return Result.ok<DescricaoElevador>(new DescricaoElevador({ value: '' }));
+    }
+
     if (descricaoElevador.length > 250) {
       return Result.fail<DescricaoElevador>("A descrição não pode conter mais de 50 caracteres.");
     }

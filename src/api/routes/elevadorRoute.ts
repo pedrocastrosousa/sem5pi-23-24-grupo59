@@ -21,9 +21,9 @@ export default (app: Router) => {
                 edificio: Joi.string().required(),
                 pisos: Joi.array().items(Joi.string()).required(),
                 numeroSerie: Joi.string().required(),
-                modelo: Joi.string().required(),
-                marca: Joi.string().required(),
-                descricao: Joi.string().required()
+                modelo: Joi.string().optional(),
+                marca: Joi.string().optional(),
+                descricao: Joi.string().optional(),
             })
         }),
         async (req, res, next) => ctrl.createElevador(req, res, next));
