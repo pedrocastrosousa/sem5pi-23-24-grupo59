@@ -3,7 +3,7 @@ import { IPassagemDTO } from "../../dto/IPassagemDTO";
 
 export default interface IPassagemService  {
     createPassagem(passagemDTO: IPassagemDTO): Promise<Result<IPassagemDTO>>;
-    getPassagem(): Promise<Result<Array<IPassagemDTO>>>;
+    getPassagemEntreEdificioeEdificio2(edificio1 : string, edificio2: string ): Promise<Result<IPassagemDTO[]>>;
     updatePassagem(passagemID:string, passagemDTO: IPassagemDTO): Promise<Result<IPassagemDTO>>;
 
     //updatePassagem(passagemDTO: IPassagemDTO): Promise<Result<IPassagemDTO>>;

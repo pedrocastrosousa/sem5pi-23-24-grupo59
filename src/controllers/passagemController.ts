@@ -30,8 +30,17 @@ export default class PassagemController implements IPassagemController /* TODO: 
   }
 
   public async listarPassagens(req: Request, res: Response, next: NextFunction) {
+    const edificio1 = req.query.edificio1 as string;
+    const edificio2 = req.query.edificio2 as string;
+
+
+    // Check if the query parameters exist
+    if (!edificio1 || !edificio2) {
+      res.status(400).json({ error: 'Parâmetros edificio1 e edificio2 são obrigatórios.' });
+      return;
+    }
     try {
-      const passagemListOrError = await this.passagemServiceInstance.getPassagem();
+      const passagemListOrError = await this.passagemServiceInstance.getPassagemEntreEdificioeEdificio2(edificio1, edificio2);
       if (passagemListOrError.isFailure) {
         return res.status(400).send();
       }

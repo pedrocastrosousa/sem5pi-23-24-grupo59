@@ -8,6 +8,7 @@ import { Passagem } from "../domain/passagem/passagem";
 import IPisoRepo from "./IRepos/IPisoRepo";
 import { Piso } from "../domain/piso/piso";
 import { PassagemMap } from "../mappers/PassagemMap";
+import e from "express";
 
 
 @Service()
@@ -39,11 +40,11 @@ export default class PassagemService implements IPassagemService {
       } else {
         pisoo2 = piso2OrError.getValue();
       }
-      
-     
+
+
       if (pisoo1.edificio.id.equals(pisoo2.edificio.id)) {
         return Result.fail<IPassagemDTO>("Não podem existir passagens entre pisos do mesmo edificio.");
-      } 
+      }
 
       const PassagemOrError = await Passagem.create({
         piso1: pisoo1,
@@ -77,18 +78,28 @@ export default class PassagemService implements IPassagemService {
   }
 
 
-  public async getPassagem(): Promise<Result<IPassagemDTO[]>> {
+  public async getPassagemEntreEdificioeEdificio2(edificio1: string, edificio2: string): Promise<Result<IPassagemDTO[]>> {
     try {
-      const passagemList: Passagem[] = await this.passagemRepo.findAll();
+      console.log(edificio1);
+      //let edificioo1 = parseFloat(edificio1);
+      console.log(edificio2);
+     // let edificioo2 = parseFloat(edificio2);
       let passagemListDto: IPassagemDTO[] = [];
+      const passagemList: string[] = await this.passagemRepo.findAllByEdificio(edificio1, edificio2);
+      console.log(passagemList);
       if (passagemList != null) {
         for (let i = 0; i < passagemList.length; i++) {
-          passagemListDto.push(PassagemMap.toDTO(passagemList[i]));
+          const passagemResult = await (this.passagemRepo.findById(passagemList[i]));
+          console.log(passagemResult);
+
+          passagemListDto.push(PassagemMap.toDTO(passagemResult));
+          console.log(passagemListDto);
+
         }
         return Result.ok<IPassagemDTO[]>(passagemListDto);
       }
 
-      return Result.fail<IPassagemDTO[]>("Não existem passagens para listar.");
+      return Result.fail<IPassagemDTO[]>("Não existemx passagens para listar.");
     } catch (e) {
       throw e;
     }

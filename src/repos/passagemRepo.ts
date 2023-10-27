@@ -5,6 +5,7 @@ import { PassagemMap } from "../mappers/PassagemMap";
 import { IPassagemPersistence } from "../dataschema/IPassagemPersistence";
 import { PassagemId } from "../domain/passagem/passagemId";
 import IPassagemRepo from "../services/IRepos/IPassagemRepo";
+import e from "express";
 
 @Service()
 export default class PassagemRepo implements IPassagemRepo {
@@ -20,13 +21,13 @@ export default class PassagemRepo implements IPassagemRepo {
         }
     }
 
-    public async findByDomainId(passagemId: PassagemId| string): Promise<Passagem> {
-        const query = { domainId:  passagemId };
+    public async findByDomainId(passagemId: PassagemId | string): Promise<Passagem> {
+        const query = { domainId: passagemId };
         const passagemRecord = await this.passagemSchema.findOne(query as FilterQuery<IPassagemPersistence & Document>);
         if (passagemRecord != null)
-          return PassagemMap.toDomain(passagemRecord);
+            return PassagemMap.toDomain(passagemRecord);
         else return null;
-      }
+    }
 
     public async exists(t: Passagem): Promise<boolean> {
         throw new Error('Method not implemented.');
@@ -46,7 +47,7 @@ export default class PassagemRepo implements IPassagemRepo {
             } else {
                 passagemDocument.piso1 = passagem.piso1.id.toString();
                 passagemDocument.piso2 = passagem.piso2.id.toString();
-            
+
                 console.log('Document inserted successfully!');
                 await passagemDocument.save();
 
@@ -64,7 +65,41 @@ export default class PassagemRepo implements IPassagemRepo {
         }
     }
 
+    public async findById(id: string): Promise<Passagem> {
+        const query = { _id: id };
+        const passagemRecord = await this.passagemSchema.findOne(query as FilterQuery<IPassagemPersistence & Document>);
+        if (passagemRecord  != null)
+            return PassagemMap.toDomain(passagemRecord);
+        else return null;
+    }
 
+    public async findAllByEdificio(edificio1: string, edificio2: string): Promise<string[]> {
+        const passagens = await this.passagemSchema.find({
+            $or: [
+              {
+                $or: [
+                  { 'passagem.piso1.edificio.domainId': edificio1 },
+                  { 'passagem.piso2.edificio.domainId': edificio2 },
+                ],
+              },
+                {
+                    $or: [
+                    { 'passagem.piso1.edificio.domainId': edificio2 },
+                    { 'passagem.piso2.edificio.domainId': edificio1 },
+                    ],
+                },
+             
+            ],
+          }).exec();
+          if (passagens.length > 0) {
+            const passagemIds = passagens.map((passagem) => passagem._id.toString());
 
-
+            return passagemIds;
+          } else {
+            return [];
+          }
+    }
 }
+
+
+

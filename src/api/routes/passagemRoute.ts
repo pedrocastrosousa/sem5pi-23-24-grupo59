@@ -22,8 +22,8 @@ console.log('passagem route');
     }),
     async (req, res, next) => ctrl.createPassagem(req, res, next) );
 
-    route.get('/listarPassagens', async (req, res, next) => {
-      ctrl.listarPassagens(req, res, next);
+    route.get('/listarPassagensEdificio1Edificio2/', async (req, res, next) => {
+    ctrl.listarPassagens(req, res, next);
   });
 
   route.put('/editarPassagem',
