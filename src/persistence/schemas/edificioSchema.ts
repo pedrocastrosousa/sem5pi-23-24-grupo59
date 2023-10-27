@@ -17,6 +17,7 @@ const EdificioSchema = new mongoose.Schema(
     descricaoEdificio: {
       type: String,
       required: true,
+      unique: true,
       index: true,
     },
 
@@ -27,12 +28,25 @@ const EdificioSchema = new mongoose.Schema(
     },
 
     dimensaoMaximaPisos: {
-      type: Object,
-      index: true,
+      comprimento: {
+        type: Number,
+        required: false,
+        validate: {
+          validator: Number.isInteger,
+          message: 'Comprimento deve ser inteiro'
+        },
+      },
+      largura: {
+        type: Number,
+        required: false,
+        validate: {
+          validator: Number.isInteger,
+          message: 'Largura deve ser inteiro'
+      },
     },
-
   },
-  { timestamps: true },
+},
+    {timestamps: true},
 );
 
 export default mongoose.model<IEdificioPersistence & mongoose.Document>('Edificio', EdificioSchema);

@@ -32,17 +32,15 @@ export class EdificioMap extends Mapper<Edificio> {
     const nomeOrError = NomeEdificio.create(raw.nomeEdificio).getValue();
     const comprimento = raw.dimensaoMaximaPisos.comprimento;
     const largura = raw.dimensaoMaximaPisos.largura;
-    const dimensoesOrError = DimensaoMaximaPisos.create1(largura, comprimento).getValue();
+    const dimensoesOrError = DimensaoMaximaPisos.create1(largura, comprimento);
 
-    const edificioOrError = Edificio.create(
-      {
-        codigoEdificio: codigoOrError,
-        descricaoEdificio: descricaoOrError,
-        nomeEdificio: nomeOrError,
-        dimensaoMaximaPisos: dimensoesOrError,
-      },
-      new UniqueEntityID(raw.domainId),
-    );
+    const edificioOrError = Edificio.create({
+      codigoEdificio: codigoOrError, 
+      descricaoEdificio: descricaoOrError,
+      nomeEdificio: nomeOrError,
+      dimensaoMaximaPisos: dimensoesOrError.getValue(),
+    }
+      , new UniqueEntityID(raw.domainId));
 
     edificioOrError.isFailure ? console.log(edificioOrError.error) : '';
     return edificioOrError.isSuccess ? edificioOrError.getValue() : null;
@@ -55,8 +53,8 @@ export class EdificioMap extends Mapper<Edificio> {
       domainId: edificio.id.toString(),
       codigoEdificio: edificio.codigoEdificio.value,
       descricaoEdificio: edificio.descricaoEdificio.descricao,
-      nomeEdificio: nomeEdificio,
-      dimensaoMaximaPisos: edificio.dimensaoMaximaPisos,
+      nomeEdificio: edificio.nomeEdificio.nome,
+      dimensaoMaximaPisos: edificio.dimensaoMaximaPisos
     };
   }
 }
