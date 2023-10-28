@@ -17,6 +17,9 @@ export default (app: Router) => {
     celebrate({
       body: Joi.object({
         designacaoTipoRobot: Joi.string().required(),
+        tipoTarefaTipoRobot: Joi.array()
+          .items(Joi.string())
+          .required(),
       }),
     }),
 

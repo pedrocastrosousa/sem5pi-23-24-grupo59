@@ -38,10 +38,10 @@ export default class TipoRobotRepo implements ITipoRobotRepo {
       if (tipoRobotDocument === null) {
          
         const rawTipoRobot: any = TipoRobotMap.toPersistence(tipoRobot);
-
         const tipoRobotCreated = await this.tipoRobotSchema.create(rawTipoRobot);
 
         return TipoRobotMap.toDomain(tipoRobotCreated);
+        
       } else {
         tipoRobotDocument.designacaoTipoRobot = tipoRobot.designacaoTipoRobot.designacao;
         await tipoRobotDocument.save();
