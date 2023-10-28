@@ -78,15 +78,15 @@ export default class PisoService implements IPisoService {
         return Result.fail<IPisoDTO>('ID do piso não fornecido para atualização.');
       }
 
-      const piso = await this.pisoRepo.findByCodigo(pisoDTO.codigoPiso);
+      const piso = await this.pisoRepo.findByCodigo(pisoID.toString());
 
       if (piso === null) {
         return Result.fail<IPisoDTO>("Piso not found");
       }
       else {
         
-        piso.descricao = PisoDescricao.create(pisoDTO.descricao).getValue();
-        piso.nome = pisoDTO.nome;
+        piso.updateDescricao(await PisoDescricao.create(pisoDTO.descricao).getValue());
+        piso.updateNomePiso(pisoDTO.nome);
         await this.pisoRepo.save(piso);
         
         const pisoDTOResult = PisoMap.toDTO(piso) as IPisoDTO;

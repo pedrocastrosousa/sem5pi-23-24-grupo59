@@ -77,4 +77,16 @@ export class Piso extends AggregateRoot<PisoProps>{
 
     }
   }
+
+  updateNomePiso(nomePiso: String): void {
+    if (nomePiso) {
+        this.props.nome = nomePiso.toString();
+    }
+}
+
+updateDescricao(descricao: PisoDescricao): void {
+    if (descricao) {
+        this.props.descricao = descricao;
+    }
+}
 }

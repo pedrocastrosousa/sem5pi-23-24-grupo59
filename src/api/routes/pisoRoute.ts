@@ -24,7 +24,7 @@ console.log('piso route');
     }),
     async (req, res, next) => ctrl.createPiso(req, res, next) );
 
-  route.put('/:id',
+  route.put('/:codigoPiso',
     celebrate({
       body: Joi.object({
         nome: Joi.string().required(), 

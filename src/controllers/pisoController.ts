@@ -33,7 +33,7 @@ export default class PisoController implements IPisoController /* TODO: extends 
   };
 
    public async updatePiso(req: Request, res: Response, next: NextFunction) {
-    const pisoId = req.params.id;
+    const pisoId = req.params.codigoPiso;
     const pisoDTO: IPisoDTO = req.body;
 
     if (!pisoId) {
