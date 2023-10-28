@@ -33,7 +33,7 @@ console.log('passagem route');
                 piso2: Joi.string(),
             }),
             params: Joi.object({
-              codigoPassagem: Joi.string().required()
+              id: Joi.string().required()
           })
         }),
         async (req, res, next) => ctrl.updatePassagem(req, res, next));

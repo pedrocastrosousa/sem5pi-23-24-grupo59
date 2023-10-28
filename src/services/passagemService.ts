@@ -92,7 +92,7 @@ export default class PassagemService implements IPassagemService {
       console.log(passagemList);
       if (passagemList != null) {
         for (let i = 0; i < passagemList.length; i++) {
-          const passagemResult = await (this.passagemRepo.findById(passagemList[i]));
+          const passagemResult = await (this.passagemRepo.findByCodigo(passagemList[i]));
           console.log(passagemResult);
 
           passagemListDto.push(PassagemMap.toDTO(passagemResult));
@@ -115,17 +115,17 @@ export default class PassagemService implements IPassagemService {
         return Result.fail<IPassagemDTO>('ID da passagem não fornecido para atualização.');
       }
 
-      const existingPassagem = await this.passagemRepo.findByCodigo(passagemID);
+      const existingPassagem = await this.passagemRepo.findByCodigo(passagemID.toString());
 
-
+console.log(existingPassagem);
       if (existingPassagem != null) {
         if (passagemDTO.piso1) {
+          console.log(passagemDTO.piso1);
           const piso1OrError = await this.getPiso(passagemDTO.piso1);
-
           existingPassagem.updatePiso1(piso1OrError.getValue());
         }
-        if (passagemDTO.piso1) {
-          const piso2OrError = await this.getPiso(passagemDTO.piso1);
+        if (passagemDTO.piso2) {
+          const piso2OrError = await this.getPiso(passagemDTO.piso2);
 
           existingPassagem.updatePiso2(piso2OrError.getValue());
         }
