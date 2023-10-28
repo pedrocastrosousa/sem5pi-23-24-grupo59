@@ -13,6 +13,7 @@ import e from "express";
 import { CodigoEdificio } from "../domain/edificio/codigoEdificio";
 import IEdificioDTO from "../dto/IEdificioDTO";
 import { EdificioMap } from "../mappers/EdificioMap";
+import IPassagemRepo from "./IRepos/IPassagemRepo";
 
 
 @Service()
@@ -20,6 +21,7 @@ export default class PisoService implements IPisoService {
   constructor(
     @Inject(config.repos.piso.name) private pisoRepo: IPisoRepo,
     @Inject(config.repos.edificio.name) private edificioRepo: IEdificioRepo,
+    @Inject(config.repos.passagem.name) private passagemRepo: IPassagemRepo,
 
   ) { }
  
@@ -127,6 +129,25 @@ export default class PisoService implements IPisoService {
         return Result.ok<IEdificioDTO[]>(edificioListDto);
       }
       return Result.fail<IEdificioDTO[]>("Não existem edifícios o min e máx número de pisos.");
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  public async getPisosDeEdificioComPassagem(edificio: string): Promise<Result<IPisoDTO[]>> {
+    try {
+      
+      let pisoListDto: IPisoDTO[] = [];
+      const pisoList: string[] = await this.pisoRepo.findPisosComPassagensPorEdificio(edificio);
+console.log(pisoList);
+      if (pisoList != null) {
+        for (let i = 0; i < pisoList.length; i++) {
+          const pisoResult = await (this.pisoRepo.findByCodigo(pisoList[i]));
+          pisoListDto.push(PisoMap.toDTO(pisoResult));
+        }
+        return Result.ok<IPisoDTO[]>(pisoListDto);
+      }
+      return Result.fail<IPisoDTO[]>("Não existem pisos no edifício.");
     } catch (e) {
       throw e;
     }

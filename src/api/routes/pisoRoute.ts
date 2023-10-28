@@ -39,4 +39,9 @@ console.log('piso route');
     route.get('/listarEdificioMinMaxPisos/', async (req, res, next) => {
       ctrl.listarEdificiosComMinMaxPisos(req, res, next);
   });
+
+
+  route.get('/listarPisosComPassagemEdificio/', async (req, res, next) => {
+    ctrl.listarPisosDeEdificioComPassagem(req, res, next);
+  });
 };

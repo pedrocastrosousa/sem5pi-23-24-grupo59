@@ -14,7 +14,6 @@ export default class PassagemRepo implements IPassagemRepo {
 
     constructor(
         @Inject('passagemSchema') private passagemSchema: Model<IPassagemPersistence & Document>,
-        @Inject('pisoSchema') private pisoSchema: Model<IPisoPersistence & Document>,
 
     ) { }
 
@@ -118,5 +117,7 @@ export default class PassagemRepo implements IPassagemRepo {
         }
 
     }
+
+   
    
 }

@@ -140,6 +140,25 @@ console.log(existingPassagem);
       return Result.fail<IPassagemDTO>(e.message);
     }
   }
+
+  public async getAllPassagens(): Promise<Result<IPassagemDTO[]>> {
+    try {
+      const passagemList: Passagem[] = await this.passagemRepo.findAll();
+      let passagemListDto: IPassagemDTO[] = [];
+      if (passagemList != null) {
+        for (let i = 0; i < passagemList.length; i++) {
+          passagemListDto.push(PassagemMap.toDTO(passagemList[i]));
+        }
+        return Result.ok<IPassagemDTO[]>(passagemListDto);
+      }
+
+      return Result.fail<IPassagemDTO[]>("Não existem passagens para listar.");
+    } catch (e) {
+      throw e;
+    }
+  }
+
+
 }
 
 

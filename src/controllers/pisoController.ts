@@ -6,6 +6,8 @@ import IPisoService from '../services/IServices/IPisoService';
 import { Result } from '../core/logic/Result';
 import { Inject, Service } from 'typedi';
 import { IPisoDTO } from '../dto/IPisoDTO';
+import { ParamsDictionary } from 'express-serve-static-core';
+import { ParsedQs } from 'qs';
 
 
 @Service()
@@ -73,4 +75,25 @@ export default class PisoController implements IPisoController /* TODO: extends 
     }
   }
    
+  public async listarPisosDeEdificioComPassagem(req: Request, res: Response, next: NextFunction) {
+    const edificio = req.query.edificio as string;
+     // Check if the query parameters exist
+     if (!edificio ) {
+      res.status(400).json({ error: 'Parâmetro edificio obrigatório.' });
+      return;
+    }
+
+    try {
+      const pisoListOrError = await this.pisoServiceInstance.getPisosDeEdificioComPassagem(edificio);
+
+      if (pisoListOrError.isFailure) {
+        return res.status(400).send();
+      }
+      return res.json(pisoListOrError.getValue()).status(200);
+    }
+    catch (e) {
+      return res.json(e.message).status(400);
+    }
+
+  }
 };
