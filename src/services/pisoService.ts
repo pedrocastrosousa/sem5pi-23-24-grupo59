@@ -69,8 +69,13 @@ export default class PisoService implements IPisoService {
     }
   }
 
-  public async updatePiso(pisoDTO: IPisoDTO): Promise<Result<IPisoDTO>> {
+  public async updatePiso(pisoID: string,pisoDTO: IPisoDTO): Promise<Result<IPisoDTO>> {
+
     try {
+      if (!pisoID) {
+        return Result.fail<IPisoDTO>('ID do piso não fornecido para atualização.');
+      }
+
       const piso = await this.pisoRepo.findByCodigo(pisoDTO.codigoPiso);
 
       if (piso === null) {
@@ -79,6 +84,7 @@ export default class PisoService implements IPisoService {
       else {
         
         piso.descricao = PisoDescricao.create(pisoDTO.descricao).getValue();
+        piso.nome = pisoDTO.nome;
         await this.pisoRepo.save(piso);
         
         const pisoDTOResult = PisoMap.toDTO(piso) as IPisoDTO;
@@ -111,9 +117,11 @@ export default class PisoService implements IPisoService {
       let edificioListDto: IEdificioDTO[] = [];
       const edificioList: string[] = await this.pisoRepo.findEdificiosByPisoCountRange(minPiso, maxPiso);
 
+      console.log(edificioList);
+
       if (edificioList != null) {
         for (let i = 0; i < edificioList.length; i++) {
-          const edificioResult = await (this.edificioRepo.findByDomainId(edificioList[i]));
+          const edificioResult = await (this.edificioRepo.findByCodigo(edificioList[i]));
           edificioListDto.push(EdificioMap.toDTO(edificioResult));
         }
         return Result.ok<IEdificioDTO[]>(edificioListDto);

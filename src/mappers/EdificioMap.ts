@@ -34,6 +34,7 @@ export class EdificioMap extends Mapper<Edificio> {
     const comprimento = raw.dimensaoMaximaPisos.comprimento;
     const largura = raw.dimensaoMaximaPisos.largura;
     const dimensoesOrError = DimensaoMaximaPisos.create1(largura, comprimento);
+
     const edificioOrError = Edificio.create({
       codigoEdificio: codigoOrError,
       descricaoEdificio: descricaoOrError,
