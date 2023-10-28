@@ -44,4 +44,8 @@ console.log('piso route');
   route.get('/listarPisosComPassagemEdificio/', async (req, res, next) => {
     ctrl.listarPisosDeEdificioComPassagem(req, res, next);
   });
+
+  route.get('/listarPisosEdificio/:codigoEdificio', async (req, res, next) => {
+    ctrl.listarPisosPorEdificio(req, res, next);
+});
 };

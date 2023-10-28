@@ -41,6 +41,20 @@ export class PisoMap extends Mapper<Piso> {
     return pisoOrError.isSuccess ? pisoOrError.getValue() : null;
   }
 
+  public static async toDomainBulk(rawList: any[]): Promise<Piso[]> {
+    const pisos: Piso[] = [];
+
+    for (const raw of rawList) {
+      const piso = await this.toDomain(raw);
+      if (piso) {
+        pisos.push(piso);
+      }
+    }
+
+    return pisos;
+  }
+  
+
   public static toPersistence(piso: Piso): any {
     const a = {
       domainId: piso.id.toString(),

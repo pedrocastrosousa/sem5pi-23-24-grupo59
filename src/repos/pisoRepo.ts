@@ -41,12 +41,12 @@ export default class PisoRepo implements IPisoRepo {
 
   public async findByCodigo(codigo: string): Promise<Piso> {
     const query = { codigoPiso: codigo };
-    
+
     const pisoRecord = await this.pisoSchema.findOne(query as FilterQuery<IPisoPersistence & Document>);
     if (pisoRecord != null)
-        return PisoMap.toDomain(pisoRecord);
+      return PisoMap.toDomain(pisoRecord);
     else return null;
-}
+  }
 
   public async findByNomePiso(nome: Piso['nome']): Promise<Piso> {
     const query = { nome: nome.toString() };
@@ -59,16 +59,16 @@ export default class PisoRepo implements IPisoRepo {
       return null;
   }
 
-/*
-  public async exists(piso: Piso): Promise<boolean> {
-    const idX = piso.nome instanceof PisoNome ? (<PisoNome>piso.nome).value : piso.nome;
-
-    const query = { pisoNome: idX };
-    const pisoDocument = await this.pisoSchema.findOne(query as FilterQuery<IPisoPersistence & Document>);
-
-    return !!pisoDocument === true;
-  }
-*/
+  /*
+    public async exists(piso: Piso): Promise<boolean> {
+      const idX = piso.nome instanceof PisoNome ? (<PisoNome>piso.nome).value : piso.nome;
+  
+      const query = { pisoNome: idX };
+      const pisoDocument = await this.pisoSchema.findOne(query as FilterQuery<IPisoPersistence & Document>);
+  
+      return !!pisoDocument === true;
+    }
+  */
 
 
 
@@ -105,59 +105,67 @@ export default class PisoRepo implements IPisoRepo {
 
   public async findEdificiosByPisoCountRange(minCount: number, maxCount: number): Promise<string[]> {
     const pipeline = [
-        {
-            $group: {
-                _id: '$edificio',
-                count: { $sum: 1 }
-            }
-        },
-        {
-            $match: {
-                count: { $gte: minCount, $lte: maxCount }
-            }
+      {
+        $group: {
+          _id: '$edificio',
+          count: { $sum: 1 }
         }
+      },
+      {
+        $match: {
+          count: { $gte: minCount, $lte: maxCount }
+        }
+      }
     ];
 
     const result = await this.pisoSchema.aggregate(pipeline);
 
     if (result.length > 0) {
-        const edificios = result.map((item) => item._id.toString());
-        return edificios;
+      const edificios = result.map((item) => item._id.toString());
+      return edificios;
     } else {
-        return null;
+      return null;
     }
-}
+  }
 
-public async findPisosComPassagensPorEdificio(edificio: string): Promise<string[]> {
-  console.log(edificio);
-  try {
-    const pisosComPassagens = await this.pisoSchema.find({ edificio });
+  public async findPisosComPassagensPorEdificio(edificio: string): Promise<string[]> {
+    console.log(edificio);
+    try {
+      const pisosComPassagens = await this.pisoSchema.find({ edificio });
 
-    const pisoIds = pisosComPassagens.map((piso) => piso.codigoPiso);
+      const pisoIds = pisosComPassagens.map((piso) => piso.codigoPiso);
 
-    const passagens = await this.passagemSchema.find({
+      const passagens = await this.passagemSchema.find({
         $or: [
-            { piso1: { $in: pisoIds } },
-            { piso2: { $in: pisoIds } },
+          { piso1: { $in: pisoIds } },
+          { piso2: { $in: pisoIds } },
         ],
-    }).exec();
+      }).exec();
 
-    if (passagens.length > 0) {
+      if (passagens.length > 0) {
         const pisoIdsComPassagens = new Set(
-            passagens.flatMap((passagem) => [passagem.piso1, passagem.piso2])
+          passagens.flatMap((passagem) => [passagem.piso1, passagem.piso2])
         );
         const pisoComPassagens = pisosComPassagens.filter((piso) =>
-            pisoIdsComPassagens.has(piso.codigoPiso)
+          pisoIdsComPassagens.has(piso.codigoPiso)
         );
-        
+
         const codigoPisos = pisoComPassagens.map((piso) => piso.codigoPiso);
         return codigoPisos;
-    }
+      }
 
-    return [];
-} catch (error) {
-    console.error(error);
-    return [];
-}
+      return [];
+    } catch (error) {
+      console.error(error);
+      return [];
+    }
+  }
+
+  public async findAll(): Promise<Piso[]> {
+    const pisoList = await this.pisoSchema.find();
+
+    if (pisoList != null) {
+        return PisoMap.toDomainBulk(pisoList);
+    }
 }
 }

@@ -9,4 +9,5 @@ export default interface IPisoService  {
   //  getPiso (pisoId: string): Promise<Result<IPisoDTO>>; 
   getEdificiosComMinMaxPisos(minPiso: string , maxPiso: string): Promise<Result<IEdificioDTO[]>>;
   getPisosDeEdificioComPassagem(edificio: string): Promise<Result<IPisoDTO[]>>;
+  getPisosPorEdificio(edificioId: string): Promise<Result<IPisoDTO[]>>;
 }
