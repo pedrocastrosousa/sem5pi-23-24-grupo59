@@ -8,6 +8,7 @@ import { PassagemId } from "./passagemId";
 interface PassagemProps {
     piso1: Piso;
     piso2: Piso;
+    codigoPassagem: string;
   }
   
   export class Passagem extends AggregateRoot<PassagemProps> {
@@ -15,9 +16,6 @@ interface PassagemProps {
       return this._id;
     }
   
-    get passagemId (): PassagemId {
-      return new PassagemId(this.passagemId.toValue());
-    }
 
     get piso1(): Piso {
         return this.props.piso1;
@@ -25,6 +23,10 @@ interface PassagemProps {
 
     get piso2(): Piso {
         return this.props.piso2;
+    }
+
+    get codigoPassagem(): string{
+        return `${this.piso1.codigoPiso}-${this.piso2.codigoPiso}`;
     }
 
     private constructor(props: PassagemProps, id?: UniqueEntityID) {

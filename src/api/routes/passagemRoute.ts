@@ -26,15 +26,15 @@ console.log('passagem route');
     ctrl.listarPassagens(req, res, next);
   });
 
-  route.put('/editarPassagem',
+  route.put('/:id',
         celebrate({
             body: Joi.object({
-              domainId: Joi.string().required(),
                 piso1: Joi.string(),
                 piso2: Joi.string(),
-               
             }),
-          
+            params: Joi.object({
+              id: Joi.string().required()
+          })
         }),
         async (req, res, next) => ctrl.updatePassagem(req, res, next));
 

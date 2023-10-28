@@ -12,6 +12,7 @@ interface PisoProps {
   nome: string;
   descricao: PisoDescricao;
   edificio: Edificio;
+  codigoPiso: string;
 }
 
 export class Piso extends AggregateRoot<PisoProps>{
@@ -44,6 +45,10 @@ export class Piso extends AggregateRoot<PisoProps>{
   set edificio ( value: Edificio) {
     this.props.edificio = value;
   }
+
+  get codigoPiso(): string {
+    return `${this.props.edificio.codigoEdificio.value}-${this.props.nome}`;
+}
 
   private constructor(props: PisoProps, id?: UniqueEntityID) {
     super(props, id);

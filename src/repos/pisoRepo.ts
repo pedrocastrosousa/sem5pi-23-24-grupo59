@@ -7,6 +7,7 @@ import { Document, FilterQuery, Model } from 'mongoose';
 import { IPisoPersistence } from '../dataschema/IPisoPersistence';
 import { Piso } from '../domain/piso/piso';
 import { Inject, Service } from "typedi";
+import { IPassagemPersistence } from "../dataschema/IPassagemPersistence";
 
 
 
@@ -16,6 +17,8 @@ export default class PisoRepo implements IPisoRepo {
 
   constructor(
     @Inject('pisoSchema') private pisoSchema: Model<IPisoPersistence & Document>,
+    @Inject('passagemSchema') private passagemSchema: Model<IPassagemPersistence & Document>,
+
   ) { }
   exists(t: Piso): Promise<boolean> {
     throw new Error("Method not implemented.");
@@ -27,13 +30,23 @@ export default class PisoRepo implements IPisoRepo {
     }
   }
 
-  public async findByDomainId(pisoId: string): Promise<Piso> {
-    const query = { domainId: pisoId };
+  public async findByDomainId(id: string): Promise<Piso> {
+    const query = { domainId: id };
     const pisoRecord = await this.pisoSchema.findOne(query as FilterQuery<IPisoPersistence & Document>);
     if (pisoRecord != null)
       return PisoMap.toDomain(pisoRecord);
     else return null;
   }
+
+
+  public async findByCodigo(codigo: string): Promise<Piso> {
+    const query = { codigoPiso: codigo };
+    
+    const pisoRecord = await this.pisoSchema.findOne(query as FilterQuery<IPisoPersistence & Document>);
+    if (pisoRecord != null)
+        return PisoMap.toDomain(pisoRecord);
+    else return null;
+}
 
   public async findByNomePiso(nome: Piso['nome']): Promise<Piso> {
     const query = { nome: nome.toString() };
@@ -76,9 +89,10 @@ export default class PisoRepo implements IPisoRepo {
 
       } else {
 
-        pisoDocument.nome = piso.nome.toString();
+        pisoDocument.nome = piso.nome;
         pisoDocument.descricao = piso.descricao.value;
-        pisoDocument.edificio = piso.edificio.id.toString();
+        pisoDocument.edificio = piso.edificio.codigoEdificio.value;
+        pisoDocument.codigoPiso = piso.codigoPiso;
 
         await pisoDocument.save();
 
@@ -114,4 +128,36 @@ export default class PisoRepo implements IPisoRepo {
     }
 }
 
+public async findPisosComPassagensPorEdificio(edificio: string): Promise<string[]> {
+  console.log(edificio);
+  try {
+    const pisosComPassagens = await this.pisoSchema.find({ edificio });
+
+    const pisoIds = pisosComPassagens.map((piso) => piso.codigoPiso);
+
+    const passagens = await this.passagemSchema.find({
+        $or: [
+            { piso1: { $in: pisoIds } },
+            { piso2: { $in: pisoIds } },
+        ],
+    }).exec();
+
+    if (passagens.length > 0) {
+        const pisoIdsComPassagens = new Set(
+            passagens.flatMap((passagem) => [passagem.piso1, passagem.piso2])
+        );
+        const pisoComPassagens = pisosComPassagens.filter((piso) =>
+            pisoIdsComPassagens.has(piso.codigoPiso)
+        );
+        
+        const codigoPisos = pisoComPassagens.map((piso) => piso.codigoPiso);
+        return codigoPisos;
+    }
+
+    return [];
+} catch (error) {
+    console.error(error);
+    return [];
+}
+}
 }

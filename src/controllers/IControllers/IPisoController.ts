@@ -4,4 +4,5 @@ export default interface IPisoController  {
   createPiso(req: Request, res: Response, next: NextFunction);
   updatePiso(req: Request, res: Response, next: NextFunction);
   listarEdificiosComMinMaxPisos(req: Request, res: Response, next: NextFunction);
+  listarPisosDeEdificioComPassagem(req: Request, res: Response, next: NextFunction);
 }

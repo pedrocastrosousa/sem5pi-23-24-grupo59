@@ -27,12 +27,14 @@ export default class PassagemService implements IPassagemService {
 
       let pisoo1: Piso;
       const piso1OrError = await this.getPiso(passagemDTO.piso1);
+
       if (piso1OrError.isFailure) {
         return Result.fail<IPassagemDTO>(piso1OrError.error);
 
       } else {
         pisoo1 = piso1OrError.getValue();
       }
+
       let pisoo2: Piso;
       const piso2OrError = await this.getPiso(passagemDTO.piso2);
       if (piso2OrError.isFailure) {
@@ -42,13 +44,15 @@ export default class PassagemService implements IPassagemService {
       }
 
 
-      if (pisoo1.edificio.id.equals(pisoo2.edificio.id)) {
+      if (pisoo1.edificio.codigoEdificio.equals(pisoo2.edificio.codigoEdificio)) {
         return Result.fail<IPassagemDTO>("Não podem existir passagens entre pisos do mesmo edificio.");
       }
 
       const PassagemOrError = await Passagem.create({
         piso1: pisoo1,
-        piso2: pisoo2
+        piso2: pisoo2,
+        codigoPassagem: passagemDTO.codigoPassagem
+
       });
 
       if (PassagemOrError.isFailure) {
@@ -66,14 +70,13 @@ export default class PassagemService implements IPassagemService {
     }
   }
 
-  private async getPiso(pisoId: string): Promise<Result<Piso>> {
+  private async getPiso(codigoPiso: string): Promise<Result<Piso>> {
 
-    const piso = await this.pisoRepo.findByDomainId(pisoId);
-
+    const piso = await this.pisoRepo.findByCodigo(codigoPiso);
     if (piso) {
       return Result.ok<Piso>(piso);
     } else {
-      return Result.fail<Piso>("Couldn't find piso by id=" + pisoId);
+      return Result.fail<Piso>("Couldn't find piso by código=" + codigoPiso);
     }
   }
 
@@ -89,7 +92,7 @@ export default class PassagemService implements IPassagemService {
       console.log(passagemList);
       if (passagemList != null) {
         for (let i = 0; i < passagemList.length; i++) {
-          const passagemResult = await (this.passagemRepo.findById(passagemList[i]));
+          const passagemResult = await (this.passagemRepo.findByCodigo(passagemList[i]));
           console.log(passagemResult);
 
           passagemListDto.push(PassagemMap.toDTO(passagemResult));
@@ -106,23 +109,23 @@ export default class PassagemService implements IPassagemService {
   }
 
 
-  public async updatePassagem(passagemID: string, passagemDTO: IPassagemDTO): Promise<Result<IPassagemDTO>> {
+  public async updatePassagem(passagemID:string,passagemDTO: IPassagemDTO): Promise<Result<IPassagemDTO>> {
     try {
       if (!passagemID) {
         return Result.fail<IPassagemDTO>('ID da passagem não fornecido para atualização.');
       }
 
-      const existingPassagem = await this.passagemRepo.findByDomainId(passagemID);
+      const existingPassagem = await this.passagemRepo.findByCodigo(passagemID.toString());
 
-
+console.log(existingPassagem);
       if (existingPassagem != null) {
         if (passagemDTO.piso1) {
+          console.log(passagemDTO.piso1);
           const piso1OrError = await this.getPiso(passagemDTO.piso1);
-
           existingPassagem.updatePiso1(piso1OrError.getValue());
         }
-        if (passagemDTO.piso1) {
-          const piso2OrError = await this.getPiso(passagemDTO.piso1);
+        if (passagemDTO.piso2) {
+          const piso2OrError = await this.getPiso(passagemDTO.piso2);
 
           existingPassagem.updatePiso2(piso2OrError.getValue());
         }
@@ -137,6 +140,25 @@ export default class PassagemService implements IPassagemService {
       return Result.fail<IPassagemDTO>(e.message);
     }
   }
+
+  public async getAllPassagens(): Promise<Result<IPassagemDTO[]>> {
+    try {
+      const passagemList: Passagem[] = await this.passagemRepo.findAll();
+      let passagemListDto: IPassagemDTO[] = [];
+      if (passagemList != null) {
+        for (let i = 0; i < passagemList.length; i++) {
+          passagemListDto.push(PassagemMap.toDTO(passagemList[i]));
+        }
+        return Result.ok<IPassagemDTO[]>(passagemListDto);
+      }
+
+      return Result.fail<IPassagemDTO[]>("Não existem passagens para listar.");
+    } catch (e) {
+      throw e;
+    }
+  }
+
+
 }
 
 

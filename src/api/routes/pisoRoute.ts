@@ -24,18 +24,24 @@ console.log('piso route');
     }),
     async (req, res, next) => ctrl.createPiso(req, res, next) );
 
-  route.put('/editarPiso',
+  route.put('/:id',
     celebrate({
       body: Joi.object({
-        id: Joi.string().required(),
         nome: Joi.string().required(), 
         descricao: Joi.string().required(),
-        edificio: Joi.string().required()
       }),
+      params: Joi.object({
+        codigoPiso: Joi.string().required()
+    })
     }),
     (req, res, next) => ctrl.updatePiso(req, res, next) );
     
     route.get('/listarEdificioMinMaxPisos/', async (req, res, next) => {
       ctrl.listarEdificiosComMinMaxPisos(req, res, next);
+  });
+
+
+  route.get('/listarPisosComPassagemEdificio/', async (req, res, next) => {
+    ctrl.listarPisosDeEdificioComPassagem(req, res, next);
   });
 };
