@@ -44,11 +44,11 @@ export default class ElevadorController implements IElevadorController /* TODO: 
     }
   }
 
-  /*
+
 
   public async updateElevador(req: Request, res: Response, next: NextFunction) {
-    const elevadorId = req.params.id; 
-    const elevadorDTO: IElevadorDTO = req.body; 
+    const elevadorId = req.params.id;
+    const elevadorDTO: IElevadorDTO = req.body;
 
     if (!elevadorId) {
       return res.status(400).json({ error: 'ID elevador erro' });
@@ -64,7 +64,4 @@ export default class ElevadorController implements IElevadorController /* TODO: 
       return res.json(e.message).status(400);
     }
   }
-
-};
-*/
 }

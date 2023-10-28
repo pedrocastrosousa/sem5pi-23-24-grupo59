@@ -87,7 +87,7 @@ export default class ElevadorService implements IElevadorService {
 
   private async getEdificio(edificioId: string): Promise<Result<Edificio>> {
 
-    const edificio = await this.edificioRepo.findByDomainId(edificioId);
+    const edificio = await this.edificioRepo.findByCodigo(edificioId);
     const found = !!edificio;
 
     if (found) {
@@ -101,7 +101,7 @@ export default class ElevadorService implements IElevadorService {
     const pisosList: Piso[] = [];
 
     for (let i = 0; i < pisoIds.length; i++) {
-      const pisoFound = await this.pisoRepo.findByDomainId(pisoIds[i]);
+      const pisoFound = await this.pisoRepo.findByCodigo(pisoIds[i]);
       pisosList.push(pisoFound);
     }
     if (pisosList != null) {
@@ -123,7 +123,7 @@ export default class ElevadorService implements IElevadorService {
         return Result.ok<IElevadorDTO[]>(ElevadorListDto);
       }
 
-      return Result.fail<IElevadorDTO[]>("Não existem Elevadors para listar.");
+      return Result.fail<IElevadorDTO[]>("Não existem Elevadores para listar.");
     } catch (e) {
       throw e;
     }
