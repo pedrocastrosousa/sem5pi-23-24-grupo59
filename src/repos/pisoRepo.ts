@@ -90,9 +90,9 @@ export default class PisoRepo implements IPisoRepo {
       } else {
         pisoDocument.nome = piso.nome;
         pisoDocument.descricao = piso.descricao.value;
-        pisoDocument.edificio = piso.edificio.codigoEdificio.value;
+        pisoDocument.edificio = piso.edificio.codigoEdificio.toString();
         pisoDocument.codigoPiso = piso.codigoPiso;
-        pisoDocument.mapa = piso.mapa.value;
+       // pisoDocument.mapa = piso.mapa.value.mapa.toString();
 
         await pisoDocument.save();
 

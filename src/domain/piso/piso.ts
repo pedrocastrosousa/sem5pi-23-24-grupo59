@@ -14,7 +14,7 @@ interface PisoProps {
   descricao: PisoDescricao;
   edificio: Edificio;
   codigoPiso: string;
-  mapa: PisoMapa;
+ // mapa?: PisoMapa;
 }
 
 export class Piso extends AggregateRoot<PisoProps>{
@@ -32,10 +32,10 @@ export class Piso extends AggregateRoot<PisoProps>{
   get descricao(): PisoDescricao {
     return this.props.descricao;
   }
-  get mapa(): PisoMapa {
+/*  get mapa(): PisoMapa {
     return this.props.mapa;
   }
-  
+  */
   get edificio(): Edificio {
     return this.props.edificio;
   }
@@ -52,7 +52,7 @@ export class Piso extends AggregateRoot<PisoProps>{
   }
 
   get codigoPiso(): string {
-    return `${this.props.edificio.codigoEdificio.value}-${this.props.nome}`;
+    return `${this.props.edificio.codigoEdificio}-${this.props.nome}`;
 }
 
   private constructor(props: PisoProps, id?: UniqueEntityID) {
@@ -94,10 +94,11 @@ updateDescricao(descricao: PisoDescricao): void {
         this.props.descricao = descricao;
     }
 }
-
+/*
 updateMapa(mapa: PisoMapa): void {
   if (mapa) {
       this.props.mapa = mapa;
   }
 }
+*/
 }

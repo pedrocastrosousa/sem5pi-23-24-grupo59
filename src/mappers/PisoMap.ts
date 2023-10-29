@@ -19,9 +19,9 @@ export class PisoMap extends Mapper<Piso> {
       id: piso.id.toString(),
       nome: piso.nome,
       descricao: piso.descricao.value,
-      edificio: piso.edificio.codigoEdificio.value,
+      edificio: piso.edificio.codigoEdificio.toString(),
       codigoPiso: piso.codigoPiso,
-      mapa: piso.mapa.value
+     // mapa: piso.mapa.value.mapa.toString()
     } as IPisoDTO;
 
   }
@@ -29,7 +29,7 @@ export class PisoMap extends Mapper<Piso> {
   public static async toDomain(piso: any ): Promise<Piso> {
 
     const pisoDescricaoOrError = PisoDescricao.create(piso.descricao);
-    const pisoMapaOrError = PisoMapa.create(piso.mapa);
+   // const pisoMapaOrError = PisoMapa.create(piso.mapa);
 
     const repo = Container.get(EdificioRepo);
     const edificio = await repo.findByCodigo(piso.edificio);
@@ -38,7 +38,7 @@ export class PisoMap extends Mapper<Piso> {
       descricao: pisoDescricaoOrError.getValue(),
       edificio: edificio,
       codigoPiso: piso.codigoPiso,
-      mapa: pisoMapaOrError.getValue()
+     // mapa: pisoMapaOrError.getValue()
     }
       , new UniqueEntityID(piso.domainId))
 
@@ -66,9 +66,9 @@ export class PisoMap extends Mapper<Piso> {
       domainId: piso.id.toString(),
       nome: piso.nome,
       descricao: piso.descricao.value,
-      edificio: piso.edificio.codigoEdificio.value,
+      edificio: piso.edificio.codigoEdificio,
       codigoPiso: piso.codigoPiso,
-      mapa: piso.mapa.value
+    //  mapa: piso.mapa.value
     }
     return a;
   }

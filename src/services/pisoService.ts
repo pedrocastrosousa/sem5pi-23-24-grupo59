@@ -9,8 +9,6 @@ import { PisoMap } from "../mappers/PisoMap";
 import { IPisoDTO } from "../dto/IPisoDTO";
 import { Edificio } from "../domain/edificio/edificio";
 import IEdificioRepo from "./IRepos/IEdificioRepo";
-import e from "express";
-import { CodigoEdificio } from "../domain/edificio/codigoEdificio";
 import IEdificioDTO from "../dto/IEdificioDTO";
 import { EdificioMap } from "../mappers/EdificioMap";
 import IPassagemRepo from "./IRepos/IPassagemRepo";
@@ -32,7 +30,7 @@ export default class PisoService implements IPisoService {
     try {
 
       const descricao = await PisoDescricao.create(pisoDTO.descricao).getValue();
-      const mapa = await PisoMapa.create(pisoDTO.mapa).getValue();
+     // const mapa = await PisoMapa.create(pisoDTO.mapa).getValue();
 
       /*const pisoDocument = await this.pisoRepo.findByNomePiso(pisoDTO.nome);
       const found = !!pisoDocument;
@@ -55,7 +53,7 @@ export default class PisoService implements IPisoService {
         descricao: descricao,
         edificio: edificioo,
         codigoPiso: pisoDTO.codigoPiso,
-        mapa: mapa
+       // mapa: mapa
       });
 
       if (pisoOrError.isFailure) {
@@ -166,7 +164,7 @@ export default class PisoService implements IPisoService {
       if (pisoList != null) {
         for (let i = 0; i < pisoList.length; i++) {
         
-          if (pisoList[i].edificio.codigoEdificio.value == codigoEdificio) {
+          if (pisoList[i].edificio.codigoEdificio.toString() == codigoEdificio) {
             pisoListDto.push(PisoMap.toDTO(pisoList[i]));
           }
         }
@@ -178,8 +176,8 @@ export default class PisoService implements IPisoService {
     } catch (e) {
       throw e;
     }
-  }
-
+ }
+/* 
   public async carregarMapa(pisoID: string, pisoDTO: IPisoDTO): Promise<Result<IPisoDTO>> {
 
     try {
@@ -206,5 +204,5 @@ export default class PisoService implements IPisoService {
       throw e;
     }
   }
-
+*/
 }
