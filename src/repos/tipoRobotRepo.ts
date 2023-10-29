@@ -64,9 +64,8 @@ export default class TipoRobotRepo implements ITipoRobotRepo {
   }
 
   public async findByDesignation(designacaoTipoRobot: string): Promise<TipoRobot> {
-    const query = { designation: designacaoTipoRobot };
+    const query = { designacaoTipoRobot: designacaoTipoRobot };
     const tipoRobotRecord = await this.tipoRobotSchema.findOne(query as FilterQuery<ITipoRobotPersistence & Document>);
-
     if (tipoRobotRecord != null) {
       return TipoRobotMap.toDomain(tipoRobotRecord);
     } else return null;

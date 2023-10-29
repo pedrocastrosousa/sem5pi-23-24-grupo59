@@ -25,17 +25,17 @@ export default class RobotRepo implements IRobotRepo {
         const query = { domainId: robot.id.toString() };
 
         const robotDocument = await this.robotSchema.findOne(query);
-
         try {
             if (robotDocument === null) {
                 const rawrobot: any = RobotMap.toPersistence(robot);
+                console.log(rawrobot);
                 const robotCreated = await this.robotSchema.create(rawrobot);
                 return RobotMap.toDomain(robotCreated);
             } else {
             
                 robotDocument.codigo = robot.codigoRobot.toString();
                 robotDocument.nickname = robot.nicknameRobot.toString();
-                robotDocument.tipo = robot.tipoRobot.toString();
+                robotDocument.tipo = robot.tipoRobot.designacaoTipoRobot.designacao.toString();
                 robotDocument.numeroSerie = robot.numeroserieRobot.toString();
                 robotDocument.descricao = robot.descricaoRobot.toString();
                 robotDocument.estado = robot.estadoRobot.toString();
@@ -50,6 +50,14 @@ export default class RobotRepo implements IRobotRepo {
 
     public async findById(id: string): Promise<Robot> {
         const query = { domainId: id };
+        const robotRecord = await this.robotSchema.findOne(query as FilterQuery<IRobotPersistence & Document>);
+        if (robotRecord != null)
+            return RobotMap.toDomain(robotRecord);
+        else return null;
+    }
+
+    public async findByCodigo(id: string): Promise<Robot> {
+        const query = { codigo: id };
         const robotRecord = await this.robotSchema.findOne(query as FilterQuery<IRobotPersistence & Document>);
         if (robotRecord != null)
             return RobotMap.toDomain(robotRecord);

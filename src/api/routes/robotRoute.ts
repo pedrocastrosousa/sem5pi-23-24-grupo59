@@ -31,7 +31,7 @@ export default (app: Router) => {
         ctrl.listarRobots(req, res, next);
     });
 
-    /*
+    
 
     route.patch('/:id',
         celebrate({
@@ -42,7 +42,7 @@ export default (app: Router) => {
                 id: Joi.string().required()
             })
         }),
-        async (req, res, next) => ctrl.updateRobot(req, res, next));
-}
-*/
+        async (req, res, next) => ctrl.inibirRobot(req, res, next));
+
+
 }

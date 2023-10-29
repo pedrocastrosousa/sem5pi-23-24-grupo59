@@ -32,8 +32,8 @@ export default class ElevadorRepo implements IElevadorRepo {
                 const elevadorCreated = await this.elevadorSchema.create(rawelevador);
                 return ElevadorMap.toDomain(elevadorCreated);
             } else {
-                elevadorDocument.edificio = elevador.edificio.id.toString();
-                elevadorDocument.pisos = elevador.pisos.map(elevador => elevador.id.toString());
+                elevadorDocument.edificio = elevador.edificio.codigoEdificio.toString();
+                elevadorDocument.pisos = elevador.pisos.map(elevador => elevador.codigoPiso.toString());
                 elevadorDocument.numeroSerie = elevador.numeroSerie.value;
                 elevadorDocument.marca = elevador.marca.value;
                 elevadorDocument.modelo = elevador.modelo.value;
@@ -49,6 +49,14 @@ export default class ElevadorRepo implements IElevadorRepo {
 
     public async findById(id: string): Promise<Elevador> {
         const query = { domainId: id };
+        const elevadorRecord = await this.elevadorSchema.findOne(query as FilterQuery<IElevadorPersistence & Document>);
+        if (elevadorRecord != null)
+            return ElevadorMap.toDomain(elevadorRecord);
+        else return null;
+    }
+
+    public async findByNumeroSerie(numeroSerie: string): Promise<Elevador> {
+        const query = { numeroSerie: numeroSerie };
         const elevadorRecord = await this.elevadorSchema.findOne(query as FilterQuery<IElevadorPersistence & Document>);
         if (elevadorRecord != null)
             return ElevadorMap.toDomain(elevadorRecord);

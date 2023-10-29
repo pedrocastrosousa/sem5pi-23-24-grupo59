@@ -5,4 +5,5 @@ export default interface IelevadorRepo extends Repo<Robot> {
 	save(robot: Robot): Promise<Robot>;
 	findById (id: string): Promise<Robot>;
 	findAll() : Promise<Array<Robot>>;
+	findByCodigo(codigo: string): Promise<Robot>;
 }

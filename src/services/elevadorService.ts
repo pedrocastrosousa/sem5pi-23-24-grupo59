@@ -26,26 +26,31 @@ export default class ElevadorService implements IElevadorService {
 
   public async createElevador(elevadorDTO: IElevadorDTO): Promise<Result<IElevadorDTO>> {
     try {
+
       const numeroSerie = await NumeroSerieElevador.create(elevadorDTO.numeroSerie).getValue();
       const marca = await MarcaElevador.create(elevadorDTO.marca).getValue();
       const modelo = await ModeloElevador.create(elevadorDTO.modelo).getValue();
       const descricao = await DescricaoElevador.create(elevadorDTO.descricao).getValue();
       const edificioOrError = await this.getEdificio(elevadorDTO.edificio);
-      let edificio: Edificio;
-      let pisos: Piso[];
-      console.log('linha 37 service');
 
       if (edificioOrError.isFailure) {
-        return Result.fail<IElevadorDTO>(edificioOrError.error);
-      } else {
-        edificio = edificioOrError.getValue();
+        return Result.fail<IElevadorDTO>("Erro no edificio introduzido: " + edificioOrError.error);
       }
-      const pisosOrError = await this.getPisos(elevadorDTO.pisos);
+      const edificio: Edificio = edificioOrError.getValue();
 
+      const pisosOrError = await this.getPisos(elevadorDTO.pisos);
       if (pisosOrError.isFailure) {
-        return Result.fail<IElevadorDTO>(pisosOrError.error);
-      } else {
-        pisos = pisosOrError.getValue();
+        return Result.fail<IElevadorDTO>("Erro nos pisos introduzidoss: " + pisosOrError.error);
+      }
+
+      const pisos: Piso[] = pisosOrError.getValue();
+
+      console.log("edificio");
+      console.log(edificio.codigoEdificio);
+      console.log("pisos");
+      console.log(pisos);
+      for(const piso of pisos){
+        console.log(piso.codigoPiso);
       }
       console.log(pisosOrError);
 
@@ -57,16 +62,17 @@ export default class ElevadorService implements IElevadorService {
         modelo: modelo,
         descricao: descricao,
       });
+
+
       console.log(ElevadorOrError);
 
       if (ElevadorOrError.isFailure) {
-        return Result.fail<IElevadorDTO>(ElevadorOrError.errorValue());
+        return Result.fail<IElevadorDTO>("Erro ao criar o elevador: " + ElevadorOrError.errorValue());
       }
 
       const ElevadorResult = ElevadorOrError.getValue();
 
       await this.elevadorRepo.save(ElevadorResult);
-      console.log('service after save');
 
       const ElevadorDTOResult = ElevadorMap.toDTO(ElevadorResult) as IElevadorDTO;
       return Result.ok<IElevadorDTO>(ElevadorDTOResult);
@@ -75,15 +81,64 @@ export default class ElevadorService implements IElevadorService {
     }
   }
 
-  private async getEdificio(edificioId: string): Promise<Result<Edificio>> {
+  public async updateElevador(numSerieElevador: string, elevadorDTO: IElevadorDTO): Promise<Result<IElevadorDTO>> {
+    try {
 
-    const edificio = await this.edificioRepo.findByCodigo(edificioId);
+      if (!numSerieElevador) {
+        return Result.fail<IElevadorDTO>('Número de série do elevador não fornecido para atualização.');
+      }
+
+      const existingElevador = await this.elevadorRepo.findByNumeroSerie(numSerieElevador); //PODE PRECISAR DE TOSTRING
+
+      console.log("elevador encontrado:\n" + existingElevador.numeroSerie.value);
+
+      if (existingElevador != null) {
+
+        if (elevadorDTO.marca && elevadorDTO.modelo) {
+          existingElevador.updateMarcaEModelo(elevadorDTO.marca, elevadorDTO.modelo);
+        }
+        else if (elevadorDTO.marca || elevadorDTO.modelo){
+          return Result.fail<IElevadorDTO>('Para fazer alterações na marca ou no modelo, ambos devem ser especificados.');
+        }
+
+        if (elevadorDTO.pisos) {
+          const pisosOrError = await this.getPisos(elevadorDTO.pisos);
+          if (pisosOrError.isFailure) {
+            return Result.fail<IElevadorDTO>(pisosOrError.error);
+          } else {
+            existingElevador.updatePisos(pisosOrError.getValue());
+          }
+        }
+
+        if (elevadorDTO.numeroSerie){
+          existingElevador.updateNumeroSerie(elevadorDTO.numeroSerie);
+        }
+
+        if (elevadorDTO.descricao){
+          existingElevador.updateDescricao(elevadorDTO.descricao);
+        }
+
+        await this.elevadorRepo.save(existingElevador);
+        return Result.ok<IElevadorDTO>(ElevadorMap.toDTO(existingElevador));
+      }
+
+      return Result.fail<IElevadorDTO>('Não foi possível encontrar o elevador.');
+
+    } catch (e) {
+      return Result.fail<IElevadorDTO>(e.message);
+    }
+  }
+
+
+  private async getEdificio(codigoEdificio: string): Promise<Result<Edificio>> {
+
+    const edificio = await this.edificioRepo.findByCodigo(codigoEdificio);
     const found = !!edificio;
 
     if (found) {
       return Result.ok<Edificio>(edificio);
     } else {
-      return Result.fail<Edificio>('Não foi possivel encontrar o edificio pelo nome' + edificioId);
+      return Result.fail<Edificio>("Não foi possivel encontrar o edificio pelo nome" + codigoEdificio);
     }
   }
 
@@ -116,44 +171,6 @@ export default class ElevadorService implements IElevadorService {
     } catch (e) {
       throw e;
     }
-  }
-
-  /*
-
-  public async updateElevador(ElevadorID: string, ElevadorDTO: IElevadorDTO): Promise < Result < IElevadorDTO >> {
-  try {
-    /*
-    if (!ElevadorID) {
-      return Result.fail<IElevadorDTO>('ID do edifício não fornecido para atualização.');
-    }
-
-    const existingElevador = await this.ElevadorRepo.findById(ElevadorID);
-
-    if (existingElevador != null) {
-      if (ElevadorDTO.nome) {
-        existingElevador.updateNome(await NomeElevador.create(ElevadorDTO.nome).getValue());
-      }
-
-      if (ElevadorDTO.dimensoes) {
-        existingElevador.updateDimensoes(
-          await DimensaoPiso.create(ElevadorDTO.dimensoes.comprimento, ElevadorDTO.dimensoes.largura).getValue()
-        );
-      }
-      
-
-    if(ElevadorDTO.descricao) {
-  existingElevador.updateDescricao(await DescricaoElevador.create(ElevadorDTO.descricao).getValue());
-}
-
-await this.ElevadorRepo.save(existingElevador);
-return Result.ok<IElevadorDTO>(ElevadorMap.toDTO(existingElevador));
-      }
-
-
-return Result.fail<IElevadorDTO>('Não foi possível encontrar o edifício.');
-    } catch (e) {
-  return Result.fail<IElevadorDTO>(e.message);
-}
   }
 
   /*

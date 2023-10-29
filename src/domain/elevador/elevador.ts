@@ -19,6 +19,7 @@ interface ElevadorProps {
 }
 
 export class Elevador extends AggregateRoot<ElevadorProps> {
+
     get id(): UniqueEntityID {
         return this._id;
     }
@@ -88,8 +89,38 @@ export class Elevador extends AggregateRoot<ElevadorProps> {
             const elevador = new Elevador({
                 ...props
             }, id);
-    
+
             return Result.ok<Elevador>(elevador);
         }
     }
+
+    updatePisos(pisos: Piso[]) {
+        this.props.pisos = pisos;
+    }
+
+    updateMarcaEModelo(marca: string, modelo: string): void {
+
+        if (marca.trim()) {
+            if (modelo.trim()) {
+                this.props.marca = MarcaElevador.create(marca).getValue();
+                this.props.modelo = ModeloElevador.create(modelo).getValue();
+            }
+            else {
+                throw new Error("O modelo também deve ser especificado.");
+            }
+        } else {
+            if (modelo.trim()) {
+                throw new Error("A marca também deve ser especificada.");
+            }
+        }
+    }
+
+    updateNumeroSerie(numeroSerie: string) {
+        this.props.numeroSerie = NumeroSerieElevador.create(numeroSerie).getValue();
+    }
+
+    updateDescricao(descricao: string) {
+        this.props.descricao = DescricaoElevador.create(descricao).getValue();
+    }
+
 }

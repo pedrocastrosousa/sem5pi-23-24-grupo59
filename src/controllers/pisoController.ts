@@ -113,7 +113,7 @@ export default class PisoController implements IPisoController /* TODO: extends 
     }
   }
 
-  public async carregarMapa(req: Request, res: Response, next: NextFunction) {
+ /* public async carregarMapa(req: Request, res: Response, next: NextFunction) {
     const pisoId = req.params.codigoPiso;
     const pisoDTO: IPisoDTO = req.body;
 
@@ -131,4 +131,5 @@ export default class PisoController implements IPisoController /* TODO: extends 
       return res.json(e.message).status(400);
     }
    };
+   */
 };

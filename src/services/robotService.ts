@@ -29,34 +29,23 @@ export default class RobotService implements IRobotService {
 
   public async createRobot(robotDTO: IRobotDTO): Promise<Result<IRobotDTO>> {
     try {
-      
+
       const codigo = await CodigoRobot.create(robotDTO.numeroSerie).getValue();
       const nickname = await NicknameRobot.create(robotDTO.nickname).getValue();
       const numeroSerie = await NumeroSerieRobot.create(robotDTO.numeroSerie).getValue();
       const descricao = await DescricaoRobot.create(robotDTO.descricao).getValue();
       const tipoRobotOrError = await this.getTipoRobot(robotDTO.tipo);
-      let tipo: TipoRobot;
-      
 
-      if (tipoRobotOrError.isFailure) {
-        return Result.fail<IRobotDTO>(tipoRobotOrError.error);
-      } else {
-        tipo = tipoRobotOrError.getValue();
-      
-      }
-
-
-       const RobotOrError = Robot.create({
+      const RobotOrError = Robot.create({
         codigoRobot: codigo,
         nicknameRobot: nickname,
-        tipoRobot: tipo,
+        tipoRobot: tipoRobotOrError.getValue(),
         numeroserieRobot: numeroSerie,
         descricaoRobot: descricao,
         estadoRobot: EstadoRobot.Ativo
       });
-      console.log(RobotOrError);
-   
-    
+
+
 
       if (RobotOrError.isFailure) {
         return Result.fail<IRobotDTO>(RobotOrError.errorValue());
@@ -83,9 +72,7 @@ export default class RobotService implements IRobotService {
 
     const tipo = await this.tipoRobotRepo.findByDesignation(tipoRobotId);
     const found = !!tipo;
-
     if (found) {
-      console.log(tipo.designacaoTipoRobot.designacao);
       return Result.ok<TipoRobot>(tipo);
     } else {
       return Result.fail<TipoRobot>("Não foi possivel encontrar o Tipo de Robot" + tipoRobotId);
@@ -110,42 +97,30 @@ export default class RobotService implements IRobotService {
     }
   }
 
-  /*
 
-  public async updateRobot(RobotID: string, RobotDTO: IRobotDTO): Promise < Result < IRobotDTO >> {
-  try {
-    /*
-    if (!RobotID) {
-      return Result.fail<IRobotDTO>('ID do edifício não fornecido para atualização.');
-    }
 
-    const existingRobot = await this.RobotRepo.findById(RobotID);
+  public async inibirRobot(robotID: string, robotDTO: IRobotDTO): Promise<Result<IRobotDTO>> {
+    try {
 
-    if (existingRobot != null) {
-      if (RobotDTO.nome) {
-        existingRobot.updateNome(await NomeRobot.create(RobotDTO.nome).getValue());
+      if (!robotID) {
+        return Result.fail<IRobotDTO>('ID do robot não fornecido para atualização.');
       }
 
-      if (RobotDTO.dimensoes) {
-        existingRobot.updateDimensoes(
-          await DimensaoPiso.create(RobotDTO.dimensoes.comprimento, RobotDTO.dimensoes.largura).getValue()
-        );
-      }
-      
+      const existingRobot = await this.robotRepo.findByCodigo(robotID);
 
-    if(RobotDTO.descricao) {
-  existingRobot.updateDescricao(await DescricaoRobot.create(RobotDTO.descricao).getValue());
-}
+      if (existingRobot != null) {
 
-await this.RobotRepo.save(existingRobot);
-return Result.ok<IRobotDTO>(RobotMap.toDTO(existingRobot));
+        existingRobot.updateEstado(await EstadoRobot.Inibido);
+
+        await this.robotRepo.save(existingRobot);
+        return Result.ok<IRobotDTO>(RobotMap.toDTO(existingRobot));
       }
 
 
-return Result.fail<IRobotDTO>('Não foi possível encontrar o edifício.');
+      return Result.fail<IRobotDTO>('Não foi possível encontrar o robot.');
     } catch (e) {
-  return Result.fail<IRobotDTO>(e.message);
-}
+      return Result.fail<IRobotDTO>(e.message);
+    }
   }
 
   /*
