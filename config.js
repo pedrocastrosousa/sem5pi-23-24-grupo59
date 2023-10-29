@@ -69,6 +69,10 @@ export default {
       name: "ElevadorController",
       path: "../controllers/elevadorController"
     },
+    robot: {
+      name: "RobotController",
+      path: "../controllers/robotController"
+    },
   },
 
   repos: {
@@ -104,6 +108,10 @@ export default {
       name: "ElevadorRepo",
       path: "../repos/elevadorRepo"
     },
+    robot: {
+      name: "RobotRepo",
+      path: "../repos/robotRepo"
+    },
   },
 
   services: {
@@ -134,6 +142,10 @@ export default {
     elevador: {
       name: "ElevadorService",
       path: "../services/elevadorService"
+    },
+    robot: {
+      name: "RobotService",
+      path: "../services/robotService"
     },
   },
 };

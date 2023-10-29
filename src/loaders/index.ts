@@ -58,6 +58,12 @@ export default async ({ expressApp }) => {
     schema: '../persistence/schemas/elevadorSchema',
   };
 
+  const robotSchema = {
+    // compare with the approach followed in repos and services
+    name: 'robotSchema',
+    schema: '../persistence/schemas/robotSchema',
+  };
+
   const roleController = {
     name: config.controllers.role.name,
     path: config.controllers.role.path
@@ -163,6 +169,21 @@ export default async ({ expressApp }) => {
     path: config.services.elevador.path
   }
 
+  const robotController = {
+    name: config.controllers.robot.name,
+    path: config.controllers.robot.path
+  }
+
+  const robotRepo = {
+    name: config.repos.robot.name,
+    path: config.repos.robot.path
+  }
+
+  const robotService = {
+    name: config.services.robot.name,
+    path: config.services.robot.path
+  }
+
   await dependencyInjectorLoader({
     mongoConnection,
     schemas: [
@@ -173,7 +194,8 @@ export default async ({ expressApp }) => {
       salaSchema,
       tipoRobotSchema,
       passagemSchema,
-      elevadorSchema
+      elevadorSchema,
+      robotSchema
     ],
     controllers: [
       roleController,
@@ -182,7 +204,8 @@ export default async ({ expressApp }) => {
       salaController,
       tipoRobotController,
       passagemController,
-      elevadorController
+      elevadorController,
+      robotController
     ],
     repos: [
       roleRepo,
@@ -192,7 +215,8 @@ export default async ({ expressApp }) => {
       salaRepo,
       tipoRobotRepo,
       passagemRepo,
-      elevadorRepo
+      elevadorRepo,
+      robotRepo
     ],
     services: [
       roleService,
@@ -201,7 +225,8 @@ export default async ({ expressApp }) => {
       salaService,
       tipoRobotService,
       passagemService,
-      elevadorService
+      elevadorService,
+      robotService
     ]
   });
   Logger.info('✌️ Schemas, Controllers, Repositories, Services, etc. loaded');
