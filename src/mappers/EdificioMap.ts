@@ -15,9 +15,9 @@ import { CodigoEdificio } from '../domain/edificio/codigoEdificio';
 export class EdificioMap extends Mapper<Edificio> {
   public static toDTO(edificio: Edificio): IEdificioDTO {
     const nomeEdificio = edificio.nomeEdificio ? edificio.nomeEdificio.nome : null;
-    
+
     return {
-      codigoEdificio: edificio.codigoEdificio.value,
+      codigoEdificio: edificio.codigoEdificio.toValue(),
       descricaoEdificio: edificio.descricaoEdificio.descricao,
       nomeEdificio: nomeEdificio,
       dimensaoMaximaPisos: {
@@ -40,8 +40,7 @@ export class EdificioMap extends Mapper<Edificio> {
       descricaoEdificio: descricaoOrError,
       nomeEdificio: nomeOrError,
       dimensaoMaximaPisos: dimensoesOrError.getValue(),
-    }
-      , new UniqueEntityID(raw.domainId));
+    });
 
     edificioOrError.isFailure ? console.log(edificioOrError.error) : '';
     return edificioOrError.isSuccess ? edificioOrError.getValue() : null;
@@ -52,13 +51,13 @@ export class EdificioMap extends Mapper<Edificio> {
 
     return {
       domainId: edificio.id.toString(),
-      codigoEdificio: edificio.codigoEdificio.value,
+      codigoEdificio: edificio.codigoEdificio.toValue(),
       descricaoEdificio: edificio.descricaoEdificio.descricao,
       nomeEdificio: nomeEdificio,
       dimensaoMaximaPisos: {
         comprimento: edificio.dimensaoMaximaPisos.props.comprimento,
         largura: edificio.dimensaoMaximaPisos.props.largura,
-      }
-    }
+      },
+    };
   }
 }

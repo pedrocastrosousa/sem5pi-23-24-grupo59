@@ -33,7 +33,7 @@ export default class EdificioService implements IEdificioService {
 
   public async getEdificio(codigoEdificio: string): Promise<Result<IEdificioDTO>> {
     try {
-      const edificio = await this.edificioRepo.findByDomainId(codigoEdificio);
+      const edificio = await this.edificioRepo.findByCodigo(codigoEdificio);
 
       if (edificio === null) {
         return Result.fail<IEdificioDTO>('Edificio not found');
@@ -48,6 +48,11 @@ export default class EdificioService implements IEdificioService {
 
   public async createEdificio(edificioDTO: IEdificioDTO): Promise<Result<IEdificioDTO>> {
     try {
+      const currentEdificio = await this.edificioRepo.findByCodigo(edificioDTO.codigoEdificio);
+      if(currentEdificio){
+        return Result.fail<IEdificioDTO>("Ja existe um edificio com o codigo ineserido!")
+      }
+
       const codigoEdificio = CodigoEdificio.create(edificioDTO.codigoEdificio).getValue();
       const descricaoEdificio = DescricaoEdificio.create(edificioDTO.descricaoEdificio).getValue();
       const nomeEdificio = NomeEdificio.create(edificioDTO.nomeEdificio).getValue();
@@ -59,14 +64,15 @@ export default class EdificioService implements IEdificioService {
         nomeEdificio: nomeEdificio,
         dimensaoMaximaPisos: dimensaoMaximaPisos,
       });
-
       if (edificioOrError.isFailure) {
         
         return Result.fail<IEdificioDTO>(edificioOrError.errorValue());
       }
 
       const edificioResult = edificioOrError.getValue();
+
       await this.edificioRepo.save(edificioResult);
+
       
       const edificioDTOResult = EdificioMap.toDTO(edificioResult) as IEdificioDTO;
       return Result.ok<IEdificioDTO>(edificioDTOResult);
@@ -77,7 +83,7 @@ export default class EdificioService implements IEdificioService {
 
   public async updateEdificio(edificioDTO: IEdificioDTO): Promise<Result<IEdificioDTO>> {
     try {
-      const edificio = await this.edificioRepo.findByDomainId(edificioDTO.id);
+      const edificio = await this.edificioRepo.findByCodigo(edificioDTO.codigoEdificio);
       if (edificio === null) {
         return Result.fail<IEdificioDTO>('Edificio not found');
       } else {

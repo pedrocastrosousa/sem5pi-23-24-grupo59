@@ -36,7 +36,9 @@ export default class EdificioController
       >;
 
       if (edificioOrError.isFailure) {
-        return res.status(402).send();
+        
+        const errorMessage = edificioOrError.errorValue();
+        return res.status(404).send(errorMessage);
       }
 
       const edificioDTO = edificioOrError.getValue();

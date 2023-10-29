@@ -1,20 +1,11 @@
 import { UniqueEntityID } from "../../core/domain/UniqueEntityID";
-import { ValueObject } from "../../core/domain/ValueObject";
 import { Result } from "../../core/logic/Result";
 
 
-interface CodigoEdificioProps {
-    value: string;
-}
+export class CodigoEdificio extends UniqueEntityID {
 
-export class CodigoEdificio extends ValueObject<CodigoEdificioProps> {
-    get value(): string {
-        return this.props.value;
-    }
-    
-
-    private constructor(props: CodigoEdificioProps) {
-        super(props);
+    private constructor(codigoEdificio: string) {
+        super(codigoEdificio);
     }
 
     public static create(codigoEdificio: string): Result<CodigoEdificio> {
@@ -32,6 +23,6 @@ export class CodigoEdificio extends ValueObject<CodigoEdificioProps> {
             return Result.fail<CodigoEdificio>("O código do edifício deve conter apenas letras, dígitos e espaços.");
         }
 
-        return Result.ok<CodigoEdificio>(new CodigoEdificio({ value: codigoEdificio }));
+        return Result.ok<CodigoEdificio>(new CodigoEdificio(codigoEdificio));
     }
 }

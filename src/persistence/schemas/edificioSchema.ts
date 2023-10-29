@@ -3,10 +3,6 @@ import mongoose from 'mongoose';
 
 const EdificioSchema = new mongoose.Schema(
   {
-    domainId: {
-      type: String,
-      unique: true,
-    },
 
     codigoEdificio: {
       type: String,

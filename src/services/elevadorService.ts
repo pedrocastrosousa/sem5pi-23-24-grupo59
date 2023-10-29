@@ -1,10 +1,10 @@
 import { Service, Inject } from 'typedi';
-import config from "../../config";
+import config from '../../config';
 import { IElevadorDTO } from '../dto/IElevadorDTO';
 import { Elevador } from '../domain/elevador/elevador';
 
 import { ElevadorMap } from '../mappers/ElevadorMap';
-import { Result } from "../core/logic/Result";
+import { Result } from '../core/logic/Result';
 import IPisoRepo from './IRepos/IPisoRepo';
 import IEdificioRepo from './IRepos/IEdificioRepo';
 import { NumeroSerieElevador } from '../domain/elevador/numeroSerieElevador';
@@ -21,12 +21,11 @@ export default class ElevadorService implements IElevadorService {
   constructor(
     @Inject(config.repos.elevador.name) private elevadorRepo: IElevadorRepo,
     @Inject(config.repos.piso.name) private pisoRepo: IPisoRepo,
-    @Inject(config.repos.edificio.name) private edificioRepo: IEdificioRepo
-  ) { }
+    @Inject(config.repos.edificio.name) private edificioRepo: IEdificioRepo,
+  ) {}
 
   public async createElevador(elevadorDTO: IElevadorDTO): Promise<Result<IElevadorDTO>> {
     try {
-      
       const numeroSerie = await NumeroSerieElevador.create(elevadorDTO.numeroSerie).getValue();
       const marca = await MarcaElevador.create(elevadorDTO.marca).getValue();
       const modelo = await ModeloElevador.create(elevadorDTO.modelo).getValue();
@@ -43,11 +42,9 @@ export default class ElevadorService implements IElevadorService {
       }
       const pisosOrError = await this.getPisos(elevadorDTO.pisos);
 
-
       if (pisosOrError.isFailure) {
         return Result.fail<IElevadorDTO>(pisosOrError.error);
       } else {
-
         pisos = pisosOrError.getValue();
       }
       console.log(pisosOrError);
@@ -61,8 +58,6 @@ export default class ElevadorService implements IElevadorService {
         descricao: descricao,
       });
       console.log(ElevadorOrError);
-   
-    
 
       if (ElevadorOrError.isFailure) {
         return Result.fail<IElevadorDTO>(ElevadorOrError.errorValue());
@@ -70,30 +65,24 @@ export default class ElevadorService implements IElevadorService {
 
       const ElevadorResult = ElevadorOrError.getValue();
 
-
       await this.elevadorRepo.save(ElevadorResult);
       console.log('service after save');
 
       const ElevadorDTOResult = ElevadorMap.toDTO(ElevadorResult) as IElevadorDTO;
-      return Result.ok<IElevadorDTO>(ElevadorDTOResult)
-
-
+      return Result.ok<IElevadorDTO>(ElevadorDTOResult);
     } catch (e) {
       throw e;
     }
-
   }
 
-
   private async getEdificio(edificioId: string): Promise<Result<Edificio>> {
-
-    const edificio = await this.edificioRepo.findByDomainId(edificioId);
+    const edificio = await this.edificioRepo.findByCodigo(edificioId);
     const found = !!edificio;
 
     if (found) {
       return Result.ok<Edificio>(edificio);
     } else {
-      return Result.fail<Edificio>("Não foi possivel encontrar o edificio pelo nome" + edificioId);
+      return Result.fail<Edificio>('Não foi possivel encontrar o edificio pelo nome' + edificioId);
     }
   }
 
@@ -108,7 +97,6 @@ export default class ElevadorService implements IElevadorService {
       return Result.ok<Piso[]>(pisosList);
     } else {
       return null;
-
     }
   }
 
@@ -123,7 +111,7 @@ export default class ElevadorService implements IElevadorService {
         return Result.ok<IElevadorDTO[]>(ElevadorListDto);
       }
 
-      return Result.fail<IElevadorDTO[]>("Não existem Elevadors para listar.");
+      return Result.fail<IElevadorDTO[]>('Não existem Elevadors para listar.');
     } catch (e) {
       throw e;
     }
@@ -184,5 +172,4 @@ return Result.fail<IElevadorDTO>('Não foi possível encontrar o edifício.');
 
 }
 */
-
 }
