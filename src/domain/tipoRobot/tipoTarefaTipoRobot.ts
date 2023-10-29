@@ -3,8 +3,8 @@ import { Result } from "../../core/logic/Result";
 import { Guard } from "../../core/logic/Guard";
 
 enum TipoTarefaEnum {
-    Gabinete = "Transporte",
-    Anfiteatro = "Seguranca"
+    TRANSPORTE = "Transporte",
+    SEGURANCA = "Seguranca"
 }
 
 interface TipoTarefaTipoRobotProps {
@@ -29,11 +29,17 @@ export class TipoTarefaTipoRobot extends ValueObject<TipoTarefaTipoRobotProps> {
     }
     
     for (const tipo of tipoTarefaTipoRobot) {
-      if (!Object.values(TipoTarefaEnum).includes(tipo as TipoTarefaEnum)) {
+      const tipoTarefaEnumValue = TipoTarefaEnum[tipo.toUpperCase()];
+      if (!tipoTarefaEnumValue) {
         return Result.fail<TipoTarefaTipoRobot>('Tipo de tarefa inválido.\nTipos validos: Transporte, Seguranca.');
       }
     }
 
-    return Result.ok<TipoTarefaTipoRobot>(new TipoTarefaTipoRobot({ tipoTarefa: tipoTarefaTipoRobot }));
+    const tipoTarefaParsed = tipoTarefaTipoRobot.map((tipoTarefaTipoRobot) => {
+      const tipoTarefaValue = TipoTarefaEnum[tipoTarefaTipoRobot.toUpperCase()] as TipoTarefaEnum;
+      return tipoTarefaValue;
+    })
+
+    return Result.ok<TipoTarefaTipoRobot>(new TipoTarefaTipoRobot({ tipoTarefa: tipoTarefaParsed }));
   }
 }
