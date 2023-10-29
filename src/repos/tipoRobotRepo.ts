@@ -7,6 +7,7 @@ import { Document, FilterQuery, Model } from 'mongoose';
 import { ITipoRobotPersistence } from '../dataschema/ITipoRobotPersistence';
 import ITipoRobotRepo from '../services/IRepos/ITipoRobotRepo';
 import { TipoRobotMap } from '../mappers/TipoRobotMap';
+import { DesignacaoTipoRobot } from '../domain/tipoRobot/designacaoTipoRobot';
 
 @Service()
 export default class TipoRobotRepo implements ITipoRobotRepo {
@@ -61,4 +62,15 @@ export default class TipoRobotRepo implements ITipoRobotRepo {
       return TipoRobotMap.toDomain(tipoRobotRecord);
     } else return null;
   }
+
+  public async findByDesignation(designacaoTipoRobot: string): Promise<TipoRobot> {
+    const query = { designation: designacaoTipoRobot };
+    const tipoRobotRecord = await this.tipoRobotSchema.findOne(query as FilterQuery<ITipoRobotPersistence & Document>);
+
+    if (tipoRobotRecord != null) {
+      return TipoRobotMap.toDomain(tipoRobotRecord);
+    } else return null;
+  }
+
+  
 }

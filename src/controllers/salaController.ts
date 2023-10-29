@@ -16,7 +16,6 @@ export default class SalaController implements ISalaController /* TODO: extends 
 
   public async createSala(req: Request, res: Response, next: NextFunction) {
     try {
-      console.log('log1\n', req.body);
       const salaOrError = await this.salaServiceInstance.createSala(req.body as ISalaDTO) as Result<ISalaDTO>;
       
       if (salaOrError.isFailure) {
@@ -24,7 +23,6 @@ export default class SalaController implements ISalaController /* TODO: extends 
       }
 
       const salaDTO = salaOrError.getValue();
-      console.log('log2\n', salaDTO);
       return res.json( salaDTO ).status(201);
     }
     catch (e) {

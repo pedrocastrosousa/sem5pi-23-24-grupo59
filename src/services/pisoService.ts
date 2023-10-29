@@ -14,6 +14,7 @@ import { CodigoEdificio } from "../domain/edificio/codigoEdificio";
 import IEdificioDTO from "../dto/IEdificioDTO";
 import { EdificioMap } from "../mappers/EdificioMap";
 import IPassagemRepo from "./IRepos/IPassagemRepo";
+import { PisoMapa } from "../domain/piso/pisoMapa";
 
 
 @Service()
@@ -24,13 +25,15 @@ export default class PisoService implements IPisoService {
     @Inject(config.repos.passagem.name) private passagemRepo: IPassagemRepo,
 
   ) { }
- 
+
 
   public async createPiso(pisoDTO: IPisoDTO): Promise<Result<IPisoDTO>> {
 
     try {
 
       const descricao = await PisoDescricao.create(pisoDTO.descricao).getValue();
+      const mapa = await PisoMapa.create(pisoDTO.mapa).getValue();
+
       /*const pisoDocument = await this.pisoRepo.findByNomePiso(pisoDTO.nome);
       const found = !!pisoDocument;
       if (found) {
@@ -51,46 +54,47 @@ export default class PisoService implements IPisoService {
         nome: pisoDTO.nome,
         descricao: descricao,
         edificio: edificioo,
-        codigoPiso: pisoDTO.codigoPiso
+        codigoPiso: pisoDTO.codigoPiso,
+        mapa: mapa
       });
-      
+
       if (pisoOrError.isFailure) {
         return Result.fail<IPisoDTO>(pisoOrError.errorValue());
       }
-      
-    
+
+
       const pisoResult = pisoOrError.getValue();
 
       await this.pisoRepo.save(pisoResult);
 
       const pisoDTOResult = PisoMap.toDTO(pisoResult) as IPisoDTO;
-      
+
       return Result.ok<IPisoDTO>(pisoDTOResult)
     } catch (e) {
       throw e;
     }
   }
 
-  public async updatePiso(pisoID: string,pisoDTO: IPisoDTO): Promise<Result<IPisoDTO>> {
+  public async updatePiso(pisoID: string, pisoDTO: IPisoDTO): Promise<Result<IPisoDTO>> {
 
     try {
       if (!pisoID) {
         return Result.fail<IPisoDTO>('ID do piso não fornecido para atualização.');
       }
 
-      const piso = await this.pisoRepo.findByCodigo(pisoDTO.codigoPiso);
+      const piso = await this.pisoRepo.findByCodigo(pisoID.toString());
 
       if (piso === null) {
         return Result.fail<IPisoDTO>("Piso not found");
       }
       else {
-        
-        piso.descricao = PisoDescricao.create(pisoDTO.descricao).getValue();
-        piso.nome = pisoDTO.nome;
+
+        piso.updateDescricao(await PisoDescricao.create(pisoDTO.descricao).getValue());
+        piso.updateNomePiso(pisoDTO.nome);
         await this.pisoRepo.save(piso);
-        
+
         const pisoDTOResult = PisoMap.toDTO(piso) as IPisoDTO;
-        
+
         return Result.ok<IPisoDTO>(pisoDTOResult)
       }
     } catch (e) {
@@ -136,10 +140,10 @@ export default class PisoService implements IPisoService {
 
   public async getPisosDeEdificioComPassagem(edificio: string): Promise<Result<IPisoDTO[]>> {
     try {
-      
+
       let pisoListDto: IPisoDTO[] = [];
       const pisoList: string[] = await this.pisoRepo.findPisosComPassagensPorEdificio(edificio);
-console.log(pisoList);
+      console.log(pisoList);
       if (pisoList != null) {
         for (let i = 0; i < pisoList.length; i++) {
           const pisoResult = await (this.pisoRepo.findByCodigo(pisoList[i]));
@@ -152,4 +156,55 @@ console.log(pisoList);
       throw e;
     }
   }
+
+
+  public async getPisosPorEdificio(codigoEdificio: string): Promise<Result<IPisoDTO[]>> {
+    try {
+      const pisoList: Piso[] = await this.pisoRepo.findAll();
+      console.log(pisoList);
+      let pisoListDto: IPisoDTO[] = [];
+      if (pisoList != null) {
+        for (let i = 0; i < pisoList.length; i++) {
+        
+          if (pisoList[i].edificio.codigoEdificio.value == codigoEdificio) {
+            pisoListDto.push(PisoMap.toDTO(pisoList[i]));
+          }
+        }
+  
+        return Result.ok<IPisoDTO[]>(pisoListDto);
+      }
+
+      return Result.fail<IPisoDTO[]>("Não existem pisos para listar.");
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  public async carregarMapa(pisoID: string, pisoDTO: IPisoDTO): Promise<Result<IPisoDTO>> {
+
+    try {
+      if (!pisoID) {
+        return Result.fail<IPisoDTO>('ID do piso não fornecido para atualização.');
+      }
+
+      const piso = await this.pisoRepo.findByCodigo(pisoID.toString());
+
+      if (piso === null) {
+        return Result.fail<IPisoDTO>("Piso not found");
+      }
+      else {
+
+        piso.updateMapa(await PisoMapa.create(pisoDTO.mapa).getValue());
+        
+        await this.pisoRepo.save(piso);
+
+        const pisoDTOResult = PisoMap.toDTO(piso) as IPisoDTO;
+
+        return Result.ok<IPisoDTO>(pisoDTOResult)
+      }
+    } catch (e) {
+      throw e;
+    }
+  }
+
 }

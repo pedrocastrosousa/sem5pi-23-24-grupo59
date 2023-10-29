@@ -14,7 +14,7 @@ export default class ElevadorRepo implements IElevadorRepo {
     constructor(
         @Inject('elevadorSchema') private elevadorSchema: Model<IElevadorPersistence & Document>,
     ) { }
-   
+
     private createBaseQuery(): any {
         return {
             where: {},
@@ -38,7 +38,7 @@ export default class ElevadorRepo implements IElevadorRepo {
                 elevadorDocument.marca = elevador.marca.value;
                 elevadorDocument.modelo = elevador.modelo.value;
                 elevadorDocument.descricao = elevador.descricao.value;
-    
+
                 await elevadorDocument.save();
                 return elevador;
             }
@@ -56,10 +56,11 @@ export default class ElevadorRepo implements IElevadorRepo {
     }
 
     public async findAll(): Promise<Elevador[]> {
-        const edificioList = await this.elevadorSchema.find();
-
-        if (edificioList != null) {
-            return ElevadorMap.toDomainBulk(edificioList);
+        const elevadorList = await this.elevadorSchema.find();
+        // console.log('Log 323:');
+        // console.log(elevadorList);
+        if (elevadorList != null) {
+            return ElevadorMap.toDomainBulk(elevadorList);
         }
     }
 

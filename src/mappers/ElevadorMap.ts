@@ -15,8 +15,8 @@ export class ElevadorMap extends Mapper<Elevador> {
   public static toDTO(elevador: Elevador): IElevadorDTO {
     return {
       id: elevador.id.toString(),
-      edificio: elevador.edificio.id.toString(),
-      pisos: elevador.pisos.map(piso => piso.id.toString()),
+      edificio: elevador.edificio.codigoEdificio.value,
+      pisos: elevador.pisos.map(piso => piso.codigoPiso.toString()),
       numeroSerie: elevador.numeroSerie.value,
       marca: elevador.marca.value,
       modelo: elevador.modelo.value,
@@ -27,40 +27,43 @@ export class ElevadorMap extends Mapper<Elevador> {
   public static async toDomain(raw: any): Promise<Elevador> {
     const repoEdificio = Container.get(EdificioRepo);
     const repoPiso = Container.get(PisosRepo);
-    const edificioOrError = await repoEdificio.findByDomainId(raw.edificio);
+    const edificioOrError = await repoEdificio.findByCodigo(raw.edificio);
+    if (!edificioOrError) {
+      throw new Error("Edifício " + raw.edificio + " do elevador: " + raw.numeroSerieElevador + "não encontrado");
+    }
     const pisosOrError = [];
 
     for (const pisoId of raw.pisos) {
-      const piso = await repoPiso.findByDomainId(pisoId);
+      const piso = await repoPiso.findByCodigo(pisoId);
       if (piso) {
         pisosOrError.push(piso);
       } else {
-        const numeroSerieOrError = NumeroSerieElevador.create(raw.numeroSerie).getValue();
-        const marcaOrError = raw.marca ? MarcaElevador.create(raw.marca).getValue() : undefined;
-        const modeloOrError = raw.modelo ? ModeloElevador.create(raw.modelo).getValue() : undefined;
-        const descricaoOrError = raw.descricao ? DescricaoElevador.create(raw.descricao).getValue() : undefined;
-        const elevadorOrError = Elevador.create({
-          edificio: edificioOrError,
-          pisos: pisosOrError,
-          numeroSerie: numeroSerieOrError,
-          marca: marcaOrError,
-          modelo: modeloOrError,
-          descricao: descricaoOrError,
-        }
-          , new UniqueEntityID(raw.domainId));
-
-        elevadorOrError.isFailure ? console.log(elevadorOrError.error) : "";
-        return elevadorOrError.isSuccess ? elevadorOrError.getValue() : null;
-
+        throw new Error(`Piso: ${pisoId} do elevador: ${raw.numeroSerieElevador} não encontrado.`);
       }
     }
+    const numeroSerieOrError = NumeroSerieElevador.create(raw.numeroSerie).getValue();
+    const marcaOrError = raw.marca ? MarcaElevador.create(raw.marca).getValue() : undefined;
+    const modeloOrError = raw.modelo ? ModeloElevador.create(raw.modelo).getValue() : undefined;
+    const descricaoOrError = raw.descricao ? DescricaoElevador.create(raw.descricao).getValue() : undefined;
+    const elevadorOrError = Elevador.create({
+      edificio: edificioOrError,
+      pisos: pisosOrError,
+      numeroSerie: numeroSerieOrError,
+      marca: marcaOrError,
+      modelo: modeloOrError,
+      descricao: descricaoOrError,
+    }
+      , new UniqueEntityID(raw.domainId));
+
+    elevadorOrError.isFailure ? console.log(elevadorOrError.error) : "";
+    return elevadorOrError.isSuccess ? elevadorOrError.getValue() : null;
   }
 
   public static toPersistence(elevador: Elevador): any {
     const a = {
-      id: elevador.id.toString(),
-      edificio: elevador.edificio.id.toString(),
-      pisos: elevador.pisos.map(piso => piso.id.toString()),
+      domainId: elevador.id.toString(),
+      edificio: elevador.edificio.codigoEdificio.value,
+      pisos: elevador.pisos.map(piso => piso.codigoPiso.toString()),
       numeroSerie: elevador.numeroSerie.value,
       marca: elevador.marca.value,
       modelo: elevador.modelo.value,
@@ -71,16 +74,16 @@ export class ElevadorMap extends Mapper<Elevador> {
 
 
   public static async toDomainBulk(rawList: any[]): Promise<Elevador[]> {
-    const elevadors: Elevador[] = [];
+    const elevadores: Elevador[] = [];
 
     for (const raw of rawList) {
       const elevador = await this.toDomain(raw);
       if (elevador) {
-        elevadors.push(elevador);
+        elevadores.push(elevador);
       }
     }
 
-    return elevadors;
+    return elevadores;
   }
 }
 

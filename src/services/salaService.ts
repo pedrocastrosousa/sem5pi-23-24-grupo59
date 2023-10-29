@@ -46,12 +46,9 @@ export default class SalaService implements ISalaService {
       }
 
       const salaResult = salaOrError.getValue();
-      console.log('log3 \n', salaResult);
       await this.salaRepo.save(salaResult);
 
       const salaDTOResult = SalaMap.toDTO(salaResult) as ISalaDTO;
-      
-      console.log('log4 \n', salaDTOResult.categoriaSala);
 
       return Result.ok<ISalaDTO>(salaDTOResult)
     } catch (e) {

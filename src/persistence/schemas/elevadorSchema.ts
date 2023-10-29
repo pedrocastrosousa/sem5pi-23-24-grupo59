@@ -21,6 +21,7 @@ const ElevadorSchema = new mongoose.Schema(
         numeroSerie: {
             type: String,
             required: true,
+            unique: true,
         },
 
         marca: {

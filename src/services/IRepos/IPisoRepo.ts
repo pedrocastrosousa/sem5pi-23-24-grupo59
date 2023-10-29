@@ -10,6 +10,6 @@ export default interface IPisoRepo extends Repo<Piso> {
 	findEdificiosByPisoCountRange(minCount: number, maxCount: number): Promise<string[]>
 	findByCodigo(codigoPiso: string): Promise<Piso>
 	findPisosComPassagensPorEdificio(edificio: string): Promise<string[]>
-
+	findAll() : Promise<Array<Piso>>;
 }
   

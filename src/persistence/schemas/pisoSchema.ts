@@ -30,6 +30,9 @@ const PisoSchema = new mongoose.Schema(
       type: String,
       unique: true,
       index: true,
+    },
+    mapa: {
+      type: String,
     }
   },
   {

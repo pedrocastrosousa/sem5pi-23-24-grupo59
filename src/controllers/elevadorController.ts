@@ -15,9 +15,7 @@ export default class ElevadorController implements IElevadorController /* TODO: 
 
   public async createElevador(req: Request, res: Response, next: NextFunction) {
     try {
-      console.log('linha 18 controller');
       const elevadorOrError = await this.elevadorServiceInstance.createElevador(req.body as IElevadorDTO) as Result<IElevadorDTO>;
-      console.log('linha 20 controller');
 
       if (elevadorOrError.isFailure) {
         return res.status(400).json({ error: elevadorOrError.error});
@@ -44,27 +42,24 @@ export default class ElevadorController implements IElevadorController /* TODO: 
     }
   }
 
-  /*
 
-  public async updateElevador(req: Request, res: Response, next: NextFunction) {
-    const elevadorId = req.params.id; 
-    const elevadorDTO: IElevadorDTO = req.body; 
 
-    if (!elevadorId) {
-      return res.status(400).json({ error: 'ID elevador erro' });
-    }
-    try {
-      const elevadorListOrError = await this.elevadorServiceInstance.updateElevador(elevadorId, elevadorDTO);
+  // public async updateElevador(req: Request, res: Response, next: NextFunction) {
+  //   const elevadorId = req.params.id;
+  //   const elevadorDTO: IElevadorDTO = req.body;
 
-      if (elevadorListOrError.isFailure) {
-        return res.status(400).json({ error: elevadorListOrError.error });
-      }
-      return res.json(elevadorListOrError.getValue()).status(200);
-    } catch (e) {
-      return res.json(e.message).status(400);
-    }
-  }
+  //   if (!elevadorId) {
+  //     return res.status(400).json({ error: 'ID elevador erro' });
+  //   }
+  //   try {
+  //     const elevadorListOrError = await this.elevadorServiceInstance.updateElevador(elevadorId, elevadorDTO);
 
-};
-*/
+  //     if (elevadorListOrError.isFailure) {
+  //       return res.status(400).json({ error: elevadorListOrError.error });
+  //     }
+  //     return res.json(elevadorListOrError.getValue()).status(200);
+  //   } catch (e) {
+  //     return res.json(e.message).status(400);
+  //   }
+  // }
 }

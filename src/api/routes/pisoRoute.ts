@@ -24,7 +24,7 @@ console.log('piso route');
     }),
     async (req, res, next) => ctrl.createPiso(req, res, next) );
 
-  route.put('/:id',
+  route.put('/:codigoPiso',
     celebrate({
       body: Joi.object({
         nome: Joi.string().required(), 
@@ -43,5 +43,25 @@ console.log('piso route');
 
   route.get('/listarPisosComPassagemEdificio/', async (req, res, next) => {
     ctrl.listarPisosDeEdificioComPassagem(req, res, next);
+  });
+
+  route.get('/listarPisosEdificio/:codigoEdificio', async (req, res, next) => {
+    ctrl.listarPisosPorEdificio(req, res, next);
+});
+
+
+route.patch('/:codigoPiso',
+    celebrate({
+      body: Joi.object({
+        mapa: Joi.string().required(), 
+      }),
+      params: Joi.object({
+        codigoPiso: Joi.string().required()
+    })
+    }),
+    (req, res, next) => ctrl.carregarMapa(req, res, next) );
+    
+    route.get('/listarEdificioMinMaxPisos/', async (req, res, next) => {
+      ctrl.listarEdificiosComMinMaxPisos(req, res, next);
   });
 };

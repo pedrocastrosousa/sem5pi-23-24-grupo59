@@ -5,4 +5,5 @@ export interface IPisoDTO {
   descricao: string;
   edificio: string;
   codigoPiso: string;
+  mapa: string;
 }

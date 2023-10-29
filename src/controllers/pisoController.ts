@@ -33,7 +33,7 @@ export default class PisoController implements IPisoController /* TODO: extends 
   };
 
    public async updatePiso(req: Request, res: Response, next: NextFunction) {
-    const pisoId = req.params.id;
+    const pisoId = req.params.codigoPiso;
     const pisoDTO: IPisoDTO = req.body;
 
     if (!pisoId) {
@@ -96,4 +96,39 @@ export default class PisoController implements IPisoController /* TODO: extends 
     }
 
   }
+
+  public async listarPisosPorEdificio(req: Request, res: Response, next: NextFunction) {
+    const edCodigo = req.params.codigoEdificio;
+    try {
+
+      const pisoListOrError = await this.pisoServiceInstance.getPisosPorEdificio(edCodigo);
+
+      if (pisoListOrError.isFailure) {
+        return res.status(400).send();
+      }
+      return res.json(pisoListOrError.getValue()).status(200);
+    }
+    catch (e) {
+      return res.json(e.message).status(400);
+    }
+  }
+
+  public async carregarMapa(req: Request, res: Response, next: NextFunction) {
+    const pisoId = req.params.codigoPiso;
+    const pisoDTO: IPisoDTO = req.body;
+
+    if (!pisoId) {
+      return res.status(400).json({ error: 'ID piso erro' });
+    }
+    try {
+      const pisoListOrError = await this.pisoServiceInstance.carregarMapa(pisoId, pisoDTO);
+
+      if (pisoListOrError.isFailure) {
+        return res.status(400).json({ error: pisoListOrError.error });
+      }
+      return res.json(pisoListOrError.getValue()).status(200);
+    } catch (e) {
+      return res.json(e.message).status(400);
+    }
+   };
 };
