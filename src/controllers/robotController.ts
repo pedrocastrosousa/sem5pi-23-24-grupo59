@@ -42,17 +42,17 @@ export default class RobotController implements IRobotController /* TODO: extend
     }
   }
 
-  /*
-
-  public async updateRobot(req: Request, res: Response, next: NextFunction) {
+  
+  public async inibirRobot(req: Request, res: Response, next: NextFunction) {
+   
     const robotId = req.params.id; 
     const robotDTO: IRobotDTO = req.body; 
-
+    console.log(robotId);
     if (!robotId) {
       return res.status(400).json({ error: 'ID robot erro' });
     }
     try {
-      const robotListOrError = await this.robotServiceInstance.updateRobot(robotId, robotDTO);
+      const robotListOrError = await this.robotServiceInstance.inibirRobot(robotId, robotDTO);
 
       if (robotListOrError.isFailure) {
         return res.status(400).json({ error: robotListOrError.error });
@@ -64,5 +64,3 @@ export default class RobotController implements IRobotController /* TODO: extend
   }
 
 };
-*/
-}

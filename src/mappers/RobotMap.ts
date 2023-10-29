@@ -30,7 +30,7 @@ export class RobotMap extends Mapper<Robot> {
   public static async toDomain(raw: any): Promise<Robot> {
     const repoTipoRobot = Container.get(TipoRobotRepo);
 
-    const tipoOrError = await repoTipoRobot.findByDomainId(raw.tipo);
+    const tipoOrError = await repoTipoRobot.findByDesignation(raw.tipo);
     if (!tipoOrError) {
       throw new Error("Tipo de Robot não encontrado");
     }

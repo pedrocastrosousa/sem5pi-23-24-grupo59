@@ -107,4 +107,11 @@ export class Robot extends AggregateRoot<RobotProps>{
         }
 
     }
+    updateEstado(estado: EstadoRobot): void {
+        if (estado) {
+            this.props.estadoRobot = estado;
+        }
+      }
+
+
 }
