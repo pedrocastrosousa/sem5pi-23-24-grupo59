@@ -29,7 +29,7 @@ export class ElevadorMap extends Mapper<Elevador> {
     const repoPiso = Container.get(PisosRepo);
     const edificioOrError = await repoEdificio.findByCodigo(raw.edificio);
     if (!edificioOrError) {
-      throw new Error("Edifício " + raw.edificio + " do elevador: " + raw.numeroSerieElevador + "não encontrado");
+      throw new Error("Edifício " + raw.edificio.codigoEdificio + " do elevador: " + raw.numeroSerieElevador + "não encontrado");
     }
     const pisosOrError = [];
 

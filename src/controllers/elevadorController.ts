@@ -44,22 +44,22 @@ export default class ElevadorController implements IElevadorController /* TODO: 
 
 
 
-  // public async updateElevador(req: Request, res: Response, next: NextFunction) {
-  //   const elevadorId = req.params.id;
-  //   const elevadorDTO: IElevadorDTO = req.body;
+  public async updateElevador(req: Request, res: Response, next: NextFunction) {
+    const elevadorNumeroSerie = req.params.numeroSerie;
+    const elevadorDTO: IElevadorDTO = req.body;
 
-  //   if (!elevadorId) {
-  //     return res.status(400).json({ error: 'ID elevador erro' });
-  //   }
-  //   try {
-  //     const elevadorListOrError = await this.elevadorServiceInstance.updateElevador(elevadorId, elevadorDTO);
+    if (!elevadorNumeroSerie) {
+      return res.status(400).json({ error: 'ID elevador erro' });
+    }
+    try {
+      const elevadorListOrError = await this.elevadorServiceInstance.updateElevador(elevadorNumeroSerie, elevadorDTO);
 
-  //     if (elevadorListOrError.isFailure) {
-  //       return res.status(400).json({ error: elevadorListOrError.error });
-  //     }
-  //     return res.json(elevadorListOrError.getValue()).status(200);
-  //   } catch (e) {
-  //     return res.json(e.message).status(400);
-  //   }
-  // }
+      if (elevadorListOrError.isFailure) {
+        return res.status(400).json({ error: elevadorListOrError.error });
+      }
+      return res.json(elevadorListOrError.getValue()).status(200);
+    } catch (e) {
+      return res.json(e.message).status(400);
+    }
+  }
 }
