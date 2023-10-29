@@ -77,7 +77,7 @@ export default class PisoRepo implements IPisoRepo {
     const query = { domainId: piso.id.toString() };
 
     const pisoDocument = await this.pisoSchema.findOne(query);
-
+    
     try {
       if (pisoDocument === null) {
 
@@ -88,11 +88,11 @@ export default class PisoRepo implements IPisoRepo {
         return PisoMap.toDomain(pisoCreated);
 
       } else {
-
         pisoDocument.nome = piso.nome;
         pisoDocument.descricao = piso.descricao.value;
         pisoDocument.edificio = piso.edificio.codigoEdificio.value;
         pisoDocument.codigoPiso = piso.codigoPiso;
+        pisoDocument.mapa = piso.mapa.value;
 
         await pisoDocument.save();
 

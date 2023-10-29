@@ -14,6 +14,7 @@ import { CodigoEdificio } from "../domain/edificio/codigoEdificio";
 import IEdificioDTO from "../dto/IEdificioDTO";
 import { EdificioMap } from "../mappers/EdificioMap";
 import IPassagemRepo from "./IRepos/IPassagemRepo";
+import { PisoMapa } from "../domain/piso/pisoMapa";
 
 
 @Service()
@@ -31,6 +32,8 @@ export default class PisoService implements IPisoService {
     try {
 
       const descricao = await PisoDescricao.create(pisoDTO.descricao).getValue();
+      const mapa = await PisoMapa.create(pisoDTO.mapa).getValue();
+
       /*const pisoDocument = await this.pisoRepo.findByNomePiso(pisoDTO.nome);
       const found = !!pisoDocument;
       if (found) {
@@ -51,7 +54,8 @@ export default class PisoService implements IPisoService {
         nome: pisoDTO.nome,
         descricao: descricao,
         edificio: edificioo,
-        codigoPiso: pisoDTO.codigoPiso
+        codigoPiso: pisoDTO.codigoPiso,
+        mapa: mapa
       });
 
       if (pisoOrError.isFailure) {
@@ -175,4 +179,32 @@ export default class PisoService implements IPisoService {
       throw e;
     }
   }
+
+  public async carregarMapa(pisoID: string, pisoDTO: IPisoDTO): Promise<Result<IPisoDTO>> {
+
+    try {
+      if (!pisoID) {
+        return Result.fail<IPisoDTO>('ID do piso não fornecido para atualização.');
+      }
+
+      const piso = await this.pisoRepo.findByCodigo(pisoID.toString());
+
+      if (piso === null) {
+        return Result.fail<IPisoDTO>("Piso not found");
+      }
+      else {
+
+        piso.updateMapa(await PisoMapa.create(pisoDTO.mapa).getValue());
+        
+        await this.pisoRepo.save(piso);
+
+        const pisoDTOResult = PisoMap.toDTO(piso) as IPisoDTO;
+
+        return Result.ok<IPisoDTO>(pisoDTOResult)
+      }
+    } catch (e) {
+      throw e;
+    }
+  }
+
 }

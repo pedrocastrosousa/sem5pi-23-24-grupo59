@@ -8,6 +8,8 @@ import EdificioRepo from "../repos/edificioRepo";
 import { Container } from 'typedi';
 import { PisoDescricao } from "../domain/piso/pisoDescricao";
 import e from "express";
+import { PisoMapa } from "../domain/piso/pisoMapa";
+import { map } from "lodash";
 
 
 export class PisoMap extends Mapper<Piso> {
@@ -19,20 +21,24 @@ export class PisoMap extends Mapper<Piso> {
       descricao: piso.descricao.value,
       edificio: piso.edificio.codigoEdificio.value,
       codigoPiso: piso.codigoPiso,
+      mapa: piso.mapa.value
     } as IPisoDTO;
 
   }
 
   public static async toDomain(piso: any ): Promise<Piso> {
 
-    const pisoDescricaoOrError = PisoDescricao.create(piso.pisoDescricao);
+    const pisoDescricaoOrError = PisoDescricao.create(piso.descricao);
+    const pisoMapaOrError = PisoMapa.create(piso.mapa);
+
     const repo = Container.get(EdificioRepo);
     const edificio = await repo.findByCodigo(piso.edificio);
     const pisoOrError = Piso.create({
       nome: piso.nome,
       descricao: pisoDescricaoOrError.getValue(),
       edificio: edificio,
-      codigoPiso: piso.codigoPiso
+      codigoPiso: piso.codigoPiso,
+      mapa: pisoMapaOrError.getValue()
     }
       , new UniqueEntityID(piso.domainId))
 
@@ -61,7 +67,8 @@ export class PisoMap extends Mapper<Piso> {
       nome: piso.nome,
       descricao: piso.descricao.value,
       edificio: piso.edificio.codigoEdificio.value,
-      codigoPiso: piso.codigoPiso
+      codigoPiso: piso.codigoPiso,
+      mapa: piso.mapa.value
     }
     return a;
   }

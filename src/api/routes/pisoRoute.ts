@@ -48,4 +48,20 @@ console.log('piso route');
   route.get('/listarPisosEdificio/:codigoEdificio', async (req, res, next) => {
     ctrl.listarPisosPorEdificio(req, res, next);
 });
+
+
+route.patch('/:codigoPiso',
+    celebrate({
+      body: Joi.object({
+        mapa: Joi.string().required(), 
+      }),
+      params: Joi.object({
+        codigoPiso: Joi.string().required()
+    })
+    }),
+    (req, res, next) => ctrl.carregarMapa(req, res, next) );
+    
+    route.get('/listarEdificioMinMaxPisos/', async (req, res, next) => {
+      ctrl.listarEdificiosComMinMaxPisos(req, res, next);
+  });
 };

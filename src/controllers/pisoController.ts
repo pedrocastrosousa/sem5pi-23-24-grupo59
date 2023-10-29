@@ -112,4 +112,23 @@ export default class PisoController implements IPisoController /* TODO: extends 
       return res.json(e.message).status(400);
     }
   }
+
+  public async carregarMapa(req: Request, res: Response, next: NextFunction) {
+    const pisoId = req.params.codigoPiso;
+    const pisoDTO: IPisoDTO = req.body;
+
+    if (!pisoId) {
+      return res.status(400).json({ error: 'ID piso erro' });
+    }
+    try {
+      const pisoListOrError = await this.pisoServiceInstance.carregarMapa(pisoId, pisoDTO);
+
+      if (pisoListOrError.isFailure) {
+        return res.status(400).json({ error: pisoListOrError.error });
+      }
+      return res.json(pisoListOrError.getValue()).status(200);
+    } catch (e) {
+      return res.json(e.message).status(400);
+    }
+   };
 };
