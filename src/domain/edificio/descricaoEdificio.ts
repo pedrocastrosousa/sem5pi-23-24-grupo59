@@ -17,7 +17,7 @@ export class DescricaoEdificio extends ValueObject<DescricaoEdificioProps>{
     }
 
     public static create(descricao: string): Result<DescricaoEdificio> {
-        const guardResult = Guard.againstNullOrUndefined(descricao, 'descricao');
+        const guardResult = Guard.againstEmptyOrNullOrUndefined(descricao, 'descricao');
 
         if (!guardResult.succeeded) {
             return Result.fail<DescricaoEdificio>(guardResult.message);
