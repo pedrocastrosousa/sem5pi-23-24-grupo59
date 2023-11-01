@@ -8,11 +8,11 @@ describe('DescricaoEdificio Unit Tests', () => {
     expect(descricao.isSuccess).to.equal(true);
   });
 
-  /*it('fail to create descricaoEdificio with empty string', () => {
+  it('fail to create descricaoEdificio with empty string', () => {
     const value = '';
     const descricao = DescricaoEdificio.create(value);
     expect(descricao.isFailure).to.equal(true);
-  });*/
+  });
 
   it('fail to create descricaoEdificio with null string', () => {
     const value = null;
