@@ -22,7 +22,7 @@ export class NomeEdificio extends ValueObject<NomeEdificioProps>{
         if(!nomeEdificio ){
             return Result.ok<null>(null);
         }
-        if (!guardLengthResult.) {
+        if (!guardLengthResult.succeeded) {
             return Result.fail<NomeEdificio>('Excedeu o limite do tamanho do nome de edificio!');
         } else {
             return Result.ok<NomeEdificio>(new NomeEdificio({nome: nomeEdificio}));
