@@ -50,7 +50,7 @@ export default class EdificioService implements IEdificioService {
     try {
       const currentEdificio = await this.edificioRepo.findByCodigo(edificioDTO.codigoEdificio);
       if(currentEdificio){
-        return Result.fail<IEdificioDTO>("Ja existe um edificio com o codigo ineserido!")
+        return Result.fail<IEdificioDTO>("Ja existe um edificio com o codigo inserido!")
       }
 
       const codigoEdificio = CodigoEdificio.create(edificioDTO.codigoEdificio).getValue();

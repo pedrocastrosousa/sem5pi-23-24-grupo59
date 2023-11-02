@@ -4,7 +4,7 @@ import { Result } from "../../core/logic/Result";
 
 export class CodigoEdificio extends UniqueEntityID {
 
-    private constructor(codigoEdificio: string) {
+    public constructor(codigoEdificio: string) {
         super(codigoEdificio);
     }
 

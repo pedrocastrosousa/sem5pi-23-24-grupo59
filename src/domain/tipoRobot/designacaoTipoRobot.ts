@@ -17,7 +17,7 @@ export class DesignacaoTipoRobot extends ValueObject<DesignacaoTipoRobotProps> {
     }
 
     public static create(designacao: string): Result<DesignacaoTipoRobot> {
-        const guardResult = Guard.againstNullOrUndefined(designacao, 'designacao');
+        const guardResult = Guard.againstEmptyOrNullOrUndefined(designacao, 'designacao');
 
         if (!guardResult.succeeded) {
             return Result.fail<DesignacaoTipoRobot>(guardResult.message);
