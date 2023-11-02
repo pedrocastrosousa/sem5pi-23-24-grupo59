@@ -16,7 +16,7 @@ interface RobotProps {
     nicknameRobot: NicknameRobot;
     tipoRobot: TipoRobot;
     numeroserieRobot: NumeroSerieRobot;
-    descricaoRobot: DescricaoRobot;
+    descricaoRobot?: DescricaoRobot;
     estadoRobot: EstadoRobot;
 }
 
@@ -90,11 +90,14 @@ export class Robot extends AggregateRoot<RobotProps>{
             { argument: props.nicknameRobot, argumentName: 'nicknameRobot' },
             { argument: props.tipoRobot, argumentName: 'tipoRobot' },
             { argument: props.numeroserieRobot, argumentName: 'numeroserieRobot' },
-          { argument: props.descricaoRobot, argumentName: 'descricaoRobot' },
             { argument: props.estadoRobot, argumentName: 'estadoRobot' }
         ];
     
         const guardResult = Guard.againstNullOrUndefinedBulk(guardedProps);
+
+        if (props.descricaoRobot) {
+            guardedProps.push({ argument: props.descricaoRobot, argumentName: 'descricaoRobot' });
+        }
     
         if (!guardResult.succeeded) {
           return Result.fail<Robot>(guardResult.message)

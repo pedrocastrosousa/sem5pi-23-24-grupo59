@@ -18,6 +18,10 @@ export class DescricaoRobot extends ValueObject<DescricaoRobotProps> {
     }
 
     public static create(descricaoRobot: string): Result<DescricaoRobot> {
+
+        if (descricaoRobot === null || descricaoRobot === undefined) {
+            return Result.ok<DescricaoRobot>(new DescricaoRobot({ value: '' }));
+          }
  
         if (descricaoRobot.length > 250) {
             return Result.fail<DescricaoRobot>("A descrição do Robot não pode conter mais do que 250 caracteres.");
