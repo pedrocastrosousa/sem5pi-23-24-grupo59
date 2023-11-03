@@ -42,7 +42,7 @@ export default class EdificioController
       }
 
       const edificioDTO = edificioOrError.getValue();
-      return res.json(edificioDTO).status(201);
+      return res.status(201).json(edificioDTO);
     } catch (e) {
       return next(e);
     }
