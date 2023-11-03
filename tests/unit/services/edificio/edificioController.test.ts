@@ -77,6 +77,43 @@ describe('unit tests - edificio controller', function() {
     );
   });
 
+  it('createEdificio - returns 404', async function() {
+    // Arrange
+    let body = {
+      codigoEdificio: '99979',
+      descricaoEdificio: 'Seguranca',
+      nomeEdificio: 'Informatica',
+      dimensaoMaximaPisos: {
+        largura: 1,
+        comprimento: 2,
+      },
+    };
+
+    let req: Partial<Request> = {};
+    req.body = body;
+
+    let res: Partial<Response> = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub(),
+    };
+
+    let next: Partial<NextFunction> = () => {};
+
+    let edificioServiceInstance = Container.get('EdificioService');
+    sinon
+      .stub(edificioServiceInstance, 'createEdificio')
+      .returns(Promise.resolve(Result.fail<IEdificioDTO>('Ja existe um edificio com o codigo inserido!')));
+
+    const ctrl = new EdificioController(edificioServiceInstance as IEdificioService);
+
+    // Act
+    await ctrl.createEdificio(<Request>req, <Response>res, <NextFunction>next);
+
+    // Assert
+    sinon.assert.calledOnce(res.status);
+    sinon.assert.calledWith(res.status, 404);
+  });
+
   it('updateEdificio - edificioController unit test using edificioService stub', async function() {
     // Arrange
     let body = {
@@ -117,6 +154,43 @@ describe('unit tests - edificio controller', function() {
     sinon.assert.calledWith(res.json, body);
   });
 
+  it('updateEdificio - returns 404', async function() {
+    // Arrange
+    let body = {
+      codigoEdificio: '99979',
+      descricaoEdificio: 'Seguranca',
+      nomeEdificio: 'Informatica',
+      dimensaoMaximaPisos: {
+        largura: 1,
+        comprimento: 2,
+      },
+    };
+
+    let req: Partial<Request> = {};
+    req.body = body;
+
+    let res: Partial<Response> = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub(),
+    };
+
+    let next: Partial<NextFunction> = () => {};
+
+    let edificioServiceInstance = Container.get('EdificioService');
+
+    sinon
+      .stub(edificioServiceInstance, 'updateEdificio')
+      .returns(Promise.resolve(Result.fail<IEdificioDTO>('Edificio not found.')));
+    const ctrl = new EdificioController(edificioServiceInstance as IEdificioService);
+
+    // Act
+    await ctrl.updateEdificio(<Request>req, <Response>res, <NextFunction>next);
+
+    // Assert
+    sinon.assert.calledOnce(res.status);
+    sinon.assert.calledWith(res.status, 404);
+  });
+
   it('findAll - edificioController unit test using edificioService stub', async function() {
     // Arrange
     let body = [
@@ -140,8 +214,7 @@ describe('unit tests - edificio controller', function() {
       },
     ];
 
-    let req: Partial<Request> = {};
-    req.body = body;
+    let req: Partial<Request> = {};    
 
     let res: Partial<Response> = {
       status: sinon.stub().returnsThis(),
