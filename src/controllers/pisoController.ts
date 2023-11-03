@@ -8,6 +8,7 @@ import { Inject, Service } from 'typedi';
 import { IPisoDTO } from '../dto/IPisoDTO';
 import { ParamsDictionary } from 'express-serve-static-core';
 import { ParsedQs } from 'qs';
+import IMapaDTO from '../dto/IMapaDTO';
 
 
 @Service()
@@ -113,23 +114,19 @@ export default class PisoController implements IPisoController /* TODO: extends 
     }
   }
 
- /* public async carregarMapa(req: Request, res: Response, next: NextFunction) {
-    const pisoId = req.params.codigoPiso;
-    const pisoDTO: IPisoDTO = req.body;
-
-    if (!pisoId) {
-      return res.status(400).json({ error: 'ID piso erro' });
-    }
+  public async carregarMapa(req: Request, res: Response, next: NextFunction) {
     try {
-      const pisoListOrError = await this.pisoServiceInstance.carregarMapa(pisoId, pisoDTO);
+      const ficheiroDTO = req.body as IMapaDTO;
 
-      if (pisoListOrError.isFailure) {
-        return res.status(400).json({ error: pisoListOrError.error });
+      const carregarMapaOrError = await this.pisoServiceInstance.carregarMapa(ficheiroDTO);
+
+      if (carregarMapaOrError.isFailure) {
+        return res.status(400).json({ error: carregarMapaOrError.error });
       }
-      return res.json(pisoListOrError.getValue()).status(200);
+      return res.json(carregarMapaOrError.getValue()).status(200);
     } catch (e) {
       return res.json(e.message).status(400);
     }
    };
-   */
+   
 };

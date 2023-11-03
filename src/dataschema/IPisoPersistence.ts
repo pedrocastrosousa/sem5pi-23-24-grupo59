@@ -5,5 +5,5 @@ export interface IPisoPersistence {
     descricao : string;
     edificio : string;
     codigoPiso: string;
-   // mapa: string;
+    mapa: string;
   }

@@ -1,15 +1,10 @@
 import { Mapper } from "../core/infra/Mapper";
 import { UniqueEntityID } from "../core/domain/UniqueEntityID";
 import { Piso } from '../domain/piso/piso';
-import { Document, Model } from 'mongoose';
-import { IPisoPersistence } from '../dataschema/IPisoPersistence';
 import { IPisoDTO } from '../dto/IPisoDTO';
 import EdificioRepo from "../repos/edificioRepo";
 import { Container } from 'typedi';
 import { PisoDescricao } from "../domain/piso/pisoDescricao";
-import e from "express";
-import { PisoMapa } from "../domain/piso/pisoMapa";
-import { map } from "lodash";
 
 
 export class PisoMap extends Mapper<Piso> {
@@ -21,15 +16,15 @@ export class PisoMap extends Mapper<Piso> {
       descricao: piso.descricao.value,
       edificio: piso.edificio.codigoEdificio.toString(),
       codigoPiso: piso.codigoPiso,
-     // mapa: piso.mapa.value.mapa.toString()
+      mapa: piso.mapa
     } as IPisoDTO;
 
   }
 
-  public static async toDomain(piso: any ): Promise<Piso> {
+  public static async toDomain(piso: any): Promise<Piso> {
 
     const pisoDescricaoOrError = PisoDescricao.create(piso.descricao);
-   // const pisoMapaOrError = PisoMapa.create(piso.mapa);
+    // const pisoMapaOrError = PisoMapa.create(piso.mapa);
 
     const repo = Container.get(EdificioRepo);
     const edificio = await repo.findByCodigo(piso.edificio);
@@ -38,7 +33,7 @@ export class PisoMap extends Mapper<Piso> {
       descricao: pisoDescricaoOrError.getValue(),
       edificio: edificio,
       codigoPiso: piso.codigoPiso,
-     // mapa: pisoMapaOrError.getValue()
+      mapa: piso.mapa
     }
       , new UniqueEntityID(piso.domainId))
 
@@ -59,7 +54,7 @@ export class PisoMap extends Mapper<Piso> {
 
     return pisos;
   }
-  
+
 
   public static toPersistence(piso: Piso): any {
     const a = {
@@ -68,7 +63,7 @@ export class PisoMap extends Mapper<Piso> {
       descricao: piso.descricao.value,
       edificio: piso.edificio.codigoEdificio,
       codigoPiso: piso.codigoPiso,
-    //  mapa: piso.mapa.value
+      mapa: piso.mapa
     }
     return a;
   }

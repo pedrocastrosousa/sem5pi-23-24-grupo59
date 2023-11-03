@@ -168,4 +168,10 @@ export default class PisoRepo implements IPisoRepo {
         return PisoMap.toDomainBulk(pisoList);
     }
 }
+
+
+async update(filter: FilterQuery<Piso>, piso: Partial<Piso>) {
+
+  await this.pisoSchema.updateOne(filter, {$set: piso});
+}
 }

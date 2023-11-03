@@ -5,8 +5,6 @@ import { Result } from "../../core/logic/Result";
 import { Edificio } from "../edificio/edificio";
 import { PisoDescricao } from "./pisoDescricao";
 import { PisoId } from "./pisoId";
-import { PisoMapa } from "./pisoMapa";
-
 
 
 interface PisoProps {
@@ -14,7 +12,7 @@ interface PisoProps {
   descricao: PisoDescricao;
   edificio: Edificio;
   codigoPiso: string;
- // mapa?: PisoMapa;
+  mapa?: string;
 }
 
 export class Piso extends AggregateRoot<PisoProps>{
@@ -32,10 +30,10 @@ export class Piso extends AggregateRoot<PisoProps>{
   get descricao(): PisoDescricao {
     return this.props.descricao;
   }
-/*  get mapa(): PisoMapa {
+  get mapa(): string {
     return this.props.mapa;
   }
-  */
+
   get edificio(): Edificio {
     return this.props.edificio;
   }
@@ -50,6 +48,9 @@ export class Piso extends AggregateRoot<PisoProps>{
   set edificio ( value: Edificio) {
     this.props.edificio = value;
   }
+  set mapa(mapa:string){
+    this.props.mapa = mapa;
+}
 
   get codigoPiso(): string {
     return `${this.props.edificio.codigoEdificio}-${this.props.nome}`;
