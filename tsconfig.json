@@ -24,7 +24,7 @@
   },
   "include": [
     "./src/**/*", "index.js"
-  ],
+, "tests/passagemXController.test.ts"  ],
   "exclude": [
     "node_modules",
     "tests"
