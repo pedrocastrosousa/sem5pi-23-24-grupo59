@@ -14,7 +14,7 @@ export default {
   /**
    * Your favorite port : optional change to 4000 by JRT
    */
-  port: parseInt(process.env.PORT, 10) || 4000, 
+  port: parseInt(process.env.PORT, 10) || 4000,
 
   /**
    * That long string from mlab
@@ -40,12 +40,89 @@ export default {
     prefix: '/api',
   },
 
+  schema: {
+
+    type: "object",
+    properties: {
+      codigoPiso: { type: "string" },
+      codigoEdificio: { type: "string" },
+      tamanho: {
+        type: "object",
+        properties: {
+          comprimento: { type: "integer" },
+          largura: { type: "integer" }
+        },
+        required: ["comprimento", "largura"]
+      },
+
+      paredes: {
+        type: "array",
+        items: {
+          type: "object",
+          properties: {
+            posicaoX: { type: "integer" },
+            posicaoY: { type: "integer" },
+            direcao: { type: "string" }
+          },
+          required: ["posicaoX", "posicaoY", "direcao"]
+        }
+      },
+      salas: {
+        type: "array",
+        items: {
+          type: "object",
+          properties: {
+            nomeSala: { "type": "string" },
+            dimensaoSala: {
+              type: "object",
+              properties: {
+                x1: { type: "integer" },
+                y1: { type: "integer" },
+                x2: { type: "integer" },
+                y2: { type: "integer" },
+              },
+              required: ["x1", "y1","x2", "y2"]
+            }
+          },
+          required: ["nomeSala", "dimensaoSala"]
+        }
+      },
+      elevadores: {
+        type: "object",
+        properties: {
+          numeroIdentificativo: { type: "string" },
+          posicaoX: { type: "integer" },
+          posicaoY: { type: "integer" },
+          direcao: { type: "string" }
+        },
+        required: ["numeroIdentificativo", "posicaoX", "posicaoY", "direcao"]
+      },
+      passagem: {
+        type: "array",
+        items: {
+          type: "object",
+          properties: {
+            piso1: { type: "string" },
+            piso2: { type: "string" },
+            fromX: { type: "integer" },
+            fromY: { type: "integer" },
+            toX: { type: "integer" },
+            toY: { type: "integer" }
+          },
+          required: ["piso1", "piso2", "fromX", "fromY", "toX", "toY"]
+        }
+      }
+    },
+    required: ["codigoPiso", "codigoEdificio", "tamanho", "paredes", "salas", "elevadores", "passagem"]
+  },
+
+
   controllers: {
     role: {
       name: "RoleController",
       path: "../controllers/roleController"
     },
-    edificio:{
+    edificio: {
       name: "EdificioController",
       path: "../controllers/edificioController"
     },
@@ -57,7 +134,7 @@ export default {
       name: "SalaController",
       path: "../controllers/salaController"
     },
-    tipoRobot:{
+    tipoRobot: {
       name: "TipoRobotController",
       path: "../controllers/tipoRobotController"
     },
@@ -84,7 +161,7 @@ export default {
       name: "UserRepo",
       path: "../repos/userRepo"
     },
-    edificio:{
+    edificio: {
       name: "EdificioRepo",
       path: "../repos/edificioRepo"
     },
@@ -96,7 +173,7 @@ export default {
       name: "SalaRepo",
       path: "../repos/salaRepo"
     },
-    tipoRobot:{
+    tipoRobot: {
       name: "TipoRobotRepo",
       path: "../repos/tipoRobotRepo"
     },
@@ -114,13 +191,13 @@ export default {
     },
   },
 
- 
+
   services: {
     role: {
       name: "RoleService",
       path: "../services/roleService"
     },
-    edificio:{
+    edificio: {
       name: "EdificioService",
       path: "../services/edificioService"
     },
@@ -130,7 +207,7 @@ export default {
     },
     sala: {
       name: "SalaService",
-      path:"../services/salaService"
+      path: "../services/salaService"
     },
     tipoRobot: {
       name: "TipoRobotService",

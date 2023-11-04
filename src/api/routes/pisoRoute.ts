@@ -9,12 +9,12 @@ import config from "../../../config";
 import { isElement, isEmpty } from 'lodash';
 
 const route = Router();
-/*
+
 const Ajv = require("ajv");
 const ajv = new Ajv();
-const schema= config.constraints;
+const schema= config.schema;
 const validate = ajv.compile(schema);
-*/
+
 export default (app: Router) => {
   app.use('/pisos', route);
   console.log('piso route');
@@ -67,7 +67,7 @@ export default (app: Router) => {
      // if(valido){
         ctrl.carregarMapa(req, res, next);
      // } else{
-      //  res.status(200).json("Incorrect file schema")
+     //  res.status(200).json("Incorrect file schema")
 
     //  }
     }

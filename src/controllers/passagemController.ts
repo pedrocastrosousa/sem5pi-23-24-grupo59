@@ -15,10 +15,12 @@ export default class PassagemController implements IPassagemController /* TODO: 
 
   public async createPassagem(req: Request, res: Response, next: NextFunction) {
     try {
+     console.log("sss");
 
       const passagemOrError = await this.passagemServiceInstance.createPassagem(req.body as IPassagemDTO) as Result<IPassagemDTO>;
       if (passagemOrError.isFailure) {
         return res.status(400).json({error: passagemOrError.error});
+     
       }
 
       const passagemDTO = passagemOrError.getValue();
