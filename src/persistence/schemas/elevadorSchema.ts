@@ -8,6 +8,13 @@ const ElevadorSchema = new mongoose.Schema(
             unique: true,
         },
 
+        numeroIdentificativo: {
+            type: String,
+            required: true,
+            unique: true,
+            index: true,
+        },
+
         edificio: {
             type: String,
             required: true,
@@ -15,12 +22,12 @@ const ElevadorSchema = new mongoose.Schema(
         },
         pisos: [{
             type: String,
-            required: true 
+            required: true
         }],
 
         numeroSerie: {
             type: String,
-            required: true,
+            required: false,
             unique: true,
         },
 

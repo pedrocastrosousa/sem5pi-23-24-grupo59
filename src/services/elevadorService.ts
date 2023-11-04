@@ -15,6 +15,7 @@ import { Edificio } from '../domain/edificio/edificio';
 import { Piso } from '../domain/piso/piso';
 import IElevadorService from './IServices/IElevadoreService';
 import IElevadorRepo from './IRepos/IElevadorRepo';
+import { NumeroIdentificativo } from '../domain/elevador/numeroIdentificativo';
 
 @Service()
 export default class ElevadorService implements IElevadorService {
@@ -31,8 +32,8 @@ export default class ElevadorService implements IElevadorService {
       const marca = await MarcaElevador.create(elevadorDTO.marca).getValue();
       const modelo = await ModeloElevador.create(elevadorDTO.modelo).getValue();
       const descricao = await DescricaoElevador.create(elevadorDTO.descricao).getValue();
-      const edificioOrError = await this.getEdificio(elevadorDTO.edificio);
 
+      const edificioOrError = await this.getEdificio(elevadorDTO.edificio);
       if (edificioOrError.isFailure) {
         return Result.fail<IElevadorDTO>("Erro no edificio introduzido: " + edificioOrError.error);
       }
@@ -42,19 +43,18 @@ export default class ElevadorService implements IElevadorService {
       if (pisosOrError.isFailure) {
         return Result.fail<IElevadorDTO>("Erro nos pisos introduzidoss: " + pisosOrError.error);
       }
-
       const pisos: Piso[] = pisosOrError.getValue();
 
-      console.log("edificio");
-      console.log(edificio.codigoEdificio);
-      console.log("pisos");
-      console.log(pisos);
-      for(const piso of pisos){
-        console.log(piso.codigoPiso);
+      let numIdenti: string;
+      try {
+        numIdenti = await this.proxNumIdentificativoValido(edificio.codigoEdificio.toString());
+      } catch (e) {
+        return Result.fail<IElevadorDTO>("Erro ao gerar o número identificativo do elevador do edificio " + edificio.codigoEdificio + ". Erro: " + e.message);
       }
-      console.log(pisosOrError);
+      const numeroIdentificativo = NumeroIdentificativo.create(numIdenti).getValue();
 
       const ElevadorOrError = Elevador.create({
+        numeroIdentificativo: numeroIdentificativo,
         edificio: edificio,
         pisos: pisos,
         numeroSerie: numeroSerie,
@@ -62,9 +62,6 @@ export default class ElevadorService implements IElevadorService {
         modelo: modelo,
         descricao: descricao,
       });
-
-
-      console.log(ElevadorOrError);
 
       if (ElevadorOrError.isFailure) {
         return Result.fail<IElevadorDTO>("Erro ao criar o elevador: " + ElevadorOrError.errorValue());
@@ -81,16 +78,14 @@ export default class ElevadorService implements IElevadorService {
     }
   }
 
-  public async updateElevador(numSerieElevador: string, elevadorDTO: IElevadorDTO): Promise<Result<IElevadorDTO>> {
+  public async updateElevador(numIdentificativo: string, elevadorDTO: IElevadorDTO): Promise<Result<IElevadorDTO>> {
     try {
 
-      if (!numSerieElevador) {
+      if (!numIdentificativo) {
         return Result.fail<IElevadorDTO>('Número de série do elevador não fornecido para atualização.');
       }
 
-      const existingElevador = await this.elevadorRepo.findByNumeroSerie(numSerieElevador); //PODE PRECISAR DE TOSTRING
-
-      console.log("elevador encontrado:\n" + existingElevador.numeroSerie.value);
+      const existingElevador = await this.elevadorRepo.findByNumeroIdentificativo(numIdentificativo); //PODE PRECISAR DE TOSTRING
 
       if (existingElevador != null) {
 
@@ -173,21 +168,21 @@ export default class ElevadorService implements IElevadorService {
     }
   }
 
-  /*
-
-  private async getEdificio(edificioId: string): Promise<Result<Edificio>> {
-
-    const edificio = await this.edificioRepo.findByDomainId(edificioId);
-    const found = !!edificio;
-
-    if (found) {
-      return Result.ok<Edificio>(edificio);
-    } else {
-      return Result.fail<Edificio>("Não foi possivel encontrar o edificio pelo nome" + edificioId);
+  private async proxNumIdentificativoValido(codEdificio: string) : Promise<string> {
+    const lastNumIdentificativo = await this.elevadorRepo.getLastNumeroIdentificativoOfGivenEdificio(codEdificio);
+    try {
+      if (lastNumIdentificativo) {
+        const ultimoNum = parseInt(lastNumIdentificativo.slice(codEdificio.length));
+        const proxNumIdentificativo = codEdificio + (ultimoNum + 1);
+        return proxNumIdentificativo.toString();
+      } else {
+        //QUANDO É O PRIMEIRO ELEVADOR A SER INTRODUZIDO NO EDIFICIO
+        return codEdificio + "1";
+      }
+    } catch (e) {
+      throw e;
     }
+
   }
 
-
-}
-*/
 }

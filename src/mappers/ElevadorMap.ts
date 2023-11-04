@@ -15,7 +15,8 @@ export class ElevadorMap extends Mapper<Elevador> {
   public static toDTO(elevador: Elevador): IElevadorDTO {
     return {
       id: elevador.id.toString(),
-      edificio: elevador.edificio.codigoEdificio.value,
+      numeroIdentificativo: elevador.numeroIdentificativo.toString(),
+      edificio: elevador.edificio.codigoEdificio.toString(),
       pisos: elevador.pisos.map(piso => piso.codigoPiso.toString()),
       numeroSerie: elevador.numeroSerie.value,
       marca: elevador.marca.value,
@@ -41,13 +42,14 @@ export class ElevadorMap extends Mapper<Elevador> {
         throw new Error(`Piso: ${pisoId} do elevador: ${raw.numeroSerieElevador} não encontrado.`);
       }
     }
-    const numeroSerieOrError = NumeroSerieElevador.create(raw.numeroSerie).getValue();
+    const numeroSerieOrError = raw.numeroSerie ? NumeroSerieElevador.create(raw.numeroSerie).getValue() : undefined;
     const marcaOrError = raw.marca ? MarcaElevador.create(raw.marca).getValue() : undefined;
     const modeloOrError = raw.modelo ? ModeloElevador.create(raw.modelo).getValue() : undefined;
     const descricaoOrError = raw.descricao ? DescricaoElevador.create(raw.descricao).getValue() : undefined;
     const elevadorOrError = Elevador.create({
       edificio: edificioOrError,
       pisos: pisosOrError,
+      numeroIdentificativo: raw.numeroIdentificativo,
       numeroSerie: numeroSerieOrError,
       marca: marcaOrError,
       modelo: modeloOrError,
@@ -62,7 +64,8 @@ export class ElevadorMap extends Mapper<Elevador> {
   public static toPersistence(elevador: Elevador): any {
     const a = {
       domainId: elevador.id.toString(),
-      edificio: elevador.edificio.codigoEdificio.value,
+      numeroIdentificativo: elevador.numeroIdentificativo.toString(),
+      edificio: elevador.edificio.codigoEdificio.toString(),
       pisos: elevador.pisos.map(piso => piso.codigoPiso.toString()),
       numeroSerie: elevador.numeroSerie.value,
       marca: elevador.marca.value,

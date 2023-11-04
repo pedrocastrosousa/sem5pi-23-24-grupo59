@@ -55,18 +55,26 @@ export default class ElevadorRepo implements IElevadorRepo {
         else return null;
     }
 
-    public async findByNumeroSerie(numeroSerie: string): Promise<Elevador> {
-        const query = { numeroSerie: numeroSerie };
+    public async findByNumeroIdentificativo(numIdentificativo: string): Promise<Elevador> {
+        const query = { numeroIdentificativo: numIdentificativo };
         const elevadorRecord = await this.elevadorSchema.findOne(query as FilterQuery<IElevadorPersistence & Document>);
         if (elevadorRecord != null)
             return ElevadorMap.toDomain(elevadorRecord);
         else return null;
     }
 
+
+    public async getLastNumeroIdentificativoOfGivenEdificio(codigoEdificio: string): Promise<string> {
+        const query = { edificio: codigoEdificio };
+        const elevadorRecord = await this.elevadorSchema.findOne(query as FilterQuery<IElevadorPersistence & Document>).sort({ numeroSerie: -1 });
+        if (elevadorRecord != null)
+            return elevadorRecord.numeroIdentificativo;
+        else return null;
+    }
+
+
     public async findAll(): Promise<Elevador[]> {
         const elevadorList = await this.elevadorSchema.find();
-        // console.log('Log 323:');
-        // console.log(elevadorList);
         if (elevadorList != null) {
             return ElevadorMap.toDomainBulk(elevadorList);
         }

@@ -20,7 +20,7 @@ export default (app: Router) => {
             body: Joi.object({
                 edificio: Joi.string().required(),
                 pisos: Joi.array().items(Joi.string()).required(),
-                numeroSerie: Joi.string().required(),
+                numeroSerie: Joi.string().optional(),
                 modelo: Joi.string().optional(),
                 marca: Joi.string().optional(),
                 descricao: Joi.string().optional(),
@@ -34,7 +34,7 @@ export default (app: Router) => {
     });
 
 
-    route.put('/editarElevador/:numeroSerie',
+    route.put('/editarElevador/:numeroIdentificativo',
         celebrate({
             body: Joi.object({
                 pisos: Joi.array().items(Joi.string()).optional(),
@@ -44,7 +44,7 @@ export default (app: Router) => {
                 descricao: Joi.string().optional(),
             }),
             params: Joi.object({
-                numeroSerie: Joi.string().required()
+                numeroIdentificativo: Joi.string().required()
             })
         }),
         async (req, res, next) => ctrl.updateElevador(req, res, next));

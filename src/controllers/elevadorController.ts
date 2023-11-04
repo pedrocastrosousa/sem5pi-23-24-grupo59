@@ -45,14 +45,14 @@ export default class ElevadorController implements IElevadorController /* TODO: 
 
 
   public async updateElevador(req: Request, res: Response, next: NextFunction) {
-    const elevadorNumeroSerie = req.params.numeroSerie;
+    const numeroIdentificativo = req.params.numeroIdentificativo;
     const elevadorDTO: IElevadorDTO = req.body;
 
-    if (!elevadorNumeroSerie) {
-      return res.status(400).json({ error: 'ID elevador erro' });
+    if (!numeroIdentificativo) {
+      return res.status(400).json({ error: 'Erro no parametro número identificativo do json fornecido' });
     }
     try {
-      const elevadorListOrError = await this.elevadorServiceInstance.updateElevador(elevadorNumeroSerie, elevadorDTO);
+      const elevadorListOrError = await this.elevadorServiceInstance.updateElevador(numeroIdentificativo, elevadorDTO);
 
       if (elevadorListOrError.isFailure) {
         return res.status(400).json({ error: elevadorListOrError.error });

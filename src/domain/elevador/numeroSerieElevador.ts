@@ -15,6 +15,10 @@ export class NumeroSerieElevador extends ValueObject<NumeroSerieElevadorProps> {
   }
 
   public static create(numeroSerieElevador: string): Result<NumeroSerieElevador> {
+    if (numeroSerieElevador === null || numeroSerieElevador === undefined) {
+      return Result.ok<NumeroSerieElevador>(new NumeroSerieElevador({ value: '' }));
+    }
+
     if (numeroSerieElevador.length > 50) {
       return Result.fail<NumeroSerieElevador>("O número de série não pode conter mais de 50 caracteres.");
     }
