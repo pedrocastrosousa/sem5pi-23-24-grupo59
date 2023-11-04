@@ -9,7 +9,7 @@ import { UniqueEntityID } from "../core/domain/UniqueEntityID";
 
 
 export class SalaMap extends Mapper<Sala> {
-  
+
   public static toDTO( sala: Sala): ISalaDTO {
     return {
       nomeSala: sala.nomeSala.nome,
@@ -21,7 +21,7 @@ export class SalaMap extends Mapper<Sala> {
           y2: sala.dimensaoSala.props.y2,
       },
       descricaoSala: sala.descricaoSala.descricao,
-      piso: sala.piso.id.toString()
+      piso: sala.piso.codigoPiso.toString()
     } as ISalaDTO;
   }
 
@@ -48,7 +48,7 @@ export class SalaMap extends Mapper<Sala> {
           y2: sala.dimensaoSala.props.y2
         },
         descricaoSala: sala.descricaoSala.descricao,
-        piso: sala.piso.id.toValue()
+        piso: sala.piso.codigoPiso.toString()
     }
     return a;
   }

@@ -27,8 +27,8 @@ export default class SalaService implements ISalaService {
       const categoria = CategoriaSala.create( salaDTO.categoriaSala ).getValue();
       const dimensao = DimensaoSala.create( salaDTO.dimensaoSala.x1, salaDTO.dimensaoSala.y1, salaDTO.dimensaoSala.x2, salaDTO.dimensaoSala.y2 ).getValue();
       const descricao = DescricaoSala.create( salaDTO.descricaoSala ).getValue();
-      
-      const piso = await this.pisoRepo.findByDomainId(salaDTO.piso);
+
+      const piso = await this.pisoRepo.findByCodigo(salaDTO.piso);
       if (piso === null) {
         return Result.fail<ISalaDTO>('Não foi possível encontrar o piso inserido.');
       }

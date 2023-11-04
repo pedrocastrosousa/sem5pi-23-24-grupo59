@@ -49,7 +49,7 @@ export default class SalaRepo implements ISalaRepo {
                 salaDocument.dimensaoSala.x2 = sala.dimensaoSala.props.x2;
                 salaDocument.dimensaoSala.y2 = sala.dimensaoSala.props.y2;
                 salaDocument.descricaoSala = sala.descricaoSala.descricao;
-                salaDocument.piso = sala.piso.id.toString();
+                salaDocument.piso = sala.piso.codigoPiso.toString();
                 console.log('Document inserted successfully!');
                 await salaDocument.save();
                 return sala;
