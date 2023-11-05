@@ -111,10 +111,35 @@ export default class RobotService implements IRobotService {
         existingRobot.updateEstado(await EstadoRobot.Inibido);
 
         await this.robotRepo.save(existingRobot);
+
         return Result.ok<IRobotDTO>(RobotMap.toDTO(existingRobot));
       }
 
 
+      return Result.fail<IRobotDTO>('Não foi possível encontrar o robot.');
+    } catch (e) {
+      return Result.fail<IRobotDTO>(e.message);
+    }
+  }
+
+
+  public async reativarRobot(robotID: string, robotDTO: IRobotDTO): Promise<Result<IRobotDTO>> {
+    try {
+
+      if (!robotID) {
+        return Result.fail<IRobotDTO>('ID do robot não fornecido para atualização.');
+      }
+
+      const existingRobot = await this.robotRepo.findByCodigo(robotID);
+
+      if (existingRobot != null) {
+
+        existingRobot.updateEstado(await EstadoRobot.Ativo);
+
+        await this.robotRepo.save(existingRobot);
+
+        return Result.ok<IRobotDTO>(RobotMap.toDTO(existingRobot));
+      }
       return Result.fail<IRobotDTO>('Não foi possível encontrar o robot.');
     } catch (e) {
       return Result.fail<IRobotDTO>(e.message);

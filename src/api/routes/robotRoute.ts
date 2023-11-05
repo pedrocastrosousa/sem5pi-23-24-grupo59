@@ -33,7 +33,7 @@ export default (app: Router) => {
 
     
 
-    route.patch('/:id',
+    route.patch('/inibir/:id',
         celebrate({
             body: Joi.object({
                 
@@ -43,6 +43,17 @@ export default (app: Router) => {
             })
         }),
         async (req, res, next) => ctrl.inibirRobot(req, res, next));
+
+        route.patch('/reativar/:id',
+        celebrate({
+            body: Joi.object({
+                
+            }),
+            params: Joi.object({ 
+                id: Joi.string().required()
+            })
+        }),
+        async (req, res, next) => ctrl.reativarRobot(req, res, next));
 
         route.delete(
             '/:codigoRobot',
