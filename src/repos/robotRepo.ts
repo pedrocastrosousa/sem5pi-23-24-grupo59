@@ -22,7 +22,7 @@ export default class RobotRepo implements IRobotRepo {
     }
 
     public async save(robot: Robot): Promise<Robot> {
-        const query = { domainId: robot.id.toString() };
+        const query = { codigoRobot: robot.codigoRobot.toString() };
 
         const robotDocument = await this.robotSchema.findOne(query);
         try {

@@ -3,7 +3,7 @@ import { Result } from "../../core/logic/Result";
 import { Guard } from "../../core/logic/Guard";
 
 enum TipoTarefaEnum {
-    PICKUPNDELIVERY = "Pickup & Delivery",
+    PICKUPNDELIVERY = "PickupnDelivery",
     VIGILANCIA = "Vigilancia"
 }
 
@@ -22,7 +22,7 @@ export class TipoTarefaTipoRobot extends ValueObject<TipoTarefaTipoRobotProps> {
   }
 
   public static create(tipoTarefaTipoRobot: string[]): Result<TipoTarefaTipoRobot> {
- 
+    
     if (tipoTarefaTipoRobot.length === 0) {
       return Result.fail<TipoTarefaTipoRobot>('Tem de inserir tipos de tarefa!');
     }

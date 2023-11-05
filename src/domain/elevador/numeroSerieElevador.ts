@@ -1,4 +1,5 @@
 import { ValueObject } from "../../core/domain/ValueObject";
+import { Guard } from "../../core/logic/Guard";
 import { Result } from "../../core/logic/Result";
 
 interface NumeroSerieElevadorProps {
@@ -15,16 +16,20 @@ export class NumeroSerieElevador extends ValueObject<NumeroSerieElevadorProps> {
   }
 
   public static create(numeroSerieElevador: string): Result<NumeroSerieElevador> {
-    if (numeroSerieElevador === null || numeroSerieElevador === undefined) {
+
+    let guardResult = Guard.againstNullOrUndefined(numeroSerieElevador, 'Numero de Serie do Elevador');
+    if (!guardResult.succeeded) {
       return Result.ok<NumeroSerieElevador>(new NumeroSerieElevador({ value: '' }));
     }
 
-    if (numeroSerieElevador.length > 50) {
-      return Result.fail<NumeroSerieElevador>("O número de série não pode conter mais de 50 caracteres.");
+    guardResult = Guard.checkStringLength(numeroSerieElevador, 50, 'Numero de Serie do Elevador');
+    if (!guardResult.succeeded) {
+      return Result.fail<NumeroSerieElevador>(guardResult.message);
     }
 
-    if (!/^[a-zA-Z0-9]+$/.test(numeroSerieElevador)) {
-      return Result.fail<NumeroSerieElevador>("O número de série deve ser alfanumérico.");
+    guardResult = Guard.isAlfanumericWithoutSpaces(numeroSerieElevador, "Numero de Serie do Elevador");
+    if (!guardResult.succeeded) {
+      return Result.fail<NumeroSerieElevador>(guardResult.message);
     }
 
     return Result.ok<NumeroSerieElevador>(new NumeroSerieElevador({ value: numeroSerieElevador }));
