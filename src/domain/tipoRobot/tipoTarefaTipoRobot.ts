@@ -23,7 +23,6 @@ export class TipoTarefaTipoRobot extends ValueObject<TipoTarefaTipoRobotProps> {
 
   public static create(tipoTarefaTipoRobot: string[]): Result<TipoTarefaTipoRobot> {
     
-    console.log(tipoTarefaTipoRobot)
     if (tipoTarefaTipoRobot.length === 0) {
       return Result.fail<TipoTarefaTipoRobot>('Tem de inserir tipos de tarefa!');
     }
