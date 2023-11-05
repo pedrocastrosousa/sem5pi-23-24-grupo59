@@ -124,6 +124,21 @@ export default class ElevadorService implements IElevadorService {
     }
   }
 
+  public async deleteElevador(numeroIdentificativo: string) {
+    try {
+      const result = await this.elevadorRepo.delete(numeroIdentificativo);
+      if (result == 0) {
+        return Result.fail<string>("Não foi possivel encontrar o Elevador com o número identificativo " + numeroIdentificativo);
+      } else if (result == 1) {
+        return Result.ok<string>("Elevador eliminado com sucesso!");
+      } else {
+        return Result.fail<string>("Erro a eliminar o Elevador com o número identificativo " + numeroIdentificativo + ". Verifique a base de dados.");
+      }
+    } catch (e) {
+      return Result.ok<string>("Erro a eliminar o Elevador. Erro: " + e.message);
+    }
+  }
+
 
   private async getEdificio(codigoEdificio: string): Promise<Result<Edificio>> {
 

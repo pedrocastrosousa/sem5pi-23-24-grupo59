@@ -48,4 +48,13 @@ export default (app: Router) => {
             })
         }),
         async (req, res, next) => ctrl.updateElevador(req, res, next));
+
+        route.delete('/eliminarElevador/:numeroIdentificativo',
+            celebrate({
+              params: Joi.object({
+                numeroIdentificativo: Joi.string().required(),
+              }),
+            }),
+            (req, res, next) => ctrl.deleteElevador(req, res, next),
+          );
 }

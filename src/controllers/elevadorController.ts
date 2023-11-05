@@ -62,4 +62,12 @@ export default class ElevadorController implements IElevadorController /* TODO: 
       return res.json(e.message).status(400);
     }
   }
+
+  public async deleteElevador(req: Request, res: Response, next: NextFunction) {
+      const deleteElevadorOrError = await this.elevadorServiceInstance.deleteElevador(req.params.numeroIdentificativo);
+      if (deleteElevadorOrError.isFailure) {
+        return res.status(400).json({ error: deleteElevadorOrError.error});
+      }
+      return res.json(deleteElevadorOrError.getValue()).status(204);
+  }
 }

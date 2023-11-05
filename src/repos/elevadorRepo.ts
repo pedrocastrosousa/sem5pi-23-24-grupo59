@@ -47,6 +47,12 @@ export default class ElevadorRepo implements IElevadorRepo {
         }
     }
 
+    public async delete(numeroIdentificativo: string) {
+        const query = { numeroIdentificativo: numeroIdentificativo };
+        const resilt = await this.elevadorSchema.deleteOne(query as FilterQuery<IElevadorPersistence & Document>);
+        return resilt.deletedCount;
+    }
+
     public async findById(id: string): Promise<Elevador> {
         const query = { domainId: id };
         const elevadorRecord = await this.elevadorSchema.findOne(query as FilterQuery<IElevadorPersistence & Document>);
