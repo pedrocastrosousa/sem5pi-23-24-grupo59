@@ -55,8 +55,6 @@ export default class RobotService implements IRobotService {
 
 
       await this.robotRepo.save(RobotResult);
-      console.log('service after save');
-
       const RobotDTOResult = RobotMap.toDTO(RobotResult) as IRobotDTO;
       return Result.ok<IRobotDTO>(RobotDTOResult)
 
@@ -123,6 +121,13 @@ export default class RobotService implements IRobotService {
     }
   }
 
+  public async delete(codigo: string) {
+    try {
+      await this.robotRepo.delete(codigo);
+    } catch (e) {
+      throw e;
+    }
+  }
   /*
 
   private async getEdificio(edificioId: string): Promise<Result<Edificio>> {

@@ -75,4 +75,9 @@ export default class RobotRepo implements IRobotRepo {
     public async exists(t: Robot): Promise<boolean> {
         throw new Error('Method not implemented.');
     }
+
+    public async delete(codigo: string) {
+        const query = { codigo: codigo };
+        await this.robotSchema.deleteOne(query as FilterQuery<IRobotPersistence & Document>);
+      }
 }

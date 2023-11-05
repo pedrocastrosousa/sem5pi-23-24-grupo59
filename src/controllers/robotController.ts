@@ -63,4 +63,11 @@ export default class RobotController implements IRobotController /* TODO: extend
     }
   }
 
+
+
+  public async delete(req: Request, res: Response, next: NextFunction) {
+    await this.robotServiceInstance.delete(req.params.codigoRobot);
+    ;
+    return res.json('robot deleted').status(204);
+  }
 };

@@ -44,5 +44,13 @@ export default (app: Router) => {
         }),
         async (req, res, next) => ctrl.inibirRobot(req, res, next));
 
-
+        route.delete(
+            '/:codigoRobot',
+            celebrate({
+              params: Joi.object({
+                codigoRobot: Joi.string().required(),
+              }),
+            }),
+            (req, res, next) => ctrl.delete(req, res, next),
+          );
 }
