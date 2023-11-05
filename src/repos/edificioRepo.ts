@@ -30,7 +30,7 @@ export default class EdificioRepo implements IEdificioRepo {
   }
 
   public async save(edificio: Edificio): Promise<Edificio> {
-    const query = { codigoEdificio: edificio.codigoEdificio.toString()};
+    const query = { codigoEdificio: edificio.codigoEdificio.toString() };
     const edificioDocument = await this.edificioSchema.findOne(query);
     try {
       if (edificioDocument === null) {
@@ -39,7 +39,6 @@ export default class EdificioRepo implements IEdificioRepo {
         const edificioCreated = await this.edificioSchema.create(rawEdificio);
         return EdificioMap.toDomain(edificioCreated);
       } else {
-
         const nomeEdificio = edificio.nomeEdificio ? edificio.nomeEdificio.nome : edificioDocument.nomeEdificio;
         edificioDocument.descricaoEdificio = edificio.descricaoEdificio.descricao;
         edificioDocument.nomeEdificio = nomeEdificio;
@@ -59,10 +58,9 @@ export default class EdificioRepo implements IEdificioRepo {
   public async findByCodigo(codigoEdificio: string): Promise<Edificio> {
     const query = { codigoEdificio: codigoEdificio };
     const edificioRecord = await this.edificioSchema.findOne(query as FilterQuery<IEdificioPersistence & Document>);
-    if (edificioRecord != null)
-        return EdificioMap.toDomain(edificioRecord);
+    if (edificioRecord != null) return EdificioMap.toDomain(edificioRecord);
     else return null;
-}
+  }
 
   public async findAll(): Promise<Edificio[]> {
     const edificioRecord = await this.edificioSchema.find();
@@ -76,5 +74,10 @@ export default class EdificioRepo implements IEdificioRepo {
     } else {
       return null;
     }
+  }
+
+  public async delete(codigoEdificio: string) {
+    const query = { codigoEdificio: codigoEdificio };
+    await this.edificioSchema.deleteOne(query as FilterQuery<IEdificioPersistence & Document>);
   }
 }

@@ -6,4 +6,5 @@ export default interface IEdificioRepo extends Repo<Edificio> {
   save(role: Edificio): Promise<Edificio>;
   findAll(): Promise<Edificio[]>;
   findByCodigo(edificioCodigo: CodigoEdificio | string): Promise<Edificio>;
+  delete(edificioCodigo: string);
 }
