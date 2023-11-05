@@ -3,11 +3,11 @@ import 'reflect-metadata';
 import { expect } from 'chai';
 import * as sinon from 'sinon';
 import { Container } from 'typedi';
-import { Result } from '../../../../src/core/logic/Result';
-import IEdificioDTO from '../../../../src/dto/IEdificioDTO';
-import { EdificioMap } from '../../../../src/mappers/EdificioMap';
-import EdificioRepo from '../../../../src/repos/edificioRepo';
-import { IEdificioPersistence } from '../../../../src/dataschema/IEdificioPersistence';
+import { Result } from '../../../../../src/core/logic/Result';
+import IEdificioDTO from '../../../../../src/dto/IEdificioDTO';
+import { EdificioMap } from '../../../../../src/mappers/EdificioMap';
+import EdificioRepo from '../../../../../src/repos/edificioRepo';
+import { IEdificioPersistence } from '../../../../../src/dataschema/IEdificioPersistence';
 import { Document } from 'mongoose';
 
 describe('unit tests - edificio repo', function() {
@@ -17,7 +17,7 @@ describe('unit tests - edificio repo', function() {
     this.timeout(3000);
     Container.reset();
 
-    let edificioSchemaInstance = require('../../../../src/persistence/schemas/edificioSchema').default;
+    let edificioSchemaInstance = require('../../../../../src/persistence/schemas/edificioSchema').default;
     Container.set('edificioSchema', edificioSchemaInstance);
   });
 
@@ -26,7 +26,7 @@ describe('unit tests - edificio repo', function() {
     sinon.restore();
   });
 
-  it('exists should return true', async function() {
+  it('exists - should return true', async function() {
     // Arrange
     let edificioDTO = {
       codigoEdificio: '99979',
@@ -99,8 +99,8 @@ describe('unit tests - edificio repo', function() {
 
     const edificioDTO2 = {
       codigoEdificio: '99979',
-      descricaoEdificio: 'Seguranca', // Informacao
-      nomeEdificio: 'Informatica', // Gestao
+      descricaoEdificio: 'Informacao',
+      nomeEdificio: 'Gestao',
       dimensaoMaximaPisos: {
         largura: 1,
         comprimento: 2,
@@ -125,7 +125,7 @@ describe('unit tests - edificio repo', function() {
     expect(answer.dimensaoMaximaPisos.comprimento).to.equal(edificio.dimensaoMaximaPisos.comprimento);
   });
 
-  it('findByCodigo should return edifico', async () => {
+  it('findByCodigo - should return edifico', async () => {
     // Arrange
     let edificioDTO = {
       codigoEdificio: '99979',
@@ -154,7 +154,7 @@ describe('unit tests - edificio repo', function() {
     expect(answer.dimensaoMaximaPisos.comprimento).to.equal(edificio.dimensaoMaximaPisos.comprimento);
   });
 
-  it('findByCodigo should return null', async () => {
+  it('findByCodigo - should return null', async () => {
     // Arrange
     let edificioDTO = {
       codigoEdificio: '99979',
@@ -180,7 +180,7 @@ describe('unit tests - edificio repo', function() {
     expect(answer).to.equal(null);
   });
 
-  it('findAll should return a list with 2 edificios with the right values', async () => {
+  it('findAll - should return a list with 2 edificios with the right values', async () => {
     // Arrange
     const edificios = [
       {

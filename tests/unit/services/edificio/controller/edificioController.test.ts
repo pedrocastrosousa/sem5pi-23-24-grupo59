@@ -3,10 +3,10 @@ import 'reflect-metadata';
 import * as sinon from 'sinon';
 import { Response, Request, NextFunction } from 'express';
 import { Container } from 'typedi';
-import { Result } from '../../../../src/core/logic/Result';
-import IEdificioService from '../../../../src/services/IServices/IEdificioService';
-import EdificioController from '../../../../src/controllers/edificioController';
-import IEdificioDTO from '../../../../src/dto/IEdificioDTO';
+import { Result } from '../../../../../src/core/logic/Result';
+import IEdificioService from '../../../../../src/services/IServices/IEdificioService';
+import EdificioController from '../../../../../src/controllers/edificioController';
+import IEdificioDTO from '../../../../../src/dto/IEdificioDTO';
 
 describe('unit tests - edificio controller', function() {
   const sandbox = sinon.createSandbox();
@@ -14,14 +14,14 @@ describe('unit tests - edificio controller', function() {
   beforeEach(function() {
     this.timeout(6000);
     Container.reset();
-    let edificioSchemaInstance = require('../../../../src/persistence/schemas/edificioSchema').default;
+    let edificioSchemaInstance = require('../../../../../src/persistence/schemas/edificioSchema').default;
     Container.set('edificioSchema', edificioSchemaInstance);
 
-    let edificioRepoClass = require('../../../../src/repos/edificioRepo').default;
+    let edificioRepoClass = require('../../../../../src/repos/edificioRepo').default;
     let edificioRepoInstance = Container.get(edificioRepoClass);
     Container.set('EdificioRepo', edificioRepoInstance);
 
-    let edificioServiceClass = require('../../../../src/services/edificioService').default;
+    let edificioServiceClass = require('../../../../../src/services/edificioService').default;
     let edificioServiceInstance = Container.get(edificioServiceClass);
     Container.set('EdificioService', edificioServiceInstance);
   });
@@ -90,7 +90,6 @@ describe('unit tests - edificio controller', function() {
     };
 
     let req: Partial<Request> = {};
-    req.body = body;
 
     let res: Partial<Response> = {
       status: sinon.stub().returnsThis(),
