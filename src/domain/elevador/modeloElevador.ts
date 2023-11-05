@@ -1,29 +1,37 @@
 import { ValueObject } from "../../core/domain/ValueObject";
+import { Guard } from "../../core/logic/Guard";
 import { Result } from "../../core/logic/Result";
 
 interface ModeloElevadorProps {
     value: string;
   }
-  
+
   export class ModeloElevador extends ValueObject<ModeloElevadorProps> {
     get value(): string {
       return this.props.value;
     }
-  
+
     private constructor(props: ModeloElevadorProps) {
       super(props);
     }
-  
+
     public static create(modeloElevador: string): Result<ModeloElevador> {
-      if (modeloElevador === null || modeloElevador === undefined) {
+
+      let guardResult = Guard.againstNullOrUndefined(modeloElevador, 'Modelo do Elevador');
+      if (!guardResult.succeeded) {
         return Result.ok<ModeloElevador>(new ModeloElevador({ value: '' }));
       }
-  
-      if (modeloElevador.length > 50) {
-        return Result.fail<ModeloElevador>('O modelo do elevador não pode exceder 50 caracteres.');
+
+      guardResult = Guard.checkStringLength(modeloElevador, 50, 'Modelo do Elevador');
+      if (!guardResult.succeeded) {
+        return Result.fail<ModeloElevador>(guardResult.message);
       }
-  
+
+      guardResult = Guard.isAlfanumericWithSpaces(modeloElevador, "Modelo do Elevador");
+      if (!guardResult.succeeded) {
+        return Result.fail<ModeloElevador>(guardResult.message);
+      }
+
       return Result.ok<ModeloElevador>(new ModeloElevador({ value: modeloElevador }));
     }
   }
-  
