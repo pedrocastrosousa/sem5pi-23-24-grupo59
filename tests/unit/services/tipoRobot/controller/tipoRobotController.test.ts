@@ -69,4 +69,38 @@ describe('unit tests - tipoRobot controller', function() {
       }),
     );
   });
+
+  it('createTipoRobot - returns 404', async function() {
+    // Arrange
+    let body = {
+      designacaoTipoRobot: 'designacao',
+      tipoTarefaTipoRobot: ['Vigilancia'],
+    };
+
+    let req: Partial<Request> = {};
+    req.body = body;
+
+    let res: Partial<Response> = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub(),
+    };
+
+    let next: Partial<NextFunction> = () => {};
+
+    let tipoRobotServiceInstance = Container.get('TipoRobotService');
+    sinon
+      .stub(tipoRobotServiceInstance, 'createTipoRobot')
+      .returns(Promise.resolve(Result.fail<ITipoRobotDTO>('error')));
+
+    const ctrl = new TipoRobotController(tipoRobotServiceInstance as ITipoRobotService);
+
+    // Act
+    await ctrl.createTipoRobot(<Request>req, <Response>res, <NextFunction>next);
+
+    // Assert
+    sinon.assert.calledOnce(res.status);
+    sinon.assert.calledWith(res.status, 404);
+    sinon.assert.calledOnce(res.json);
+    sinon.assert.calledWith(res.json, { error: 'error' });
+  });
 });
