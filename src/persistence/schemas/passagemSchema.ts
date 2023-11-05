@@ -3,8 +3,9 @@ import { IPassagemPersistence } from "../../dataschema/IPassagemPersistence";
 
 const PassagemSchema = new mongoose.Schema(
   {
-    domainId: {
+    passagemId: {
       type: String,
+      required: true,
       unique: true
     },
     piso1: {

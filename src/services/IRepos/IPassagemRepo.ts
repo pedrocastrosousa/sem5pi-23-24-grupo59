@@ -9,5 +9,6 @@ export default interface IPassagemRepo extends Repo<Passagem> {
 	findById (_id: string): Promise<Passagem>;
 	findByCodigo(codigo: string): Promise<Passagem>;
 	findAllByEdificio(edificio1: string, edificio2 :string): Promise<string[]>;
+	delete(passagemId: string);
 	
 }

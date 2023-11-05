@@ -9,6 +9,7 @@ import IPisoRepo from "./IRepos/IPisoRepo";
 import { Piso } from "../domain/piso/piso";
 import { PassagemMap } from "../mappers/PassagemMap";
 import e from "express";
+import { PassagemId } from "../domain/passagem/passagemId";
 
 
 @Service()
@@ -39,16 +40,16 @@ export default class PassagemService implements IPassagemService {
         return Result.fail<IPassagemDTO>(piso2OrError.error);
       } else {
         pisoo2 = piso2OrError.getValue();
-      }
-      
-
+      }  
 
       if (pisoo1.edificio.codigoEdificio.equals(pisoo2.edificio.codigoEdificio)) {
         return Result.fail<IPassagemDTO>("Não podem existir passagens entre pisos do mesmo edificio.");
       }
+      const passagemId = await PassagemId.create(passagemDTO.passagemId).getValue();
 
 
       const PassagemOrError = await Passagem.create({
+        passagemId: passagemId,
         piso1: pisoo1,
         piso2: pisoo2,
         codigoPassagem: passagemDTO.codigoPassagem
@@ -151,7 +152,15 @@ export default class PassagemService implements IPassagemService {
     }
   }
 
-
+ 
+  public async deletePassagem(passagemID: string) {
+    try {
+    await this.passagemRepo.delete(passagemID);
+       
+          } catch (e) {
+      throw e;
+    }
+}
 }
 
 

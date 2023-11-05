@@ -15,7 +15,6 @@ export default class PassagemController implements IPassagemController /* TODO: 
 
   public async createPassagem(req: Request, res: Response, next: NextFunction) {
     try {
-     console.log("sss");
 
       const passagemOrError = await this.passagemServiceInstance.createPassagem(req.body as IPassagemDTO) as Result<IPassagemDTO>;
       if (passagemOrError.isFailure) {
@@ -59,7 +58,7 @@ export default class PassagemController implements IPassagemController /* TODO: 
   }
 
   public async updatePassagem(req: Request, res: Response, next: NextFunction) {
-    const passagemId = req.params.id;
+    const passagemId = req.params.codigoPassagem;
     const passagemDTO: IPassagemDTO = req.body;
 
     if (!passagemId) {
@@ -77,4 +76,33 @@ export default class PassagemController implements IPassagemController /* TODO: 
     }
   }
 
+
+
+
+  public async listarAllPassagens(req: Request, res: Response, next: NextFunction) {
+   
+      const passagemListOrError = await this.passagemServiceInstance.getAllPassagens();
+      if (passagemListOrError.isFailure) {
+        return  res.status(400).send();
+      }else{
+        return res.json(passagemListOrError.getValue()).status(200);
+      }
+    
+    }
+
+  public async delete(req: Request, res: Response, next: NextFunction) {
+    const passagemId = req.params.passagemId;
+    if (!passagemId) {
+      return res.status(400).json({ error: 'ID passagem erro' });
+    }
+    try {
+      const passagemListOrError = await this.passagemServiceInstance.deletePassagem(passagemId);
+      if (passagemListOrError.isFailure) {
+        return res.status(400).json({ error: passagemListOrError.error });
+      }
+      return res.json(passagemListOrError.getValue()).status(200);
+    } catch (e) {
+      return res.json(e.message).status(400);
+    }
+  }
 };

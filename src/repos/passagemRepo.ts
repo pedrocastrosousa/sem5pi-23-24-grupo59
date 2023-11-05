@@ -37,7 +37,7 @@ export default class PassagemRepo implements IPassagemRepo {
 
     public async save(passagem: Passagem): Promise<Passagem> {
 
-        const query = { domainId: passagem.id.toString() };
+        const query = { PassagemId: passagem.passagemId.toString()};
 
         const passagemDocument = await this.passagemSchema.findOne(query);
 
@@ -47,6 +47,7 @@ export default class PassagemRepo implements IPassagemRepo {
                 const passagemCreated = await this.passagemSchema.create(rawPassagem);
                 return PassagemMap.toDomain(passagemCreated);
             } else {
+                passagemDocument.passagenId = passagem.passagemId.toString();
                 passagemDocument.piso1 = passagem.piso1.codigoPiso.toString();
                 passagemDocument.piso2 = passagem.piso2.codigoPiso.toString();
                 passagemDocument.codigoPassagem = passagem.codigoPassagem;
@@ -70,7 +71,7 @@ export default class PassagemRepo implements IPassagemRepo {
 
 
     public async findByCodigo(codigo: string): Promise<Passagem> {
-        const query = { codigoPassagem: codigo };
+        const query = { passagemId: codigo };
         const passagemRecord = await this.passagemSchema.findOne(query as FilterQuery<IPassagemPersistence & Document>);
         if (passagemRecord != null)
             return PassagemMap.toDomain(passagemRecord);
@@ -117,7 +118,12 @@ export default class PassagemRepo implements IPassagemRepo {
         }
 
     }
-
-   
+    
+    public async delete(passagemId: string) {
+      
+            const query = { passagemId: passagemId };
+            await this.passagemSchema.deleteOne(query as FilterQuery<IPassagemPersistence & Document>);
+       
+    }
    
 }

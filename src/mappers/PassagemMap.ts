@@ -10,8 +10,8 @@ import PisoRepo from "../repos/pisoRepo";
 export class PassagemMap extends Mapper<Passagem> {
 
     public static toDTO(passagem: Passagem): IPassagemDTO {
-        return {       
-id: passagem.id.toString(),
+        return {    
+            passagemId: passagem.passagemId,   
                 piso1: passagem.piso1.codigoPiso,
                 piso2: passagem.piso2.codigoPiso,
                 codigoPassagem: passagem.codigoPassagem
@@ -29,11 +29,12 @@ id: passagem.id.toString(),
         
 
         const passagemOrError = Passagem.create({
+         passagemId: raw.passagemId,
         piso1: pisoo1,
         piso2: pisoo2,
         codigoPassagem: raw.codigoPassagem
         },
-            new UniqueEntityID(raw.domainId));
+            new UniqueEntityID(raw.passagemId));
 
         passagemOrError.isFailure ? console.log(passagemOrError.error) : '';
 
@@ -42,7 +43,7 @@ id: passagem.id.toString(),
 
     public static toPersistence(passagem: Passagem): any {
         const a = {
-            domainId: passagem.id.toString(),
+            passagemId: passagem.passagemId,
             piso1: passagem.piso1.codigoPiso,
             piso2: passagem.piso2.codigoPiso,
             codigoPassagem: passagem.codigoPassagem

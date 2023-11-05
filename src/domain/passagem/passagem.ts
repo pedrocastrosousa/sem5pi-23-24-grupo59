@@ -6,16 +6,20 @@ import { Piso } from "../piso/piso";
 import { PassagemId } from "./passagemId";
 
 interface PassagemProps {
+    passagemId: PassagemId;
     piso1: Piso;
     piso2: Piso;
     codigoPassagem: string;
-  }
-  
-  export class Passagem extends AggregateRoot<PassagemProps> {
-    get id (): UniqueEntityID {
-      return this._id;
+}
+
+export class Passagem extends AggregateRoot<PassagemProps> {
+    get id(): UniqueEntityID {
+        return this._id;
     }
-  
+
+    get passagemId(): UniqueEntityID {
+        return this.props.passagemId;
+    }
 
     get piso1(): Piso {
         return this.props.piso1;
@@ -25,7 +29,7 @@ interface PassagemProps {
         return this.props.piso2;
     }
 
-    get codigoPassagem(): string{
+    get codigoPassagem(): string {
         return `${this.piso1.codigoPiso}-${this.piso2.codigoPiso}`;
     }
 
@@ -36,7 +40,8 @@ interface PassagemProps {
 
     public static create(props: PassagemProps, id?: UniqueEntityID): Result<Passagem> {
 
-        const guardedProps = [
+        const guardedProps = [    
+            { argument: props.passagemId, argumentName: 'passagemId' },
             { argument: props.piso1, argumentName: 'piso1' },
             { argument: props.piso2, argumentName: 'piso2' },
         ];
@@ -48,9 +53,10 @@ interface PassagemProps {
         }
         else {
             const passagem = new Passagem({
-                ...props
-            }, id);
-
+                ...props,
+            }, 
+            props.passagemId);
+            
             return Result.ok<Passagem>(passagem);
         }
 

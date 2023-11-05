@@ -1,5 +1,5 @@
 export interface IPassagemDTO {
-    id: string;
+    passagemId: string;
     piso1: string;
     piso2: string;
     codigoPassagem: string;
