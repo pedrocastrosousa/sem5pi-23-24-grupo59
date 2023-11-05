@@ -22,7 +22,7 @@ export default class EdificioService implements IEdificioService {
       if (edificios === null) {
         return Result.fail<IEdificioDTO[]>('Edificio not found');
       }
-      
+
       const edificioDTOResult: IEdificioDTO[] = edificios.map(edificio => EdificioMap.toDTO(edificio));
 
       return Result.ok<IEdificioDTO[]>(edificioDTOResult);
@@ -49,8 +49,8 @@ export default class EdificioService implements IEdificioService {
   public async createEdificio(edificioDTO: IEdificioDTO): Promise<Result<IEdificioDTO>> {
     try {
       const currentEdificio = await this.edificioRepo.findByCodigo(edificioDTO.codigoEdificio);
-      if(currentEdificio){
-        return Result.fail<IEdificioDTO>("Ja existe um edificio com o codigo inserido!")
+      if (currentEdificio) {
+        return Result.fail<IEdificioDTO>('Ja existe um edificio com o codigo inserido!');
       }
 
       const codigoEdificio = CodigoEdificio.create(edificioDTO.codigoEdificio).getValue();
@@ -65,7 +65,6 @@ export default class EdificioService implements IEdificioService {
         dimensaoMaximaPisos: dimensaoMaximaPisos,
       });
       if (edificioOrError.isFailure) {
-        
         return Result.fail<IEdificioDTO>(edificioOrError.errorValue());
       }
 
@@ -73,7 +72,6 @@ export default class EdificioService implements IEdificioService {
 
       await this.edificioRepo.save(edificioResult);
 
-      
       const edificioDTOResult = EdificioMap.toDTO(edificioResult) as IEdificioDTO;
       return Result.ok<IEdificioDTO>(edificioDTOResult);
     } catch (e) {
@@ -94,6 +92,14 @@ export default class EdificioService implements IEdificioService {
         const edificioDTOResult = EdificioMap.toDTO(edificio) as IEdificioDTO;
         return Result.ok<IEdificioDTO>(edificioDTOResult);
       }
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  public async delete(codigoEdificio: string) {
+    try {
+      await this.edificioRepo.delete(codigoEdificio);
     } catch (e) {
       throw e;
     }

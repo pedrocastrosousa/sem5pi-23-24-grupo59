@@ -1,0 +1,474 @@
+{
+	"info": {
+		"_postman_id": "b012dd49-b1be-4d1b-ac29-90ec15f36600",
+		"name": "Test Edificio Demo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30654438"
+	},
+	"item": [
+		{
+			"name": "Get codigoEdifiicoVariable notEqual",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check if there isnt a edificio with the codigoEdificioVariable\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    var codigoTest = pm.variables.get(\"codigoEdificioVariable\");\r",
+							"    \r",
+							"    for (var i = 0; i < jsonData.length; i++) {\r",
+							"        pm.expect(jsonData[i].codigoEdificio).to.not.equal(codigoTest);\r",
+							"    }\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/api/edificios",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"edificios"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post edificio with codigoEdificioVariable",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create Edificio\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "content",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{       \r\n        \"codigoEdificio\": \"{{codigoEdificioVariable}}\",\r\n        \"descricaoEdificio\": \"Seguranca\",\r\n        \"nomeEdificio\": \"Informatica\",\r\n        \"dimensaoMaximaPisos\":{\r\n            \"largura\":1,\r\n            \"comprimento\":2\r\n        }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/api/edificios",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"edificios"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get codigoEdifiicoVariable equal",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check if there is a edificio with the codigoEdificioVariable\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    var codigoTest = pm.variables.get(\"codigoEdificioVariable\");\r",
+							"    var codigos = [];\r",
+							"    for (var i = 0; i < jsonData.length; i++) {\r",
+							"        codigos.push(jsonData[i].codigoEdificio);\r",
+							"    }\r",
+							"     pm.expect(codigos).to.include(codigoTest);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/api/edificios",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"edificios"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Put edificio with codigoEdificioVariable for descricao",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Put edificio for descricao\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "content",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{       \r\n        \"codigoEdificio\": \"{{codigoEdificioVariable}}\",\r\n        \"descricaoEdificio\": \"S\",\r\n        \"nomeEdificio\": \"Informatica\",\r\n        \"dimensaoMaximaPisos\":{\r\n            \"largura\":1,\r\n            \"comprimento\":2\r\n        }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/api/edificios",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"edificios"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get codigoEdifiicoVariable check descricao",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check if the edificio with the codigoEdificioVariable has a specific descricao\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    var codigoTest = pm.variables.get(\"codigoEdificioVariable\");\r",
+							"    var descricaoToCheck = \"S\";\r",
+							"\r",
+							"    for (var i = 0; i < jsonData.length; i++) {\r",
+							"        if (jsonData[i].codigoEdificio === codigoTest) {\r",
+							"            pm.expect(jsonData[i].descricaoEdificio).equal(descricaoToCheck);\r",
+							"        }\r",
+							"    }\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/api/edificios",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"edificios"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Put edificio with codigoEdificioVariable for nome",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Put edificio for nome\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "content",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{       \r\n        \"codigoEdificio\": \"{{codigoEdificioVariable}}\",\r\n        \"descricaoEdificio\": \"Seguranca\",\r\n        \"nomeEdificio\": \"I\",\r\n        \"dimensaoMaximaPisos\":{\r\n            \"largura\":1,\r\n            \"comprimento\":2\r\n        }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/api/edificios",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"edificios"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get codigoEdifiicoVariable check nome",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check if the edificio with the codigoEdificioVariable has a specific descricao\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    var codigoTest = pm.variables.get(\"codigoEdificioVariable\");\r",
+							"    var nomeToCheck = \"I\";\r",
+							"\r",
+							"    for (var i = 0; i < jsonData.length; i++) {\r",
+							"        if (jsonData[i].codigoEdificio === codigoTest) {\r",
+							"            pm.expect(jsonData[i].nomeEdificio).equal(nomeToCheck);\r",
+							"        }\r",
+							"    }\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/api/edificios",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"edificios"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Put edificio with codigoEdificioVariable for dimensao",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Put edificio for dimensao\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "content",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{       \r\n        \"codigoEdificio\": \"{{codigoEdificioVariable}}\",\r\n        \"descricaoEdificio\": \"Seguranca\",\r\n        \"nomeEdificio\": \"Informatica\",\r\n        \"dimensaoMaximaPisos\":{\r\n            \"largura\":2,\r\n            \"comprimento\":3\r\n        }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/api/edificios",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"edificios"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get codigoEdifiicoVariable check dimensao",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check if the edificio with the codigoEdificioVariable has a specific descricao\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    var codigoTest = pm.variables.get(\"codigoEdificioVariable\");\r",
+							"    var larguraToCheck = 2;\r",
+							"\r",
+							"    for (var i = 0; i < jsonData.length; i++) {\r",
+							"        if (jsonData[i].codigoEdificio === codigoTest) {\r",
+							"            pm.expect(jsonData[i].dimensaoMaximaPisos.largura).equal(larguraToCheck);\r",
+							"        }\r",
+							"    }\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/api/edificios",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"edificios"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete edificio with codigoEdifiicoVariable",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Delete edificio\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/api/edificios/{{codigoEdificioVariable}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"edificios",
+						"{{codigoEdificioVariable}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get codigoEdifiicoVariable not equal",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check if there isnt a edificio with the codigoEdificioVariable\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    var codigoTest = pm.variables.get(\"codigoEdificioVariable\");\r",
+							"    \r",
+							"    for (var i = 0; i < jsonData.length; i++) {\r",
+							"        pm.expect(jsonData[i].codigoEdificio).to.not.equal(codigoTest);\r",
+							"    }\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/api/edificios",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"edificios"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

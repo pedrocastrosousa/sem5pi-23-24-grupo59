@@ -36,7 +36,6 @@ export default class EdificioController
       >;
 
       if (edificioOrError.isFailure) {
-        
         const errorMessage = edificioOrError.errorValue();
         return res.status(404).send(errorMessage);
       }
@@ -50,7 +49,6 @@ export default class EdificioController
 
   public async updateEdificio(req: Request, res: Response, next: NextFunction) {
     try {
-      
       const edificioOrError = (await this.edificioServiceInstance.updateEdificio(req.body as IEdificioDTO)) as Result<
         IEdificioDTO
       >;
@@ -65,4 +63,12 @@ export default class EdificioController
       return next(e);
     }
   }
+
+  public async delete(req: Request, res: Response, next: NextFunction) {
+    await this.edificioServiceInstance.delete(req.params.codigoEdificio);
+    ;
+    return res.status(204).send('edificio deleted');
+  }
+
+  
 }

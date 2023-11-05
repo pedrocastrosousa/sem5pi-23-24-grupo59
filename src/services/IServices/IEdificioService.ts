@@ -6,4 +6,5 @@ export default interface IEdificioService {
   updateEdificio(edificioDTO: IEdificioDTO): Promise<Result<IEdificioDTO>>;
   getEdificio(codigoEdificio: string): Promise<Result<IEdificioDTO>>;
   findAll(): Promise<Result<IEdificioDTO[]>>;
+  delete(codigoEdificio: string);
 }
