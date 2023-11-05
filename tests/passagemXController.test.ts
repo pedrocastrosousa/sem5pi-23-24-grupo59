@@ -90,18 +90,6 @@ describe("Testing Passagem Controller", function () {
         codigoPiso: "3",
     }, new UniqueEntityID("6bfd9c9b-b8a8-444b-b4c8-d18fa4bca712")).getValue();
 
-    const validPassagem = Passagem.create({
-        piso1: validPiso,
-        piso2: validPiso2,
-        codigoPassagem: "1e2"
-    }, new UniqueEntityID("43a4f0f7-a59e-4425-a7f0-3f45d272cd09")).getValue();
-
-    const validPassagem2 = Passagem.create({
-        piso1: validPiso2,
-        piso2: validPiso3,
-        codigoPassagem: "2e3"
-    }, new UniqueEntityID("43a4f0f7-a59e-4425-a7f0-3f45d272cd09")).getValue();
-
 
     it('passagemController unit test using passagemService stub - create valid request', async function () {
         // Arrange
@@ -116,7 +104,7 @@ describe("Testing Passagem Controller", function () {
         };
         let next: Partial<NextFunction> = () => { };
         let passagemServiceInstance = Container.get("PassagemService");
-        sinon.stub(passagemServiceInstance, "createPassagem").returns(Result.ok<IPassagemDTO>({ "id": "passagem", "piso1": req.body.piso1, "piso2": req.body.piso2, "codigoPassagem": "passagem1e2" }))
+        sinon.stub(passagemServiceInstance, "createPassagem").returns(Result.ok<IPassagemDTO>({ "passagemId": "passagem", "piso1": req.body.piso1, "piso2": req.body.piso2, "codigoPassagem": "passagem1e2" }))
 
         const crtl = new PassagemController(passagemServiceInstance as IPassagemService);
 
@@ -128,7 +116,7 @@ describe("Testing Passagem Controller", function () {
 
         //Assert
         sinon.assert.calledOnce(res.json);
-        sinon.assert.calledWith(res.json, sinon.match({ "id": "passagem", "piso1": req.body.piso1, "piso2": req.body.piso2, "codigoPassagem": "passagem1e2" }));
+        sinon.assert.calledWith(res.json, sinon.match({ "passagemId": "passagem", "piso1": req.body.piso1, "piso2": req.body.piso2, "codigoPassagem": "passagem1e2" }));
     });
 
 
@@ -165,6 +153,7 @@ describe("Testing Passagem Controller", function () {
         //Arrange
 
         let body = {
+            "passagemId": "123",
             "piso1": validPiso,
             "piso2": validPiso2
         };
@@ -180,7 +169,7 @@ describe("Testing Passagem Controller", function () {
         passagemServicceMock.expects("createPassagem")
             .once()
             .withArgs(sinon.match({ piso1: req.body.piso1, piso2: req.body.piso2 }))
-            .returns(Result.ok<IPassagemDTO>({ "id": "123", "piso1": req.body.piso1, "piso2": req.body.piso2, "codigoPassagem": "1 e 2" }));
+            .returns(Result.ok<IPassagemDTO>({ "passagemId": req.body.passagemId, "piso1": req.body.piso1, "piso2": req.body.piso2, "codigoPassagem": "1 e 2" }));
 
         const ctrl = new PassagemController(passagemServiceInstance as IPassagemService);
         //Act
@@ -189,12 +178,13 @@ describe("Testing Passagem Controller", function () {
         //Assert
         passagemServicceMock.verify();
         sinon.assert.calledOnce(res.json);
-        sinon.assert.calledWith(res.json, sinon.match({ "id": "123", "piso1": req.body.piso1, "piso2": req.body.piso2, "codigoPassagem": "1 e 2" }));
+        sinon.assert.calledWith(res.json, sinon.match({ "passagemId": "123", "piso1": req.body.piso1, "piso2": req.body.piso2, "codigoPassagem": "1 e 2" }));
     });
 
         it('passagemController + passagemService integration test using spy on passagemService', async function () {
             //Arrange
             let body = {
+                "passagemId": "123",
                 "piso1": validPiso,
                 "piso2": validPiso2
             };
@@ -207,7 +197,7 @@ describe("Testing Passagem Controller", function () {
     
             let passagemRepoInstance = Container.get("PassagemRepo");
             sinon.stub(passagemRepoInstance, "save").returns(new Promise<Passagem>((resolve, reject) => {
-                resolve(Passagem.create({ "piso1": req.body.piso1, "piso2": req.body.piso2, "codigoPassagem": "1 e 2" }).getValue())
+                resolve(Passagem.create({ "passagemId": req.body.passagemId,"piso1": req.body.piso1, "piso2": req.body.piso2, "codigoPassagem": "1 e 2" }).getValue())
             }));
             let passagemServiceInstance = Container.get("PassagemService");
             const passagemServiceSpy = sinon.spy(passagemServiceInstance, "createPassagem");

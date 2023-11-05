@@ -1,0 +1,361 @@
+{
+	"info": {
+		"_postman_id": "f4eec04a-04c1-47f0-a193-1f0cca988d2c",
+		"name": "Testes US Passagem",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29795668"
+	},
+	"item": [
+		{
+			"name": "http://localhost:4000/api/passagem/listarAllPassagens",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check if there isnt a passagem with the codigoPassagemVariable\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    var codigoPassagemTest = pm.variables.get(\"codigoPassagemVariable\");",
+							"    ",
+							"    for (var i = 0; i < jsonData.length; i++) {",
+							"        pm.expect(jsonData[i].codigoPassagem).to.not.equal(codigoPassagemTest);",
+							"    }",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/api/passagem/listarAllPassagens",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"passagem",
+						"listarAllPassagens"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:4000/api/passagem/criarPassagem",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create Passagem\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"piso1\":\"A-pis2\",\n\"piso2\": \"Tomas-pisoM\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/api/passagem/criarPassagem",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"passagem",
+						"criarPassagem"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:4000/api/passagem/listarAllPassagens",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check if there is a passagem with the codigoPassagemVariable\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    var codigoTest = pm.variables.get(\"codigoPassagemVariable\");",
+							"    var codigos = [];",
+							"    for (var i = 0; i < jsonData.length; i++) {",
+							"        codigos.push(jsonData[i].codigoPassagem);",
+							"    }",
+							"     pm.expect(codigos).to.include(codigoTest);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/api/passagem/listarAllPassagens",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"passagem",
+						"listarAllPassagens"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:4000/api/passagem/{{codigoPassagemVariable}}",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Put passagem for piso1\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"piso1\": \"MARYS-pisoM\",\n    \"piso2\": \"Tomas-pisoM\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/api/passagem/{{codigoPassagemVariable}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"passagem",
+						"{{codigoPassagemVariable}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:4000/api/passagem/listarAllPassagens",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check if the passagem with the codigoPassagemVariable has a specific piso1\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    var codigoTest = pm.variables.get(\"codigoPassagemVariable\");",
+							"    var piso1ToCheck = \"MARYS-pisoM\";",
+							"",
+							"    for (var i = 0; i < jsonData.length; i++) {",
+							"        if (jsonData[i].codigoPassagem === codigoTest) {",
+							"            pm.expect(jsonData[i].piso1).equal(piso1ToCheck);",
+							"        }",
+							"    }",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/api/passagem/listarAllPassagens",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"passagem",
+						"listarAllPassagens"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:4000/api/passagem/{{codigoPassagemVariable}}",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Put passagem for piso2\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"piso1\": \"MARYS-pisoM\",\n    \"piso2\": \"A-pis2\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/api/passagem/{{codigoPassagemVariable}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"passagem",
+						"{{codigoPassagemVariable}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:4000/api/passagem/listarAllPassagens",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check if there is a passagem with the codigoPassagemVariable\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    var codigoTest = pm.variables.get(\"codigoPassagemVariable\");",
+							"    var codigos = [];",
+							"    for (var i = 0; i < jsonData.length; i++) {",
+							"        codigos.push(jsonData[i].codigoPassagem);",
+							"    }",
+							"     pm.expect(codigos).to.include(codigoTest);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/api/passagem/listarAllPassagens",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"passagem",
+						"listarAllPassagens"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:4000/api/edificios/{{codigoPassagemVariable}}",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Delete edificio\", function () {",
+							"    pm.response.to.have.status(204);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/api/edificios/{{codigoPassagemVariable}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"edificios",
+						"{{codigoPassagemVariable}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "codigoPassagemVariable",
+			"value": "passagem1",
+			"type": "string"
+		}
+	]
+}
