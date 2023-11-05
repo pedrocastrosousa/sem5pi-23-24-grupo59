@@ -1,0 +1,392 @@
+{
+	"info": {
+		"_postman_id": "9ec1881e-3b64-4506-8084-ee276bc28ffc",
+		"name": "Teste Robot Demo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29795963",
+		"_collection_link": "https://sem5pi-g59.postman.co/workspace/sem5pi-23-24-grupo59~359fef75-e29d-4fc2-a713-316bb6f2f17d/collection/29795963-9ec1881e-3b64-4506-8084-ee276bc28ffc?action=share&source=collection_link&creator=29795963"
+	},
+	"item": [
+		{
+			"name": "Get codigoRobotVariable notEqual",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check if there isnt a robot with the codigoRobotVariable\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    var codigoTest = pm.variables.get(\"codigoRobotVariable\");\r",
+							"    \r",
+							"    for (var i = 0; i < jsonData.length; i++) {\r",
+							"        pm.expect(jsonData[i].codigoRobot).to.not.equal(codigoTest);\r",
+							"    }\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/api/robots/listar",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"robots",
+						"listar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post Robot with codigoRobotVariable",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create Robot\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "content",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"codigo\":\"{{codigoRobotVariable}}\",\r\n    \"nickname\": \"Starfire\",\r\n    \"tipo\": \"NovoTipo\",\r\n    \"numeroSerie\": \"253253AA\",\r\n    \"descricao\": \"primeiro robot de sempre\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/api/robots/criarRobot",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"robots",
+						"criarRobot"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get codigoRobotVariable equal",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check that there is a Robot with the codigoRobotVariable\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    var codigoTest = pm.variables.get(\"codigoRobotVariable\");\r",
+							"    var codigos = [];\r",
+							"    for (var i = 0; i < jsonData.length; i++) {\r",
+							"        codigos.push(jsonData[i].codigoRobot);\r",
+							"    }\r",
+							"     pm.expect(codigos).to.include(codigoRobot);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/api/robots/listar",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"robots",
+						"listar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Patch edificio with codigoRobotVariable for Inhibition",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Patch for Inhibition\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "content",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/api/robots/inibir/{{codigoRobotVariable}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"robots",
+						"inibir",
+						"{{codigoRobotVariable}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get codigoRobotVariable equal Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check that there is a Robot with the codigoRobotVariable\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    var codigoTest = pm.variables.get(\"codigoRobotVariable\");\r",
+							"    var codigos = [];\r",
+							"    for (var i = 0; i < jsonData.length; i++) {\r",
+							"        codigos.push(jsonData[i].codigoRobot);\r",
+							"    }\r",
+							"     pm.expect(codigos).to.include(codigoRobot);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/api/robots/listar",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"robots",
+						"listar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Patch edificio with codigoRobotVariable for Inhibition Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Patch for Inhibition\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "content",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/api/robots/{{codigoRobotVariable}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"robots",
+						"{{codigoRobotVariable}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get codigoRobotVariable equal Copy 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check that there is a Robot with the codigoRobotVariable\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    var codigoTest = pm.variables.get(\"codigoRobotVariable\");\r",
+							"    var codigos = [];\r",
+							"    for (var i = 0; i < jsonData.length; i++) {\r",
+							"        codigos.push(jsonData[i].codigoRobot);\r",
+							"    }\r",
+							"     pm.expect(codigos).to.include(codigoRobot);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/api/robots/listar",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"robots",
+						"listar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Robot with codigoEdifiicoVariable",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Delete Robot\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/api/robots/{{codigoEdificioVariable}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"robots",
+						"{{codigoEdificioVariable}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get codigoRobotVariable equal Copy 3",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check that there is a Robot with the codigoRobotVariable\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    var codigoTest = pm.variables.get(\"codigoRobotVariable\");\r",
+							"    var codigos = [];\r",
+							"    for (var i = 0; i < jsonData.length; i++) {\r",
+							"        codigos.push(jsonData[i].codigoRobot);\r",
+							"    }\r",
+							"     pm.expect(codigos).to.include(codigoRobot);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/api/robots/listar",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"robots",
+						"listar"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
