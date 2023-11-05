@@ -76,4 +76,18 @@ export default (app: Router) => {
   route.get('/listarEdificioMinMaxPisos/', async (req, res, next) => {
     ctrl.listarEdificiosComMinMaxPisos(req, res, next);
   });
+
+  route.get('/listarAllPisos/', async (req, res, next) => {
+    ctrl.listarPisos(req, res, next);
+  });
+
+  route.delete(
+    '/:codigoPiso',
+    celebrate({
+      params: Joi.object({
+        codigoPiso: Joi.string().required(),
+      }),
+    }),
+    (req, res, next) => ctrl.delete(req, res, next),
+  );
 };

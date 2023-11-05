@@ -174,4 +174,11 @@ async update(filter: FilterQuery<Piso>, piso: Partial<Piso>) {
 
   await this.pisoSchema.updateOne(filter, {$set: piso});
 }
+
+public async delete(codigoPiso: string) {
+      
+  const query = { codigoPiso: codigoPiso };
+  await this.pisoSchema.deleteOne(query as FilterQuery<IPassagemPersistence & Document>);
+
+}
 }

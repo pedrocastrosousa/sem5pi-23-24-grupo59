@@ -206,7 +206,7 @@ describe("Testing Passagem Controller", function () {
             //Act 
             await ctrl.createPassagem(<Request>req, <Response>res, <NextFunction>next);
     
-            //sinon.assert.calledOnce(res.status);
+           // sinon.assert.calledOnce(res.status);
            // sinon.assert.calledWith(res.status, 201);
             sinon.assert.calledOnce(passagemServiceSpy);
             sinon.assert.calledWith(passagemServiceSpy, sinon.match({ piso1: req.body.piso1, piso2: req.body.piso2 }));

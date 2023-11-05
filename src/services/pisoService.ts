@@ -222,6 +222,31 @@ export default class PisoService implements IPisoService {
     }
   }
 
+  public async listarPisos(): Promise<Result<IPisoDTO[]>> {
+    try {
+      const pisoList: Piso[] = await this.pisoRepo.findAll();
+      console.log(pisoList);
+      let pisoListDto: IPisoDTO[] = [];
+      if (pisoList != null) {
+        for (let i = 0; i < pisoList.length; i++) {
+          pisoListDto.push(PisoMap.toDTO(pisoList[i]));
+        }
+        return Result.ok<IPisoDTO[]>(pisoListDto);
+      }
+
+      return Result.fail<IPisoDTO[]>("Não existem pisos para listar.");
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  public async delete(codigoPiso: string) {
+    try {
+      await this.pisoRepo.delete(codigoPiso);
+    } catch (e) {
+      throw e;
+    }
+  }
 }
 
 

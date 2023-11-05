@@ -128,5 +128,26 @@ export default class PisoController implements IPisoController /* TODO: extends 
       return res.json(e.message).status(400);
     }
    };
+
+
+    public async listarPisos(req: Request, res: Response, next: NextFunction) {
+      try {
+        const pisoListOrError = await this.pisoServiceInstance.listarPisos();
+  
+        if (pisoListOrError.isFailure) {
+          return res.status(400).send();
+        }
+        return res.json(pisoListOrError.getValue()).status(200);
+      }
+      catch (e) {
+        return res.json(e.message).status(400);
+      }
    
+}
+
+  public async delete(req: Request, res: Response, next: NextFunction) {
+    await this.pisoServiceInstance.delete(req.params.codigoPiso);
+    ;
+    return res.json('piso deleted').status(204);
+  }
 };

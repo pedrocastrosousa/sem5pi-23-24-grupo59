@@ -12,5 +12,7 @@ export default interface IPisoService  {
   getPisosDeEdificioComPassagem(edificio: string): Promise<Result<IPisoDTO[]>>;
   getPisosPorEdificio(edificioId: string): Promise<Result<IPisoDTO[]>>;
   carregarMapa(file: IMapaDTO): Promise<Result<boolean>>;
-  
+  listarPisos(): Promise<Result<IPisoDTO[]>>;
+  delete(codigoPiso: string);
+
 }

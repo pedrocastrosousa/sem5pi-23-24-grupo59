@@ -18,7 +18,7 @@
 							"    var codigoPassagemTest = pm.variables.get(\"codigoPassagemVariable\");",
 							"    ",
 							"    for (var i = 0; i < jsonData.length; i++) {",
-							"        pm.expect(jsonData[i].codigoPassagem).to.not.equal(codigoPassagemTest);",
+							"        pm.expect(jsonData[i].passagemId).to.not.equal(codigoPassagemTest);",
 							"    }",
 							"});"
 						],
@@ -65,7 +65,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\"piso1\":\"A-pis2\",\n\"piso2\": \"Tomas-pisoM\"\n}",
+					"raw": "{\n    \"passagemId\": \"passagem1\",\n    \"piso1\":\"MARYS-pisoT\",\n    \"piso2\": \"Tomas-pisoM\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -100,7 +100,7 @@
 							"    var codigoTest = pm.variables.get(\"codigoPassagemVariable\");",
 							"    var codigos = [];",
 							"    for (var i = 0; i < jsonData.length; i++) {",
-							"        codigos.push(jsonData[i].codigoPassagem);",
+							"        codigos.push(jsonData[i].passagemId);",
 							"    }",
 							"     pm.expect(codigos).to.include(codigoTest);",
 							"});"
@@ -184,7 +184,7 @@
 							"    var piso1ToCheck = \"MARYS-pisoM\";",
 							"",
 							"    for (var i = 0; i < jsonData.length; i++) {",
-							"        if (jsonData[i].codigoPassagem === codigoTest) {",
+							"        if (jsonData[i].passagenId === codigoTest) {",
 							"            pm.expect(jsonData[i].piso1).equal(piso1ToCheck);",
 							"        }",
 							"    }",
@@ -263,14 +263,16 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Check if there is a passagem with the codigoPassagemVariable\", function () {",
+							"pm.test(\"Check if the passagem with the codigoPassagemVariable has a specific piso1\", function () {",
 							"    var jsonData = pm.response.json();",
 							"    var codigoTest = pm.variables.get(\"codigoPassagemVariable\");",
-							"    var codigos = [];",
+							"    var piso2ToCheck = \"A-pis2\";",
+							"",
 							"    for (var i = 0; i < jsonData.length; i++) {",
-							"        codigos.push(jsonData[i].codigoPassagem);",
+							"        if (jsonData[i].passagemId === codigoTest) {",
+							"            pm.expect(jsonData[i].piso2).equal(piso2ToCheck);",
+							"        }",
 							"    }",
-							"     pm.expect(codigos).to.include(codigoTest);",
 							"});"
 						],
 						"type": "text/javascript"
@@ -303,8 +305,8 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Delete edificio\", function () {",
-							"    pm.response.to.have.status(204);",
+							"pm.test(\"Delete passagem\", function () {",
+							"    pm.response.to.have.status(200);",
 							"});"
 						],
 						"type": "text/javascript"
@@ -315,7 +317,7 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:4000/api/edificios/{{codigoPassagemVariable}}",
+					"raw": "http://localhost:4000/api/passagem/{{codigoPassagemVariable}}",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -323,8 +325,47 @@
 					"port": "4000",
 					"path": [
 						"api",
-						"edificios",
+						"passagem",
 						"{{codigoPassagemVariable}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:4000/api/passagem/listarAllPassagens",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check if there isnt a passagem with the codigoPassagemVariable\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    var codigoPassagemTest = pm.variables.get(\"codigoPassagemVariable\");",
+							"    ",
+							"    for (var i = 0; i < jsonData.length; i++) {",
+							"        pm.expect(jsonData[i].passagemId).to.not.equal(codigoPassagemTest);",
+							"    }",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/api/passagem/listarAllPassagens",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"passagem",
+						"listarAllPassagens"
 					]
 				}
 			},

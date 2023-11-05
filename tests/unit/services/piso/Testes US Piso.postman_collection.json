@@ -1,0 +1,316 @@
+{
+	"info": {
+		"_postman_id": "8b72e2bd-0f49-42c5-a191-5ffca8c22807",
+		"name": "Testes US Piso",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29795668"
+	},
+	"item": [
+		{
+			"name": "http://localhost:4000/api/pisos/listarAllPisos",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check if there isnt a piso with the codigoPisoVariable\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    var codigoPisoTest = pm.variables.get(\"codigoPisoVariable\");",
+							"    ",
+							"    for (var i = 0; i < jsonData.length; i++) {",
+							"        pm.expect(jsonData[i].codigoPiso).to.not.equal(codigoPisoTest);",
+							"    }",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/api/pisos/listarAllPisos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"pisos",
+						"listarAllPisos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:4000/api/pisos/criarPiso",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create Piso\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"nome\":\"pisoH\",\n    \"descricao\": \"tomas\",\n    \"edificio\": \"Tomas\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/api/pisos/criarPiso",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"pisos",
+						"criarPiso"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:4000/api/pisos/listarAllPisos",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check if there isnt a piso with the codigoPisoVariable\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    var codigoPisoTest = pm.variables.get(\"codigoPisoVariable\");",
+							"    ",
+							"    for (var i = 0; i < jsonData.length; i++) {",
+							"        pm.expect(jsonData[i].codigoPiso).to.not.equal(codigoPisoTest);",
+							"    }",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/api/pisos/listarAllPisos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"pisos",
+						"listarAllPisos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:4000/api/pisos/{{codigoPisoVariable}}",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Put piso for descricao\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"nome\":\"pisoH\",\n    \"descricao\": \"Modificado\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/api/pisos/{{codigoPisoVariable}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"pisos",
+						"{{codigoPisoVariable}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:4000/api/pisos/listarAllPisos",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check if the piso with the codigoPassagemVariable has a specific descricao\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    var codigoTest = pm.variables.get(\"codigoPisoVariable\");",
+							"    var descricaoToCheck = \"Modificado\";",
+							"",
+							"    for (var i = 0; i < jsonData.length; i++) {",
+							"        if (jsonData[i].codigoPiso === codigoTest) {",
+							"            pm.expect(jsonData[i].descricao).equal(descricaoToCheck);",
+							"        }",
+							"    }",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/api/pisos/listarAllPisos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"pisos",
+						"listarAllPisos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:4000/api/pisos/{{codigoPisoVariable}}",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Delete piso\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/api/pisos/{{codigoPisoVariable}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"pisos",
+						"{{codigoPisoVariable}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:4000/api/pisos/listarAllPisos",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check if there isnt a piso with the codigoPisoVariable\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    var codigoPisoTest = pm.variables.get(\"codigoPisoVariable\");",
+							"    ",
+							"    for (var i = 0; i < jsonData.length; i++) {",
+							"        pm.expect(jsonData[i].codigoPiso).to.not.equal(codigoPisoTest);",
+							"    }",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/api/pisos/listarAllPisos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"pisos",
+						"listarAllPisos"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "codigoPisoVariable",
+			"value": "Tomas-pisoH",
+			"type": "string"
+		}
+	]
+}

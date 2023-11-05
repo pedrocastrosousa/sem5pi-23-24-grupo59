@@ -13,5 +13,7 @@ export default interface IPisoRepo extends Repo<Piso> {
 	findPisosComPassagensPorEdificio(edificio: string): Promise<string[]>
 	findAll() : Promise<Array<Piso>>;
 	update(filter: FilterQuery<Piso>, piso: Partial<Piso>);
+	delete(codigoPiso: string);
+
 }
   
