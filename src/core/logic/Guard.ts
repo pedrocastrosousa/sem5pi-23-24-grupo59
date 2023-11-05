@@ -93,5 +93,21 @@ export class Guard {
     }
   }
 
-  
+  public static isAlfanumericWithSpaces(value: string, argumentName: string): IGuardResult {
+    if (!/^[a-zA-Z0-9\s]+$/.test(value)) {
+      return { succeeded: false, message: `${argumentName} has to be alphanumeric with spaces.` };
+    } else {
+      return { succeeded: true };
+    }
+  }
+
+  public static isAlfanumericWithoutSpaces(value: string, argumentName: string): IGuardResult {
+    if (!/^[a-zA-Z0-9]+$/.test(value)) {
+      return { succeeded: false, message: `${argumentName} has to be alphanumeric with spaces.` };
+    } else {
+      return { succeeded: true };
+    }
+  }
+
+
 }

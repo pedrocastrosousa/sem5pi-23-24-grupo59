@@ -1,4 +1,5 @@
 import { UniqueEntityID } from "../../core/domain/UniqueEntityID";
+import { Guard } from "../../core/logic/Guard";
 import { Result } from "../../core/logic/Result";
 
 export class NumeroIdentificativo extends UniqueEntityID {
@@ -8,8 +9,10 @@ export class NumeroIdentificativo extends UniqueEntityID {
     }
 
     public static create(numeroIdentificativo: string): Result<NumeroIdentificativo> {
-        if (!numeroIdentificativo) {
-            return Result.fail<NumeroIdentificativo>("O número identificativo do elevador é obrigatório.");
+
+        const guardResult = Guard.againstEmptyOrNullOrUndefined(numeroIdentificativo, 'Número Identificativo do Elevador');
+        if (!guardResult.succeeded) {
+            return Result.fail<NumeroIdentificativo>(guardResult.message);
         }
 
         return Result.ok<NumeroIdentificativo>(new NumeroIdentificativo(numeroIdentificativo));

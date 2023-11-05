@@ -1,4 +1,5 @@
 import { ValueObject } from "../../core/domain/ValueObject";
+import { Guard } from "../../core/logic/Guard";
 import { Result } from "../../core/logic/Result";
 
 interface DescricaoElevadorProps {
@@ -15,16 +16,21 @@ export class DescricaoElevador extends ValueObject<DescricaoElevadorProps> {
   }
 
   public static create(descricaoElevador: string): Result<DescricaoElevador> {
-    if (descricaoElevador === null || descricaoElevador === undefined) {
+    const tamanhoLimite = 250;
+
+    let guardResult = Guard.againstNullOrUndefined(descricaoElevador, 'Descrição do Elevador');
+    if (!guardResult.succeeded) {
       return Result.ok<DescricaoElevador>(new DescricaoElevador({ value: '' }));
     }
 
-    if (descricaoElevador.length > 250) {
-      return Result.fail<DescricaoElevador>("A descrição não pode conter mais de 50 caracteres.");
+    guardResult = Guard.checkStringLength(descricaoElevador, tamanhoLimite, 'Descrição do Elevador');
+    if (!guardResult.succeeded) {
+      return Result.fail<DescricaoElevador>(guardResult.message);
     }
 
-    if (!/^[a-zA-Z0-9]+$/.test(descricaoElevador)) {
-      return Result.fail<DescricaoElevador>("A descrição deve ser alfanumérica.");
+    guardResult = Guard.isAlfanumericWithSpaces(descricaoElevador, "Descrição do Elevador");
+    if (!guardResult.succeeded) {
+      return Result.fail<DescricaoElevador>(guardResult.message);
     }
 
     return Result.ok<DescricaoElevador>(new DescricaoElevador({ value: descricaoElevador }));
