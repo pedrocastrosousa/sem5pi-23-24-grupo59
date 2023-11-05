@@ -63,13 +63,13 @@ export default (app: Router) => {
       if(isEmpty(ficheiro)){
         return res.status(200).json("O ficheiro carregado não é um ficheiro JSON ");
       }
-     // const valido = validate(req.body);
-     // if(valido){
+     const valido = validate(req.body);
+      if(valido){
         ctrl.carregarMapa(req, res, next);
-     // } else{
-     //  res.status(200).json("Incorrect file schema")
+      } else{
+       res.status(200).json("Incorrect file schema")
 
-    //  }
+      }
     }
   )
 
