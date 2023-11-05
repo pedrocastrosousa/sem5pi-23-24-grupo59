@@ -18,7 +18,7 @@ export class DescricaoElevador extends ValueObject<DescricaoElevadorProps> {
   public static create(descricaoElevador: string): Result<DescricaoElevador> {
     const tamanhoLimite = 250;
 
-    let guardResult = Guard.againstNullOrUndefined(descricaoElevador, 'Descrição do Elevador');
+    let guardResult = Guard.againstEmptyOrNullOrUndefined(descricaoElevador, 'Descrição do Elevador');
     if (!guardResult.succeeded) {
       return Result.ok<DescricaoElevador>(new DescricaoElevador({ value: '' }));
     }

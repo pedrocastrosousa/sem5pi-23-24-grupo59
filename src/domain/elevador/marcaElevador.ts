@@ -17,7 +17,7 @@ interface MarcaElevadorProps {
 
     public static create(marcaElevador: string): Result<MarcaElevador> {
 
-      let guardResult = Guard.againstNullOrUndefined(marcaElevador, 'Marca do Elevador');
+      let guardResult = Guard.againstEmptyOrNullOrUndefined(marcaElevador, 'Marca do Elevador');
       if (!guardResult.succeeded) {
         return Result.ok<MarcaElevador>(new MarcaElevador({ value: '' }));
       }

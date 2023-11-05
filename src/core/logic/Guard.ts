@@ -27,8 +27,8 @@ export class Guard {
     }
   }
 
-  public static againstEmptyOrNullOrUndefined(argument: any, argumentName: string): IGuardResult {
-    if (argument === null || argument === undefined || argument === '') {
+  public static againstEmptyOrNullOrUndefined(argument: string, argumentName: string): IGuardResult {
+    if (argument === null || argument === undefined || argument.trim() === '') {
       return { succeeded: false, message: `${argumentName} is null or undefined` };
     } else {
       return { succeeded: true };
@@ -95,7 +95,7 @@ export class Guard {
 
   public static isAlfanumericWithSpaces(value: string, argumentName: string): IGuardResult {
     if (!/^[a-zA-Z0-9\s]+$/.test(value)) {
-      return { succeeded: false, message: `${argumentName} has to be alphanumeric with spaces.` };
+      return { succeeded: false, message: `${argumentName} has to be alphanumeric and can have spaces.` };
     } else {
       return { succeeded: true };
     }
@@ -103,7 +103,7 @@ export class Guard {
 
   public static isAlfanumericWithoutSpaces(value: string, argumentName: string): IGuardResult {
     if (!/^[a-zA-Z0-9]+$/.test(value)) {
-      return { succeeded: false, message: `${argumentName} has to be alphanumeric with spaces.` };
+      return { succeeded: false, message: `${argumentName} has to be alphanumeric and can't have spaces.` };
     } else {
       return { succeeded: true };
     }

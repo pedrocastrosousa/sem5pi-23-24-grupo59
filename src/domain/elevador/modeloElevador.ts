@@ -17,7 +17,7 @@ interface ModeloElevadorProps {
 
     public static create(modeloElevador: string): Result<ModeloElevador> {
 
-      let guardResult = Guard.againstNullOrUndefined(modeloElevador, 'Modelo do Elevador');
+      let guardResult = Guard.againstEmptyOrNullOrUndefined(modeloElevador, 'Modelo do Elevador');
       if (!guardResult.succeeded) {
         return Result.ok<ModeloElevador>(new ModeloElevador({ value: '' }));
       }

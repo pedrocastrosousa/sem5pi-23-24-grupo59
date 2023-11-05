@@ -108,18 +108,21 @@ export class Elevador extends AggregateRoot<ElevadorProps> {
         } */
 
 
-
-        if (!guardResult.succeeded) {
-            return Result.fail<Elevador>(guardResult.message);
-        } else if (props.pisos.some(piso => piso.edificio.codigoEdificio.toString() !== props.edificio.codigoEdificio.toString())) {
-            return Result.fail<Elevador>("Um elevador não pode circular em pisos de edifícios diferentes.");
-        } else {
-            const elevador = new Elevador({
-                ...props
-            }, props.numeroIdentificativo);
-
-            return Result.ok<Elevador>(elevador);
-        }
+        try{
+            if (!guardResult.succeeded) {
+                return Result.fail<Elevador>(guardResult.message);
+            } else if (props.pisos.some(piso => piso.edificio.codigoEdificio.toString() !== props.edificio.codigoEdificio.toString())) {
+                return Result.fail<Elevador>("Um elevador não pode circular em pisos de edifícios diferentes.");
+            } else {
+                const elevador = new Elevador({
+                    ...props
+                }, props.numeroIdentificativo);
+    
+                return Result.ok<Elevador>(elevador);
+            }
+        } catch (error) {
+            return Result.fail<Elevador>("Erro ao verificar se os edificios de cada piso correspondiam ao edificio especificado" + error);
+        }   
     }
 
     updatePisos(pisos: Piso[]) {

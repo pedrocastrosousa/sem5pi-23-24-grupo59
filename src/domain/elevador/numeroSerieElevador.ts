@@ -17,7 +17,7 @@ export class NumeroSerieElevador extends ValueObject<NumeroSerieElevadorProps> {
 
   public static create(numeroSerieElevador: string): Result<NumeroSerieElevador> {
 
-    let guardResult = Guard.againstNullOrUndefined(numeroSerieElevador, 'Numero de Serie do Elevador');
+    let guardResult = Guard.againstEmptyOrNullOrUndefined(numeroSerieElevador, 'Numero de Serie do Elevador');
     if (!guardResult.succeeded) {
       return Result.ok<NumeroSerieElevador>(new NumeroSerieElevador({ value: '' }));
     }
