@@ -35,7 +35,7 @@ export default class RobotController implements IRobotController /* TODO: extend
       if (robotListOrError.isFailure) {
         return res.status(400).send();
       }
-      return res.json(robotListOrError.getValue()).status(200);
+      return res.status(200).json(robotListOrError.getValue());
     }
     catch (e) {
       return res.json(e.message).status(400);
