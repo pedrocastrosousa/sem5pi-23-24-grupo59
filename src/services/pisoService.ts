@@ -13,6 +13,7 @@ import IEdificioDTO from "../dto/IEdificioDTO";
 import { EdificioMap } from "../mappers/EdificioMap";
 import IPassagemRepo from "./IRepos/IPassagemRepo";
 import IMapaDTO from "../dto/IMapaDTO";
+import { toFinite } from "lodash";
 
 
 @Service()
@@ -182,8 +183,8 @@ export default class PisoService implements IPisoService {
   public async carregarMapa(file: IMapaDTO): Promise<Result<boolean>> {
 
     try {
-
-      const edificio = await this.edificioRepo.findByCodigo(file.codigoEdificio);
+console.log(file.mapa.codigoEdificio);
+      const edificio = await this.edificioRepo.findByCodigo(file.mapa.codigoEdificio);
       if (edificio === null) {
         return Result.fail<boolean>("Edificio not found");
       }
@@ -191,14 +192,14 @@ export default class PisoService implements IPisoService {
 
       const maxLargura = edificio.dimensaoMaximaPisos.props.largura;
       const maxComprimento = edificio.dimensaoMaximaPisos.props.comprimento;
-      const tamanhoMapa = file.tamanho;
-      if (tamanhoMapa.comprimento > maxComprimento || tamanhoMapa.largura > maxLargura) {
+      const tamanhoMapa = file.mapa.tamanho;
+      if (file.mapa.tamanho.comprimento == maxComprimento || file.mapa.tamanho.largura == maxLargura) {
         return Result.fail<boolean>("Tamanho do piso invalido");
       }
 
       const jsonString = JSON.stringify(file);
 
-      const piso = await this.pisoRepo.findByCodigo(file.codigoPiso);
+      const piso = await this.pisoRepo.findByCodigo(file.mapa.codigoPiso);
 
       if (piso === null) {
         return Result.fail<boolean>("Piso not found");
@@ -209,7 +210,7 @@ export default class PisoService implements IPisoService {
       piso.mapa = jsonString;
 
       const pisoPersistence = PisoMap.toPersistence(piso);
-      const pisoo = await this.pisoRepo.update({ edificio: file.codigoEdificio, codigoPiso: file.codigoPiso }, pisoPersistence);
+      const pisoo = await this.pisoRepo.update({ edificio: file.mapa.codigoEdificio, codigoPiso: file.mapa.codigoPiso }, pisoPersistence);
 
       if (pisoo === null) {
         return Result.fail<boolean>("Erro ao carregar Mapa")

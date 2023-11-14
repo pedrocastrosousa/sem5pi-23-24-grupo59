@@ -1,11 +1,15 @@
 import ITamanhoMapaDTO from "./ITamanhoMapaDTO";
 
-export default interface IMapaDTO{
-    codigoPiso: string,
-    codigoEdificio: string,
-    tamanho: ITamanhoMapaDTO,
-    paredes: Object[],
-    salas: Object[],
-    elevador: Object,
-    passagens: Object[]
+export default interface IMapaDTO {
+    mapa: {
+        codigoPiso: string,
+        codigoEdificio: string,
+        tamanho: ITamanhoMapaDTO,
+        salas: Object[],
+        elevador: Object,
+        passagens: Object[]
+    },
+    ground: Object,
+    wall: Object,
+    player: Object,
 }
