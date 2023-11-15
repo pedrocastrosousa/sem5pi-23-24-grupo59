@@ -1,12 +1,12 @@
 // app-routing.module.ts
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { MenuComponent } from './menu/menu.component';
-import { AdministradorComponent } from './administrador/administrador.component';
-import { UtenteComponent } from './utente/utente.component';
-import { GestorFrotaComponent } from './gestor-frota/gestor-frota.component';
-import { GestorTarefasComponent } from './gestor-tarefas/gestor-tarefas.component';
-import { GestorCampusComponent } from './gestor-campus/gestor-campus.component';
+import { MenuComponent } from '../components/menu/menu.component';
+import { AdministradorComponent } from '../components/administrador/administrador.component';
+import { UtenteComponent } from '../components/utente/utente.component';
+import { GestorFrotaComponent } from '../components/gestor-frota/gestor-frota.component';
+import { GestorTarefasComponent } from '../components/gestor-tarefas/gestor-tarefas.component';
+import { GestorCampusComponent } from '../services/gestor-campus/gestor-campus.component';
 
 const routes: Routes = [
   { path: '', component: MenuComponent, pathMatch: 'full' },
@@ -22,4 +22,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

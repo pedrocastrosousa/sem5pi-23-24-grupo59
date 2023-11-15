@@ -3,17 +3,17 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
-import {Edificio} from './edificio'
+import { Edificio } from '../domain/edificio';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class EdificioService {
   private edificioUrl = 'api/edificios';
-  constructor(private http: HttpClient,) { }
+  constructor(private http: HttpClient) {}
 
   httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
   };
 
   createEdificio(edificio: Edificio): Observable<Edificio> {

@@ -1,6 +1,6 @@
 // admin.service.ts
 import { Injectable } from '@angular/core';
-import { Task } from './task';
+import { Task } from '../domain/task';
 
 @Injectable({
   providedIn: 'root',
@@ -17,6 +17,6 @@ export class AdminService {
   }
 
   getTaskById(id: number): Task | undefined {
-    return this.tasks.find((task) => task.id === id);
+    return this.tasks.find(task => task.id === id);
   }
 }
