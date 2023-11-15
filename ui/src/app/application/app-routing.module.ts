@@ -6,7 +6,7 @@ import { AdministradorComponent } from '../components/administrador/administrado
 import { UtenteComponent } from '../components/utente/utente.component';
 import { GestorFrotaComponent } from '../components/gestor-frota/gestor-frota.component';
 import { GestorTarefasComponent } from '../components/gestor-tarefas/gestor-tarefas.component';
-import { GestorCampusComponent } from '../services/gestor-campus/gestor-campus.component';
+import { GestorCampusComponent } from '../components/gestor-campus/gestor-campus.component';
 
 const routes: Routes = [
   { path: '', component: MenuComponent, pathMatch: 'full' },
