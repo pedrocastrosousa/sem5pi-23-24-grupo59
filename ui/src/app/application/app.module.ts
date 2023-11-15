@@ -13,6 +13,8 @@ import { GestorCampusComponent } from '../components/gestor-campus/gestor-campus
 import { GestorFrotaComponent } from '../components/gestor-frota/gestor-frota.component';
 import { GestorTarefasComponent } from '../components/gestor-tarefas/gestor-tarefas.component';
 import { HttpClientModule } from '@angular/common/http';
+import { PisosComponent } from '../components/gestor-campus/pisos/pisos.component';
+import { PassagensComponent } from '../components/gestor-campus/passagens/passagens.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +25,8 @@ import { HttpClientModule } from '@angular/common/http';
     GestorCampusComponent,
     GestorFrotaComponent,
     GestorTarefasComponent,
+    PisosComponent,
+    PassagensComponent
   ],
   imports: [BrowserModule, AppRoutingModule, CommonModule, RouterModule, HttpClientModule],
   providers: [AuthService],
