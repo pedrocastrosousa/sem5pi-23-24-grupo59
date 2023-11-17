@@ -17,6 +17,9 @@ import { FormsModule } from '@angular/forms';
 import { MessageService } from '../services/message.service';
 import { EdificioService } from '../services/edificio.service';
 import { TipoRobotService } from '../services/tipo-robot.service';
+import { PisosComponent } from '../components/gestor-campus/pisos/pisos.component';
+import { PassagensComponent } from '../components/gestor-campus/passagens/passagens.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,6 +29,8 @@ import { TipoRobotService } from '../services/tipo-robot.service';
     GestorCampusComponent,
     GestorFrotaComponent,
     GestorTarefasComponent,
+    PisosComponent,
+    PassagensComponent
   ],
   imports: [FormsModule, BrowserModule, AppRoutingModule, CommonModule, RouterModule, HttpClientModule],
   providers: [AuthService, MessageService, EdificioService, TipoRobotService],
