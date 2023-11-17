@@ -13,7 +13,10 @@ import { GestorCampusComponent } from '../components/gestor-campus/gestor-campus
 import { GestorFrotaComponent } from '../components/gestor-frota/gestor-frota.component';
 import { GestorTarefasComponent } from '../components/gestor-tarefas/gestor-tarefas.component';
 import { HttpClientModule } from '@angular/common/http';
-
+import { FormsModule } from '@angular/forms';
+import { MessageService } from '../services/message.service';
+import { EdificioService } from '../services/edificio.service';
+import { TipoRobotService } from '../services/tipo-robot.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -24,8 +27,8 @@ import { HttpClientModule } from '@angular/common/http';
     GestorFrotaComponent,
     GestorTarefasComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, CommonModule, RouterModule, HttpClientModule],
-  providers: [AuthService],
+  imports: [FormsModule, BrowserModule, AppRoutingModule, CommonModule, RouterModule, HttpClientModule],
+  providers: [AuthService, MessageService, EdificioService, TipoRobotService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
