@@ -18,7 +18,7 @@ export default (app: Router) => {
       body: Joi.object({
         codigoEdificio: Joi.string().required(),
         descricaoEdificio: Joi.string().required(),
-        nomeEdificio: Joi.string().optional(),
+        nomeEdificio: Joi.string().optional().allow(''),
         dimensaoMaximaPisos: Joi.object().required(),
       }),
     }),

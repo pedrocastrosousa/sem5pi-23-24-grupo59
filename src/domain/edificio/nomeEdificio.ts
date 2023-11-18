@@ -18,10 +18,10 @@ export class NomeEdificio extends ValueObject<NomeEdificioProps>{
     }
 
     public static create(nomeEdificio: string): Result<NomeEdificio> {
-        const guardLengthResult = Guard.checkStringLength(nomeEdificio, 50, 'nomeEdificio');
-        if(!nomeEdificio ){
-            return Result.ok<null>(null);
+        if (!nomeEdificio) {
+          return Result.ok<null>(null);
         }
+        const guardLengthResult = Guard.checkStringLength(nomeEdificio, 50, 'nomeEdificio'); 
         if (!guardLengthResult.succeeded) {
             return Result.fail<NomeEdificio>('Excedeu o limite do tamanho do nome de edificio!');
         } else {
