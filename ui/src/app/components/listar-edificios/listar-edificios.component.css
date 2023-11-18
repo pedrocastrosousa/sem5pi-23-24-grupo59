@@ -1,0 +1,30 @@
+/* building.component.css */
+table {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+  background-color: rgb(235, 232, 232);
+}
+
+th {
+  background-color: #150101;
+}
+
+.back-button {
+    position: fixed;
+    /* or use 'absolute' based on your layout needs */
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #555;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.back-button:hover {
+    background-color: #777;
+}

@@ -8,6 +8,7 @@ import { GestorFrotaComponent } from '../components/gestor-frota/gestor-frota.co
 import { GestorTarefasComponent } from '../components/gestor-tarefas/gestor-tarefas.component';
 import { GestorCampusComponent } from '../components/gestor-campus/gestor-campus.component';
 import { CriarEdificioComponent } from '../components/criar-edificio/criar-edificio.component';
+import { ListaredificiosComponent } from '../components/listar-edificios/listar-edificios.component';
 
 const routes: Routes = [
   { path: '', component: MenuComponent, pathMatch: 'full' },
@@ -18,6 +19,7 @@ const routes: Routes = [
   { path: 'gestor-tarefas', component: GestorTarefasComponent },
   { path: 'gestor-campus', component: GestorCampusComponent },
   { path: 'criar-edificio', component: CriarEdificioComponent },
+  { path: 'listaredificios', component: ListaredificiosComponent },
 ];
 
 @NgModule({

@@ -30,12 +30,16 @@ export class EdificioService {
     );
   }
 
+  getAllEdificios(): Observable<Edificio[]> {
+    return this.http.get<Edificio[]>(this.edificioUrl);
+  }
+
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       // TODO: send the error to remote logging infrastructure
       console.error(error); // log to console instead
-      
-      alert("Ocorreu um erro!");
+
+      alert('Ocorreu um erro!');
       // TODO: better job of transforming error for user consumption
       this.log(`${operation} failed: ${error.message}`);
 

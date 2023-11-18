@@ -1,0 +1,35 @@
+<!-- building.component.html -->
+<table mat-table [dataSource]="edificios">
+  <!-- Columns -->
+  <ng-container matColumnDef="codigoEdificio">
+    <th mat-header-cell *matHeaderCellDef>Codigo</th>
+    <td mat-cell *matCellDef="let building">{{ building.codigoEdificio }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="descricaoEdificio">
+    <th mat-header-cell *matHeaderCellDef>Descricao</th>
+    <td mat-cell *matCellDef="let building">{{ building.descricaoEdificio }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="nomeEdificio">
+    <th mat-header-cell *matHeaderCellDef>Nome</th>
+    <td mat-cell *matCellDef="let building">{{ building.nomeEdificio }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="largura">
+    <th mat-header-cell *matHeaderCellDef>Largura</th>
+    <td mat-cell *matCellDef="let building">{{ building.dimensaoMaximaPisos.largura }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="comprimento">
+    <th mat-header-cell *matHeaderCellDef>Comprimento</th>
+    <td mat-cell *matCellDef="let building">{{ building.dimensaoMaximaPisos.comprimento }}</td>
+  </ng-container>
+
+  <!-- Row with columns -->
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>
+<footer>
+        <button class="back-button" routerLink="/gestor-campus">Back</button>
+</footer>
