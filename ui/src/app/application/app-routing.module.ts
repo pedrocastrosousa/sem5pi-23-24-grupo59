@@ -7,6 +7,7 @@ import { UtenteComponent } from '../components/utente/utente.component';
 import { GestorFrotaComponent } from '../components/gestor-frota/gestor-frota.component';
 import { GestorTarefasComponent } from '../components/gestor-tarefas/gestor-tarefas.component';
 import { GestorCampusComponent } from '../components/gestor-campus/gestor-campus.component';
+import { CriarEdificioComponent } from '../components/criar-edificio/criar-edificio.component';
 
 const routes: Routes = [
   { path: '', component: MenuComponent, pathMatch: 'full' },
@@ -16,6 +17,7 @@ const routes: Routes = [
   { path: 'gestor-frota', component: GestorFrotaComponent },
   { path: 'gestor-tarefas', component: GestorTarefasComponent },
   { path: 'gestor-campus', component: GestorCampusComponent },
+  { path: 'criar-edificio', component: CriarEdificioComponent },
 ];
 
 @NgModule({

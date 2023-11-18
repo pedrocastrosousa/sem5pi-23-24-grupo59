@@ -1,15 +1,15 @@
 /* Reset some default styles */
 
-.gestorFrotaContainer {
+.criar-edificio-container {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
   height: 100%;
-  background-color: #a8a8a8;
+  background-color: #685e5e;
 }
 
-.gestorFrotaFormContainer {
+.criar-edificio-form-container {
   display: flex;
   flex-direction: column; 
   justify-content: center;
