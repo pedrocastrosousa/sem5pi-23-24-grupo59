@@ -121,6 +121,21 @@ header {
   background-color: #777;
 }
 
+.listar-button {
+  /* or use 'absolute' based on your layout needs */
+  background-color: #555;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.listar-button:hover {
+  background-color: #777;
+}
+
 form {
   background-color: #fff;
   padding: 20px;
@@ -162,6 +177,7 @@ button {
 button:hover {
   background-color: #4b554c;
 }
+
 
 /* Responsive Navigation */
 @media screen and (max-width: 600px) {

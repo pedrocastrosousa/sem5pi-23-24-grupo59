@@ -9,7 +9,7 @@ import { GestorTarefasComponent } from '../components/gestor-tarefas/gestor-tare
 import { GestorCampusComponent } from '../components/gestor-campus/gestor-campus.component';
 import { CriarEdificioComponent } from '../components/criar-edificio/criar-edificio.component';
 import { ListaredificiosComponent } from '../components/listar-edificios/listar-edificios.component';
-
+import { ListarRobotsComponent } from '../components/listar-robots/listar-robots.component';
 const routes: Routes = [
   { path: '', component: MenuComponent, pathMatch: 'full' },
   { path: 'menu', component: MenuComponent },
@@ -19,9 +19,9 @@ const routes: Routes = [
   { path: 'gestor-tarefas', component: GestorTarefasComponent },
   { path: 'gestor-campus', component: GestorCampusComponent },
   { path: 'criar-edificio', component: CriarEdificioComponent },
-  { path: 'listaredificios', component: ListaredificiosComponent },
+  { path: 'listar-edificios', component: ListaredificiosComponent },
+  { path: 'listar-robots', component: ListarRobotsComponent },
 ];
-
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],

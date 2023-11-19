@@ -1,0 +1,40 @@
+<!-- robot.component.html -->
+<table mat-table [dataSource]="robots">
+  <!-- Columns -->
+  <ng-container matColumnDef="codigoRobot">
+    <th mat-header-cell *matHeaderCellDef>Codigo</th>
+    <td mat-cell *matCellDef="let robot">{{ robot.codigo }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="nicknameRobot">
+    <th mat-header-cell *matHeaderCellDef>Nickname</th>
+    <td mat-cell *matCellDef="let robot">{{ robot.nickname }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="tipoRobot">
+    <th mat-header-cell *matHeaderCellDef>Tipo</th>
+    <td mat-cell *matCellDef="let robot">{{ robot.tipo }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="numeroserieRobot">
+    <th mat-header-cell *matHeaderCellDef>Numero de Serie</th>
+    <td mat-cell *matCellDef="let robot">{{ robot.numeroSerie }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="descricaoRobot">
+    <th mat-header-cell *matHeaderCellDef>Descricao</th>
+    <td mat-cell *matCellDef="let robot">{{ robot.descricao }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="estadoRobot">
+    <th mat-header-cell *matHeaderCellDef>Estado</th>
+    <td mat-cell *matCellDef="let robot">{{ robot.estado }}</td>
+  </ng-container>
+
+  <!-- Row with columns -->
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>
+<footer>
+  <button class="back-button" routerLink="/gestor-frota">Back</button>
+</footer>

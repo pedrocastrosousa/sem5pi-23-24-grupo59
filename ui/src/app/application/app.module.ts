@@ -23,6 +23,8 @@ import { CriarEdificioComponent } from '../components/criar-edificio/criar-edifi
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ListaredificiosComponent } from '../components/listar-edificios/listar-edificios.component';
 import { MatTableModule } from '@angular/material/table';
+import { ListarRobotsComponent } from '../components/listar-robots/listar-robots.component';
+import { RobotService } from '../services/robot.service';
 
 @NgModule({
   declarations: [
@@ -37,6 +39,7 @@ import { MatTableModule } from '@angular/material/table';
     PassagensComponent,
     CriarEdificioComponent,
     ListaredificiosComponent,
+    ListarRobotsComponent,
   ],
   imports: [
     MatTableModule,
@@ -48,7 +51,7 @@ import { MatTableModule } from '@angular/material/table';
     HttpClientModule,
     BrowserAnimationsModule,
   ],
-  providers: [AuthService, MessageService, EdificioService, TipoRobotService],
+  providers: [RobotService, AuthService, MessageService, EdificioService, TipoRobotService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

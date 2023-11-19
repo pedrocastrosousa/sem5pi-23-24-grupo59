@@ -8,7 +8,6 @@
       (ngSubmit)="createTipoRobot(designacaoTipoRobot.value, tipoTarefaTipoRobot.value.split(','))"
       #tipoRobotForm="ngForm"
     >
-
       <label for="designacaoTipoRobot">Designacao Tipo Robot:</label>
       <input type="text" id="designacaoTipoRobot" name="designacaoTipoRobot" required #designacaoTipoRobot />
 
@@ -18,6 +17,7 @@
       <button type="submit" [disabled]="tipoRobotForm.invalid">Criar</button>
     </form>
   </div>
+  <div><button class="listar-button" routerLink="/listar-robots">Listar Robots</button></div>
   <footer>
     <button class="back-button" routerLink="/menu">Back</button>
   </footer>
