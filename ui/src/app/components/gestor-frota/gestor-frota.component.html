@@ -1,23 +1,8 @@
 <section class="gestorFrotaContainer">
-  <header>
-    <h1>Menu Gestor Frota</h1>
-  </header>
-  <div class="gestorFrotaFormContainer">
-    <h2>Create Tipo Robot</h2>
-    <form
-      (ngSubmit)="createTipoRobot(designacaoTipoRobot.value, tipoTarefaTipoRobot.value.split(','))"
-      #tipoRobotForm="ngForm"
-    >
-      <label for="designacaoTipoRobot">Designacao Tipo Robot:</label>
-      <input type="text" id="designacaoTipoRobot" name="designacaoTipoRobot" required #designacaoTipoRobot />
-
-      <label for="tipoTarefaTipoRobot">Tipo Tarefa Tipo Robot (separado por virgulas):</label>
-      <input type="text" id="tipoTarefaTipoRobot" name="tipoTarefaTipoRobot" required #tipoTarefaTipoRobot />
-
-      <button type="submit" [disabled]="tipoRobotForm.invalid">Criar</button>
-    </form>
+  <div>
+    <button class="my-button" routerLink="/criar-tipo-robot">Criar Tipo Robot</button>
   </div>
-  <div><button class="listar-button" routerLink="/listar-robots">Listar Robots</button></div>
+  <div><button class="my-button" routerLink="/listar-robots">Listar Robots</button></div>
   <footer>
     <button class="back-button" routerLink="/menu">Back</button>
   </footer>

@@ -25,6 +25,7 @@ import { ListaredificiosComponent } from '../components/listar-edificios/listar-
 import { MatTableModule } from '@angular/material/table';
 import { ListarRobotsComponent } from '../components/listar-robots/listar-robots.component';
 import { RobotService } from '../services/robot.service';
+import { CriarTipoRobotComponent } from '../components/criar-tipo-robot/criar-tipo-robot.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { RobotService } from '../services/robot.service';
     CriarEdificioComponent,
     ListaredificiosComponent,
     ListarRobotsComponent,
+    CriarTipoRobotComponent,
   ],
   imports: [
     MatTableModule,
