@@ -154,6 +154,25 @@ header {
     background-color: #777;
 }
 
+.editar-button {
+    position: fixed;
+    /* or use 'absolute' based on your layout needs */
+    bottom: 400px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #555;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.editar-button:hover {
+    background-color: #777;
+}
+
 /* Responsive Navigation */
 @media screen and (max-width: 600px) {
 

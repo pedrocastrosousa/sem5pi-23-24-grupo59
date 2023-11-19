@@ -1,0 +1,37 @@
+<div class="container">
+  <h2>Atualizar Edificio</h2>
+
+  <label for="edificioSelect">Selecione um Edificio:</label>
+  <select id="edificioSelect" [(ngModel)]="selectedEdificio" (change)="selectEdificio()">
+    <option *ngFor="let edificio of edificios" [ngValue]="edificio">{{ edificio.codigoEdificio }}</option>
+  </select>
+
+  <form (ngSubmit)="updateEdificio()" #edificioForm="ngForm">
+
+    <div class="form-group">
+      <label for="descricaoEdificio">Descrição:</label>
+      <input type="text" id="descricaoEdificio" name="descricaoEdificio" [(ngModel)]="edificio.descricaoEdificio" required>
+    </div>
+
+    <div class="form-group">
+      <label for="nomeEdificio">Nome:</label>
+      <input type="text" id="nomeEdificio" name="nomeEdificio" [(ngModel)]="edificio.nomeEdificio">
+    </div>
+
+    <div class="form-group">
+      <label for="comprimento">Comprimento:</label>
+      <input type="number" id="comprimento" name="comprimento" [(ngModel)]="edificio.dimensaoMaximaPisos.comprimento" required>
+    </div>
+
+    <div class="form-group">
+      <label for="largura">Largura:</label>
+      <input type="number" id="largura" name="largura" [(ngModel)]="edificio.dimensaoMaximaPisos.largura" required>
+    </div>
+
+    <button type="submit" [disabled]="!edificioForm.valid">Atualizar Edificio</button>
+
+  </form>
+   <footer>
+        <button class="back-button" routerLink="/gestor-campus">Back</button>
+    </footer>
+</div>

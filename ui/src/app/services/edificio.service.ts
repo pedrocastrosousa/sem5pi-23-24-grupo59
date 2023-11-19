@@ -34,6 +34,16 @@ export class EdificioService {
     return this.http.get<Edificio[]>(this.edificioUrl);
   }
 
+  updateEdificio(updatedEdificio: Edificio): Observable<any> {
+    return this.http.put<any>(this.edificioUrl, updatedEdificio, this.httpOptions).pipe(
+      tap((newEdificio: Edificio) => {
+        this.log(`edificio foi atualizado!`);
+        alert(`Edificio ${newEdificio.codigoEdificio} was updated`);
+      }),
+      catchError(this.handleError<Edificio>('updateEdificio')),
+    );;
+  }
+
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       // TODO: send the error to remote logging infrastructure

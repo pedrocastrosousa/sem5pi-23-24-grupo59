@@ -26,6 +26,8 @@ import { MatTableModule } from '@angular/material/table';
 import { ListarRobotsComponent } from '../components/listar-robots/listar-robots.component';
 import { RobotService } from '../services/robot.service';
 import { CriarTipoRobotComponent } from '../components/criar-tipo-robot/criar-tipo-robot.component';
+import { EditarEdificioComponent } from '../components/editar-edificio/editar-edificio.component';
+import { ReactiveFormsModule } from '@angular/forms'; // Import the ReactiveFormsModule
 
 @NgModule({
   declarations: [
@@ -42,6 +44,7 @@ import { CriarTipoRobotComponent } from '../components/criar-tipo-robot/criar-ti
     ListaredificiosComponent,
     ListarRobotsComponent,
     CriarTipoRobotComponent,
+    EditarEdificioComponent,
   ],
   imports: [
     MatTableModule,
@@ -52,6 +55,7 @@ import { CriarTipoRobotComponent } from '../components/criar-tipo-robot/criar-ti
     RouterModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    ReactiveFormsModule,
   ],
   providers: [RobotService, AuthService, MessageService, EdificioService, TipoRobotService],
   bootstrap: [AppComponent],

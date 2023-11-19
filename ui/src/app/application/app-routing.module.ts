@@ -11,6 +11,7 @@ import { CriarEdificioComponent } from '../components/criar-edificio/criar-edifi
 import { ListaredificiosComponent } from '../components/listar-edificios/listar-edificios.component';
 import { ListarRobotsComponent } from '../components/listar-robots/listar-robots.component';
 import { CriarTipoRobotComponent } from '../components/criar-tipo-robot/criar-tipo-robot.component';
+import { EditarEdificioComponent } from '../components/editar-edificio/editar-edificio.component';
 
 const routes: Routes = [
   { path: '', component: MenuComponent, pathMatch: 'full' },
@@ -24,6 +25,7 @@ const routes: Routes = [
   { path: 'listar-edificios', component: ListaredificiosComponent },
   { path: 'listar-robots', component: ListarRobotsComponent },
   { path: 'criar-tipo-robot', component: CriarTipoRobotComponent },
+  { path: 'editar-edificio', component: EditarEdificioComponent },
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
