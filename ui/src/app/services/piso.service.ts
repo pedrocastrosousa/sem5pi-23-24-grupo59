@@ -11,7 +11,9 @@ import { MessageService } from './message.service';
   providedIn: 'root',
 })
 export class PisoService {
-  private pisoUrl = 'http://localhost:4000/api/pisos/criarPiso';
+  private criarPisoUrl = 'http://localhost:4000/api/pisos/criarPiso';
+  private listarPisosUrl = 'http://localhost:4000/api/pisos/listarAllPisos';
+
   constructor(private messageService: MessageService, private http: HttpClient) {}
 
 
@@ -20,10 +22,10 @@ export class PisoService {
   };
 
   createPiso(piso: Piso): Observable<Piso> {
-    return this.http.post<Piso>(this.pisoUrl, piso, this.httpOptions).pipe(
+    return this.http.post<Piso>(this.criarPisoUrl, piso, this.httpOptions).pipe(
       tap((newPiso: Piso) => {
-        this.log(`pisofoi criado!`);
-        alert(`New edificio was created with ID: ${newPiso.nome}`);
+        this.log(`piso foi criado!`);
+        alert(`New Passagem was created with ID: ${newPiso.nome}`);
       }),
       catchError(this.handleError<Piso>('createPiso')),
     );;
@@ -47,5 +49,10 @@ export class PisoService {
   /** Log a HeroService message with the MessageService */
   private log(message: string) {
     this.messageService.add(`PisoService: ${message}`);
+  }
+
+
+  getAllPisos(): Observable<Piso[]> {
+    return this.http.get<Piso[]>(this.listarPisosUrl);
   }
 }

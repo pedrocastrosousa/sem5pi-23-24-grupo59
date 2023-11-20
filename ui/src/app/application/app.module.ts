@@ -17,7 +17,6 @@ import { FormsModule } from '@angular/forms';
 import { MessageService } from '../services/message.service';
 import { EdificioService } from '../services/edificio.service';
 import { TipoRobotService } from '../services/tipo-robot.service';
-import { PassagensComponent } from '../components/gestor-campus/passagens/passagens.component';
 import { CriarEdificioComponent } from '../components/criar-edificio/criar-edificio.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ListaredificiosComponent } from '../components/listar-edificios/listar-edificios.component';
@@ -29,6 +28,10 @@ import { EditarEdificioComponent } from '../components/editar-edificio/editar-ed
 import { ReactiveFormsModule } from '@angular/forms'; // Import the ReactiveFormsModule
 import { CriarPisoComponent } from '../components/criar-piso/criar-piso.component';
 import { PisoService } from '../services/piso.service';
+import { CriarPassagemComponent } from '../components/criar-passagem/criar-passagem.component';
+import { PassagemService } from '../services/passagem.service';
+import { EditarPassagemComponent } from '../components/editar-passagem/editar-passagem.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -38,13 +41,14 @@ import { PisoService } from '../services/piso.service';
     GestorCampusComponent,
     GestorFrotaComponent,
     GestorTarefasComponent,
-    PassagensComponent,
     CriarEdificioComponent,
     ListaredificiosComponent,
     ListarRobotsComponent,
     CriarTipoRobotComponent,
     EditarEdificioComponent,
     CriarPisoComponent,
+    CriarPassagemComponent, 
+    EditarPassagemComponent
   ],
   imports: [
     MatTableModule,
@@ -57,7 +61,7 @@ import { PisoService } from '../services/piso.service';
     BrowserAnimationsModule,
     ReactiveFormsModule,
   ],
-  providers: [RobotService, AuthService, MessageService, EdificioService, TipoRobotService, PisoService],
+  providers: [RobotService, AuthService, MessageService, EdificioService, TipoRobotService, PisoService, PassagemService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

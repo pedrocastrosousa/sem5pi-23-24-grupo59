@@ -29,7 +29,8 @@ export default (app: Router) => {
   route.get('/listarAllPassagens', async (req, res, next) => {
     ctrl.listarAllPassagens(req, res, next);
   });
-  route.put('/:codigoPassagem',
+
+  route.put('/editarPassagem',
     celebrate({
       body: Joi.object({
         piso1: Joi.string(),

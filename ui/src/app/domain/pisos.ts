@@ -4,4 +4,5 @@ export interface Piso{
     nome: string;
     descricao: string;
     edificio: string;
+    codigoPiso: string;
 }
