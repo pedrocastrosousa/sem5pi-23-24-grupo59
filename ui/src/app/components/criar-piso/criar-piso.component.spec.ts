@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PisosComponent } from './pisos.component';
+import { CriarPisoComponent } from './criar-piso.component';
 
-describe('PisosComponent', () => {
-  let component: PisosComponent;
-  let fixture: ComponentFixture<PisosComponent>;
+describe('CriarPisoComponent', () => {
+  let component: CriarPisoComponent;
+  let fixture: ComponentFixture<CriarPisoComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [PisosComponent]
+      declarations: [CriarPisoComponent]
     });
-    fixture = TestBed.createComponent(PisosComponent);
+    fixture = TestBed.createComponent(CriarPisoComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

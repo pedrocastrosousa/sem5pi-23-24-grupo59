@@ -1,0 +1,30 @@
+<!-- criar-piso.component.html -->
+
+<div>
+    <h2>Criar Piso</h2>
+  
+    <form (submit)="onSubmit()">
+      <div>
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" name="nome" [(ngModel)]="nome" required>
+      </div>
+  
+      <div>
+        <label for="descricao">Descrição:</label>
+        <textarea id="descricao" name="descricao" [(ngModel)]="descricao" required></textarea>
+      </div>
+  
+      <div>
+        <label for="edificio">Edifício:</label>
+        <select id="edificio" name="edificio" [(ngModel)]="selectedEdificioId" required>
+          <option *ngFor="let edif of edificios" [value]="edif.codigoEdificio">{{ edif.codigoEdificio }}</option>
+        </select>
+      </div>
+  
+      <button type="submit">Guardar</button>
+    </form>
+
+    <footer>
+        <button class="back-button" routerLink="/gestor-campus">Back</button>
+    </footer>
+  </div>

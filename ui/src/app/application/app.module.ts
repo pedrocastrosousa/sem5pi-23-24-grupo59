@@ -17,7 +17,6 @@ import { FormsModule } from '@angular/forms';
 import { MessageService } from '../services/message.service';
 import { EdificioService } from '../services/edificio.service';
 import { TipoRobotService } from '../services/tipo-robot.service';
-import { PisosComponent } from '../components/gestor-campus/pisos/pisos.component';
 import { PassagensComponent } from '../components/gestor-campus/passagens/passagens.component';
 import { CriarEdificioComponent } from '../components/criar-edificio/criar-edificio.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -28,7 +27,8 @@ import { RobotService } from '../services/robot.service';
 import { CriarTipoRobotComponent } from '../components/criar-tipo-robot/criar-tipo-robot.component';
 import { EditarEdificioComponent } from '../components/editar-edificio/editar-edificio.component';
 import { ReactiveFormsModule } from '@angular/forms'; // Import the ReactiveFormsModule
-
+import { CriarPisoComponent } from '../components/criar-piso/criar-piso.component';
+import { PisoService } from '../services/piso.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -38,13 +38,13 @@ import { ReactiveFormsModule } from '@angular/forms'; // Import the ReactiveForm
     GestorCampusComponent,
     GestorFrotaComponent,
     GestorTarefasComponent,
-    PisosComponent,
     PassagensComponent,
     CriarEdificioComponent,
     ListaredificiosComponent,
     ListarRobotsComponent,
     CriarTipoRobotComponent,
     EditarEdificioComponent,
+    CriarPisoComponent,
   ],
   imports: [
     MatTableModule,
@@ -57,7 +57,7 @@ import { ReactiveFormsModule } from '@angular/forms'; // Import the ReactiveForm
     BrowserAnimationsModule,
     ReactiveFormsModule,
   ],
-  providers: [RobotService, AuthService, MessageService, EdificioService, TipoRobotService],
+  providers: [RobotService, AuthService, MessageService, EdificioService, TipoRobotService, PisoService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
