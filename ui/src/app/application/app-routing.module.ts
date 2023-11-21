@@ -16,7 +16,7 @@ import { CriarPisoComponent } from '../components/criar-piso/criar-piso.componen
 import { CriarPassagemComponent } from '../components/criar-passagem/criar-passagem.component';
 import { EditarPassagemComponent } from '../components/editar-passagem/editar-passagem.component';
 import { ListaPassagemComponent } from '../components/lista-passagem/lista-passagem.component';
-
+import { DeleteEdificioComponent } from '../components/delete-edificio/delete-edificio.component';
 const routes: Routes = [
   { path: '', component: MenuComponent, pathMatch: 'full' },
   { path: 'menu', component: MenuComponent },
@@ -30,11 +30,11 @@ const routes: Routes = [
   { path: 'listar-robots', component: ListarRobotsComponent },
   { path: 'criar-tipo-robot', component: CriarTipoRobotComponent },
   { path: 'editar-edificio', component: EditarEdificioComponent },
-  { path: 'criar-piso', component: CriarPisoComponent},
-  { path: 'criar-passagem', component: CriarPassagemComponent},
-  { path: 'editar-passagem', component: EditarPassagemComponent},
-  { path: 'lista-passagem', component: ListaPassagemComponent}
-
+  { path: 'criar-piso', component: CriarPisoComponent },
+  { path: 'criar-passagem', component: CriarPassagemComponent },
+  { path: 'editar-passagem', component: EditarPassagemComponent },
+  { path: 'lista-passagem', component: ListaPassagemComponent },
+  { path: 'delete-edificio', component: DeleteEdificioComponent },
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
