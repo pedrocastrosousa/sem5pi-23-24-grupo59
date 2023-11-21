@@ -41,7 +41,12 @@ export class EdificioService {
         alert(`Edificio ${newEdificio.codigoEdificio} was updated`);
       }),
       catchError(this.handleError<Edificio>('updateEdificio')),
-    );;
+    );
+  }
+
+  deleteEdificio(codigoEdificio: string): Observable<any> {
+    const url = `${this.edificioUrl}/${codigoEdificio}`;
+    return this.http.delete(url);
   }
 
   private handleError<T>(operation = 'operation', result?: T) {

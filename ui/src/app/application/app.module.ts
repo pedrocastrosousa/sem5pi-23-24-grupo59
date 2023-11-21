@@ -32,6 +32,7 @@ import { CriarPassagemComponent } from '../components/criar-passagem/criar-passa
 import { PassagemService } from '../services/passagem.service';
 import { EditarPassagemComponent } from '../components/editar-passagem/editar-passagem.component';
 import { ListaPassagemComponent } from '../components/lista-passagem/lista-passagem.component';
+import { DeleteEdificioComponent } from '../components/delete-edificio/delete-edificio.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { ListaPassagemComponent } from '../components/lista-passagem/lista-passa
     CriarPisoComponent,
     CriarPassagemComponent, 
     EditarPassagemComponent,
-    ListaPassagemComponent
+    ListaPassagemComponent,
+    DeleteEdificioComponent
   ],
   imports: [
     MatTableModule,
