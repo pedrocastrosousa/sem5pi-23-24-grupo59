@@ -1,1 +1,50 @@
-<p>lista-passagem works!</p>
+<!-- building.component.html -->
+
+<div>
+  <h2>Listar Passagem</h2>
+  <form (submit)="ngOnInit()"></form>
+
+    <div>
+      <label for="edificio1">Edifício 1:</label>
+      <select id="edificio1" name="edificio1" [(ngModel)]="selectedEdificio1Id" required>
+        <option *ngFor="let edif1 of edificios" [value]="edif1.codigoEdificio">{{ edif1.codigoEdificio }}</option>
+      </select>
+    </div>
+    <div>
+      <label for="edificio2">Edifício 2:</label>
+      <select id="edificio2" name="edificio2" [(ngModel)]="selectedEdificio2Id" required>
+        <option *ngFor="let edif2 of edificios" [value]="edif2.codigoEdificio">{{ edif2.codigoEdificio }}</option>
+      </select>
+    </div>
+  <table mat-table [dataSource]="passagens">
+
+    <!-- Columns -->
+    <ng-container matColumnDef="passagemId">
+      <th mat-header-cell *matHeaderCellDef>Id da Passagem</th>
+      <td mat-cell *matCellDef="let passagem">{{ passagem.passagemId }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="piso1">
+      <th mat-header-cell *matHeaderCellDef>Piso 1</th>
+      <td mat-cell *matCellDef="let passagem">{{ passagem.piso1 }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="piso2">
+      <th mat-header-cell *matHeaderCellDef>Piso 2</th>
+      <td mat-cell *matCellDef="let passagem">{{ passagem.piso2 }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="codigoPassagem">
+      <th mat-header-cell *matHeaderCellDef>Codigo Passagem</th>
+      <td mat-cell *matCellDef="let passagem">{{ passagem.codigoPassagem }}</td>
+    </ng-container>
+
+    <!-- Row with columns -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+ 
+  <footer>
+    <button class="back-button" routerLink="/gestor-campus">Back</button>
+  </footer>
+</div>

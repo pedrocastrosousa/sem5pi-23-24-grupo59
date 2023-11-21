@@ -52,18 +52,16 @@ export class EditarPassagemComponent implements OnInit {
 
   updatePassagem(): void {
     if (this.selectedPassagem) {
+      const passagemAtualizada: Partial<Passagem> = {};
       console.log(this.passagem)
       const selectedPiso1 = this.pisos.find(piso1 => piso1.codigoPiso === String(this.selectedPiso1));
       const selectedPiso2 = this.pisos.find(piso2 => piso2.codigoPiso === String(this.selectedPiso2));
 
       if (selectedPiso1 && selectedPiso2) {
-        this.passagem = {
-          passagemId: this.passagem.passagemId,
-          piso1:selectedPiso1.codigoPiso,
-          piso2:selectedPiso2.codigoPiso,
-          codigoPassagem: ''
-        };
-      this.passagemService.updatePassagem(this.passagem).subscribe(
+        passagemAtualizada.piso1 = selectedPiso1.codigoPiso,
+        passagemAtualizada.piso2 = selectedPiso2.codigoPiso
+        
+      this.passagemService.updatePassagem(this.selectedPassagem.codigoPassagem,passagemAtualizada).subscribe(
         response => {
           if (response) {
             console.log('Passagem updated:', response);

@@ -31,6 +31,7 @@ import { PisoService } from '../services/piso.service';
 import { CriarPassagemComponent } from '../components/criar-passagem/criar-passagem.component';
 import { PassagemService } from '../services/passagem.service';
 import { EditarPassagemComponent } from '../components/editar-passagem/editar-passagem.component';
+import { ListaPassagemComponent } from '../components/lista-passagem/lista-passagem.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import { EditarPassagemComponent } from '../components/editar-passagem/editar-pa
     EditarEdificioComponent,
     CriarPisoComponent,
     CriarPassagemComponent, 
-    EditarPassagemComponent
+    EditarPassagemComponent,
+    ListaPassagemComponent
   ],
   imports: [
     MatTableModule,

@@ -15,6 +15,7 @@ import { EditarEdificioComponent } from '../components/editar-edificio/editar-ed
 import { CriarPisoComponent } from '../components/criar-piso/criar-piso.component';
 import { CriarPassagemComponent } from '../components/criar-passagem/criar-passagem.component';
 import { EditarPassagemComponent } from '../components/editar-passagem/editar-passagem.component';
+import { ListaPassagemComponent } from '../components/lista-passagem/lista-passagem.component';
 
 const routes: Routes = [
   { path: '', component: MenuComponent, pathMatch: 'full' },
@@ -31,7 +32,9 @@ const routes: Routes = [
   { path: 'editar-edificio', component: EditarEdificioComponent },
   { path: 'criar-piso', component: CriarPisoComponent},
   { path: 'criar-passagem', component: CriarPassagemComponent},
-  { path: 'editar-passagem', component: EditarPassagemComponent}
+  { path: 'editar-passagem', component: EditarPassagemComponent},
+  { path: 'lista-passagem', component: ListaPassagemComponent}
+
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

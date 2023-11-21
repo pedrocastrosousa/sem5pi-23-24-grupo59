@@ -109,7 +109,7 @@ export default class PassagemService implements IPassagemService {
         return Result.fail<IPassagemDTO>('ID da passagem não fornecido para atualização.');
       }
 
-      const existingPassagem = await this.passagemRepo.findByCodigo(passagemID.toString());
+      const existingPassagem = await this.passagemRepo.findByDomainId(passagemID.toString());
 
     
       if (existingPassagem != null) {

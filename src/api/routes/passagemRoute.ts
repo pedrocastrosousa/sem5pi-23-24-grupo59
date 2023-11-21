@@ -30,7 +30,7 @@ export default (app: Router) => {
     ctrl.listarAllPassagens(req, res, next);
   });
 
-  route.put('/editarPassagem',
+  route.put('/:codigoPassagem',
     celebrate({
       body: Joi.object({
         piso1: Joi.string(),
