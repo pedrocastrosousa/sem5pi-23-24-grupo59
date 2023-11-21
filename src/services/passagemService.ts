@@ -45,7 +45,7 @@ export default class PassagemService implements IPassagemService {
       if (pisoo1.edificio.codigoEdificio.equals(pisoo2.edificio.codigoEdificio)) {
         return Result.fail<IPassagemDTO>("Não podem existir passagens entre pisos do mesmo edificio.");
       }
-      const passagemId = await PassagemId.create(passagemDTO.passagemId).getValue();
+      const passagemId =  PassagemId.create(passagemDTO.passagemId).getValue();
 
 
       const PassagemOrError = await Passagem.create({
@@ -86,9 +86,11 @@ export default class PassagemService implements IPassagemService {
       
       let passagemListDto: IPassagemDTO[] = [];
       const passagemList: string[] = await this.passagemRepo.findAllByEdificio(edificio1, edificio2);
+    
       if (passagemList != null) {
         for (let i = 0; i < passagemList.length; i++) {
-          const passagemResult = await (this.passagemRepo.findByCodigo(passagemList[i]));
+          console.log("passagemList[i]", passagemList[i]);
+          const passagemResult = await (this.passagemRepo.findByDCodigoPassagem(passagemList[i]));
 
           passagemListDto.push(PassagemMap.toDTO(passagemResult));
 
@@ -109,7 +111,7 @@ export default class PassagemService implements IPassagemService {
         return Result.fail<IPassagemDTO>('ID da passagem não fornecido para atualização.');
       }
 
-      const existingPassagem = await this.passagemRepo.findByDomainId(passagemID.toString());
+      const existingPassagem = await this.passagemRepo.findByCodigo(passagemID.toString());
 
     
       if (existingPassagem != null) {

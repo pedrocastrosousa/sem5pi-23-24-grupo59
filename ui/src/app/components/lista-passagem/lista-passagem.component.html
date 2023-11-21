@@ -1,8 +1,6 @@
-<!-- building.component.html -->
-
 <div>
   <h2>Listar Passagem</h2>
-  <form (submit)="ngOnInit()"></form>
+  <form (ngSubmit)="listarPassagens()">
 
     <div>
       <label for="edificio1">Edifício 1:</label>
@@ -16,12 +14,16 @@
         <option *ngFor="let edif2 of edificios" [value]="edif2.codigoEdificio">{{ edif2.codigoEdificio }}</option>
       </select>
     </div>
-  <table mat-table [dataSource]="passagens">
+   
+    <button type="submit">Listar</button>
+  </form>
 
+  <table mat-table [dataSource]="passagens">
+    
     <!-- Columns -->
     <ng-container matColumnDef="passagemId">
       <th mat-header-cell *matHeaderCellDef>Id da Passagem</th>
-      <td mat-cell *matCellDef="let passagem">{{ passagem.passagemId }}</td>
+      <td mat-cell *matCellDef="let passagem">{{ passagem.passagemId.value }}</td>
     </ng-container>
 
     <ng-container matColumnDef="piso1">
@@ -43,7 +45,7 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
   </table>
- 
+
   <footer>
     <button class="back-button" routerLink="/gestor-campus">Back</button>
   </footer>

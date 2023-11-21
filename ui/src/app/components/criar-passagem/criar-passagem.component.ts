@@ -28,11 +28,12 @@ export class CriarPassagemComponent implements OnInit{
     if (this.passagemId && this.selectedPiso1 && this.selectedPiso2 !== null && this.selectedPiso1 && this.selectedPiso2 !== undefined) {
       const selectedPiso1 = this.pisos.find(piso1 => piso1.codigoPiso === String(this.selectedPiso1));
       const selectedPiso2 = this.pisos.find(piso2 => piso2.codigoPiso === String(this.selectedPiso2));
-
+    if(selectedPiso1?.edificio===selectedPiso2?.edificio){
+         alert('Ocorreu um erro!');}
       if (selectedPiso1 && selectedPiso2) {
         this.createPassagem(this.passagemId, selectedPiso1.codigoPiso, selectedPiso2.codigoPiso);
       } else {
-        console.error('Pisos não encontrados.');
+        console.error('Passagens não encontrados.');
       }
     } else {
       console.error('Por favor, preencha todos os campos.');

@@ -5,12 +5,14 @@ import { Passagem } from "../domain/passagem/passagem";
 import { IPassagemDTO } from "../dto/IPassagemDTO";
 import Container from "typedi";
 import PisoRepo from "../repos/pisoRepo";
+import { PassagemId } from "../domain/passagem/passagemId";
 
 
 export class PassagemMap extends Mapper<Passagem> {
 
     public static toDTO(passagem: Passagem): IPassagemDTO {
         return {    
+            id: passagem.id.toString(),
             passagemId: passagem.passagemId,   
                 piso1: passagem.piso1.codigoPiso,
                 piso2: passagem.piso2.codigoPiso,
@@ -26,15 +28,14 @@ export class PassagemMap extends Mapper<Passagem> {
         const pisoo1 = await repo.findByCodigo(raw.piso1);
         const repo1 = Container.get(PisoRepo);
         const pisoo2 = await repo1.findByCodigo(raw.piso2);
-        
+        const passagemId = PassagemId.create(raw.passagemId);
 
         const passagemOrError = Passagem.create({
-         passagemId: raw.passagemId,
+         passagemId: passagemId.getValue(),
         piso1: pisoo1,
         piso2: pisoo2,
         codigoPassagem: raw.codigoPassagem
-        },
-            new UniqueEntityID(raw.passagemId));
+        });
 
         passagemOrError.isFailure ? console.log(passagemOrError.error) : '';
 
