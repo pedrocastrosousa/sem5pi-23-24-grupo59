@@ -51,15 +51,9 @@ export class PassagemService {
 
   listPassagensEntreEdificios(edificio1: string, edificio2: string): Observable<Passagem[]> {
     const url = `${this.listarPassagemEntreEdificiosUrl}?edificio1=${edificio1}&edificio2=${edificio2}`;
-    console.log('URL:', url);
   
-    return this.http.get<Passagem[]>( url).pipe(
-      tap((passagemList: Passagem[]) => {
-        this.log(`passagens foram listadas!`);
-        alert(`Passagens were listed`);
-      }),
-      catchError(this.handleError<Passagem[]>('listPassagensEntreEdificios')),
-    );
+    return this.http.get<Passagem[]>( url);
+    
   }
 
 

@@ -1,25 +1,27 @@
 
 <div>
-    <h2>Editar Passagem</h2>
+    <header>Editar Passagem</header>
   
 
-    <label for="passagemSelect">Selecione uma passagem:</label>
-    <select id="passagemSelect" [(ngModel)]="selectedPassagem" (change)="selectPassagem()">
-      <option *ngFor="let passagem of passagens" [ngValue]="passagem">{{ passagem.codigoPassagem}}</option>
-    </select>
+    
 
 
     <form (ngSubmit)="updatePassagem()" #passagemForm="ngForm">
   
+      <label for="passagemSelect">Selecione uma passagem:</label>
+    <select id="passagemSelect" [(ngModel)]="selectedPassagem" (change)="selectPassagem()">
+      <option *ngFor="let passagem of passagens" [ngValue]="passagem">{{ passagem.codigoPassagem}}</option>
+    </select>
+    <label for="">Devem ser selecionados pisos de diferentes edificios.</label>
       <div>
-        <label for="piso1">Piso 1:</label>
+        <label for="piso1">Editar Piso 1 (Edificio-Piso):</label>
         <select id="piso1" name="piso1" [(ngModel)]="selectedPiso1" required>
           <option *ngFor="let piso1 of pisos" [value]="piso1.codigoPiso">{{ piso1.codigoPiso}}</option>
         </select>
       </div>
   
       <div>
-        <label for="piso2">Piso 2:</label>
+        <label for="piso2">Editar Piso 2 (Edificio-Piso):</label>
         <select id="piso2" name="piso2" [(ngModel)]="selectedPiso2" required>
           <option *ngFor="let piso2 of pisos" [value]="piso2.codigoPiso">{{ piso2.codigoPiso }}</option>
         </select>

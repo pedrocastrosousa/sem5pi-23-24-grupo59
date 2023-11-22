@@ -1,5 +1,5 @@
 <div>
-  <h2>Listar Passagem</h2>
+  <header>Listar Passagem</header>
   <form (ngSubmit)="listarPassagens()">
 
     <div>
@@ -19,7 +19,6 @@
   </form>
 
   <table mat-table [dataSource]="passagens">
-    
     <!-- Columns -->
     <ng-container matColumnDef="passagemId">
       <th mat-header-cell *matHeaderCellDef>Id da Passagem</th>
