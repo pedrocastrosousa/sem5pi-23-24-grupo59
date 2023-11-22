@@ -12,7 +12,8 @@ import { MessageService } from './message.service';
 export class RobotService {
   private robotUrl = 'http://localhost:4000/api/robots/listar';
   private criarRobotUrl = 'http://localhost:4000/api/robots/criarRobot';
-  constructor(private messageService: MessageService, private http: HttpClient) {}
+  private inibirRobotUrl = 'http://localhost:4000/api/robots';
+  constructor(private messageService: MessageService, private http: HttpClient) { }
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -32,6 +33,13 @@ export class RobotService {
     return this.http.get<Robot[]>(this.robotUrl);
   }
 
+
+  inibirRobot(robot: Partial<Robot>): Observable<Robot> {
+    const url = `${this.inibirRobotUrl}/${robot.codigoRobot}`;
+    console.log('url' + url);
+    return this.http.patch<Robot>(url,{}).pipe();
+
+  }
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       // TODO: send the error to remote logging infrastructure

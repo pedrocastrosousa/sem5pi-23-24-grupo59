@@ -33,11 +33,13 @@ export default class RobotRepo implements IRobotRepo {
                 return RobotMap.toDomain(robotCreated);
             } else {
             
-                //robotDocument.codigo = robot.codigoRobot.toString();
-                robotDocument.nicknameRobot = robot.nicknameRobot.value;
+                //robotDocument.codigoRobot = robot.codigoRobot.toString();
+                robotDocument.nicknameRobot= robot.nicknameRobot.value;
+
                 robotDocument.tipoRobot = robot.tipoRobot.designacaoTipoRobot.designacao;
                 robotDocument.numeroSerieRobot = robot.numeroserieRobot.value;
-                robotDocument.descricaoRobot = robot.descricaoRobot.value;
+                //robotDocument.descricaoRobot = robot.descricaoRobot.value;
+
                 robotDocument.estadoRobot = robot.estadoRobot.toString();
     
                 await robotDocument.save();

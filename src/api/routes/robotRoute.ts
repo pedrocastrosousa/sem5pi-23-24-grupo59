@@ -33,7 +33,7 @@ export default (app: Router) => {
 
     
 
-    route.patch('/inibir/:id',
+    route.patch('/:id',
         celebrate({
             body: Joi.object({
                 

@@ -18,19 +18,18 @@ export class RobotMap extends Mapper<Robot> {
   public static toDTO(robot: Robot): IRobotDTO {
     return {
       id: robot.id.toString(),
-      codigoRobot: robot.codigoRobot,
-      nicknameRobot: robot.nicknameRobot.value,
-      tipoRobot: robot.tipoRobot.designacaoTipoRobot.designacao,
-      numeroSerieRobot: robot.numeroserieRobot.value,
-      descricaoRobot: robot.descricaoRobot.value,
+      codigoRobot: robot.codigoRobot.toString(),
+      nicknameRobot: robot.nicknameRobot,
+      tipoRobot: robot.tipoRobot.designacaoTipoRobot,
+      numeroSerieRobot: robot.numeroserieRobot,
+      descricaoRobot: robot.descricaoRobot,
       estadoRobot: robot.estadoRobot.toString(),
     } as unknown as IRobotDTO;
   }
 
   public static async toDomain(raw: any): Promise<Robot> {
     const repoTipoRobot = Container.get(TipoRobotRepo);
-
-    const tipoOrError = await repoTipoRobot.findByDesignation(raw.tipo);
+    const tipoOrError = await repoTipoRobot.findByDesignation(raw.tipoRobot);
     if (!tipoOrError) {
       throw new Error("Tipo de Robot não encontrado");
     }
@@ -57,11 +56,11 @@ export class RobotMap extends Mapper<Robot> {
 
   public static toPersistence(robot: Robot): any {
     const a = {
-      codigoRobot: robot.codigoRobot,
-      nicknameRobot: robot.nicknameRobot.value,
+      codigoRobot: robot.codigoRobot.toString(),
+      nicknameRobot: robot.nicknameRobot,
       tipoRobot: robot.tipoRobot.designacaoTipoRobot.designacao,
-      numeroSerieRobot: robot.numeroserieRobot.value,
-      descricaoRobot: robot.descricaoRobot.value,
+      numeroSerieRobot: robot.numeroserieRobot,
+      descricaoRobot: robot.descricaoRobot,
       estadoRobot: robot.estadoRobot.toString(),
     }
     return a;

@@ -80,13 +80,14 @@ export default class RobotService implements IRobotService {
 
   public async getRobots(): Promise<Result<IRobotDTO[]>> {
     try {
-      const RobotList: Robot[] = await this.robotRepo.findAll();
-      let RobotListDto: IRobotDTO[] = [];
-      if (RobotList != null) {
-        for (let i = 0; i < RobotList.length; i++) {
-          RobotListDto.push(RobotMap.toDTO(RobotList[i]));
+      const robotList: Robot[] = await this.robotRepo.findAll();
+      let robotListDto: IRobotDTO[] = [];
+      if (robotList != null) {
+        for (let i = 0; i < robotList.length; i++) {
+          robotListDto.push(RobotMap.toDTO(robotList[i]));
+          console.log(robotListDto[i]);
         }
-        return Result.ok<IRobotDTO[]>(RobotListDto);
+        return Result.ok<IRobotDTO[]>(robotListDto);
       }
 
       return Result.fail<IRobotDTO[]>("Não existem Robots para listar.");

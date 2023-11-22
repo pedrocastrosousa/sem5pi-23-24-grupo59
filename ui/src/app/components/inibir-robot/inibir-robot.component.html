@@ -1,0 +1,18 @@
+
+<div>
+    <header>Inibir Robot </header>
+  
+
+    <form (ngSubmit)="inibirRobot()" #robotForm="ngForm">
+      <label for="robotSelect">Selecione um robot para inibir:</label>
+      <select id="robotSelect" [(ngModel)]="selectedRobot" name="selectedRobot" (change)="selectRobot()">
+          <option *ngFor="let robot of robots" [ngValue]="robot">{{ robot.codigoRobot }}</option>
+      </select>
+
+      <button type="submit">Inibir</button>
+    </form>
+    
+    <footer>
+        <button class="back-button" routerLink="/gestor-frota">Back</button>
+    </footer>
+  </div>

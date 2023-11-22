@@ -47,7 +47,6 @@ export default class RobotController implements IRobotController /* TODO: extend
    
     const robotId = req.params.id; 
     const robotDTO: IRobotDTO = req.body; 
-    console.log(robotId);
     if (!robotId) {
       return res.status(400).json({ error: 'ID robot erro' });
     }
