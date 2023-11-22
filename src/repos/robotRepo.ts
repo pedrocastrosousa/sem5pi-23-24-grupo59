@@ -33,12 +33,12 @@ export default class RobotRepo implements IRobotRepo {
                 return RobotMap.toDomain(robotCreated);
             } else {
             
-                robotDocument.codigo = robot.codigoRobot.value;
-                robotDocument.nickname = robot.nicknameRobot.value;
-                robotDocument.tipo = robot.tipoRobot.designacaoTipoRobot.designacao;
-                robotDocument.numeroSerie = robot.numeroserieRobot.value;
-                robotDocument.descricao = robot.descricaoRobot.value;
-                robotDocument.estado = robot.estadoRobot.toString();
+                //robotDocument.codigo = robot.codigoRobot.toString();
+                robotDocument.nicknameRobot = robot.nicknameRobot.value;
+                robotDocument.tipoRobot = robot.tipoRobot.designacaoTipoRobot.designacao;
+                robotDocument.numeroSerieRobot = robot.numeroserieRobot.value;
+                robotDocument.descricaoRobot = robot.descricaoRobot.value;
+                robotDocument.estadoRobot = robot.estadoRobot.toString();
     
                 await robotDocument.save();
                 return robot;
@@ -57,7 +57,7 @@ export default class RobotRepo implements IRobotRepo {
     }
 
     public async findByCodigo(id: string): Promise<Robot> {
-        const query = { codigo: id };
+        const query = { codigoRobot: id };
         const robotRecord = await this.robotSchema.findOne(query as FilterQuery<IRobotPersistence & Document>);
         if (robotRecord != null)
             return RobotMap.toDomain(robotRecord);
@@ -77,7 +77,7 @@ export default class RobotRepo implements IRobotRepo {
     }
 
     public async delete(codigo: string) {
-        const query = { codigo: codigo };
+        const query = { codigoRobot: codigo };
         await this.robotSchema.deleteOne(query as FilterQuery<IRobotPersistence & Document>);
       }
 }

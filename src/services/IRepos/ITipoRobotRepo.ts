@@ -6,4 +6,5 @@ export default interface ITipoRobotRepo extends Repo<TipoRobot> {
   save(tipoRobot: TipoRobot): Promise<TipoRobot>;
   findByDomainId(idTipoRobot: IdTipoRobot | string): Promise<TipoRobot>;
   findByDesignation(designacaoTipoRobot: string): Promise<TipoRobot>;
+  findAll(): Promise<TipoRobot[]>;
 }

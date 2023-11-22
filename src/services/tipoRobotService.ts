@@ -37,4 +37,20 @@ export default class TipoRobotService implements ITipoRobotService {
       throw e;
     }
   }
+
+  public async getAllTipoRobots(): Promise<Result<ITipoRobotDTO[]>> {
+    try {
+      const tipoRobotList: TipoRobot[] = await this.tipoRobotRepo.findAll();
+let robotListDTO: ITipoRobotDTO[] = [];
+if (tipoRobotList != null) {
+  for (let i = 0; i < tipoRobotList.length; i++) {
+    robotListDTO.push(TipoRobotMap.toDTO(tipoRobotList[i]));
+  }
+  return Result.ok<ITipoRobotDTO[]>(robotListDTO);
+}
+return Result.fail<ITipoRobotDTO[]>("Não existem tipos de robots para listar.");
+} catch (e) {
+      throw e;
+    }
+  }
 }

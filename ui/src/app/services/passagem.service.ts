@@ -15,7 +15,7 @@ export class PassagemService {
   private listarPassagemEntreEdificiosUrl = 'http://localhost:4000/api/passagem/listarPassagensEdificio1Edificio2';
   private listarPassagensUrl = 'http://localhost:4000/api/passagem/listarAllPassagens';
   constructor(private messageService: MessageService, private http: HttpClient) {}
-
+  passagens: Passagem[] = [];
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
   };
@@ -28,7 +28,7 @@ export class PassagemService {
     return this.http.post<Passagem>(this.criarPassagemUrl, passagem, this.httpOptions).pipe(
     tap((newPassagem: Passagem) => {
       this.log(`passagem foi criada!`);
-      alert(`New Passsagem was created with ID: ${newPassagem.passagemId}`);
+      alert(`New Passsagem was created with ID: ${newPassagem.passagemId.valueOf()}`);
     }),
     catchError(this.handleError<Passagem>('createPassagem')),
   );;
@@ -50,7 +50,10 @@ export class PassagemService {
   }
 
   listPassagensEntreEdificios(edificio1: string, edificio2: string): Observable<Passagem[]> {
-    return this.http.get<Passagem[]>( this.listarPassagemEntreEdificiosUrl);
+    const url = `${this.listarPassagemEntreEdificiosUrl}?edificio1=${edificio1}&edificio2=${edificio2}`;
+  
+    return this.http.get<Passagem[]>( url);
+    
   }
 
 

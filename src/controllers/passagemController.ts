@@ -47,6 +47,7 @@ export default class PassagemController implements IPassagemController /* TODO: 
     }
     try {
       const passagemListOrError = await this.passagemServiceInstance.getPassagemEntreEdificioeEdificio2(edificio1, edificio2);
+      
       if (passagemListOrError.isFailure) {
         return res.status(400).send();
       }

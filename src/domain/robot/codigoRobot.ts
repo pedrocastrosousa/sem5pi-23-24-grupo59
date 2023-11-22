@@ -7,15 +7,8 @@ interface CodigoRobotProps {
     value: string;
 }
 
-export class CodigoRobot extends ValueObject<CodigoRobotProps> {
-    get value(): string {
-        return this.props.value;
-    }
-    
-
-    private constructor(props: CodigoRobotProps) {
-        super(props);
-    }
+export class CodigoRobot extends UniqueEntityID{
+   
 
     public static create(codigoRobot: string): Result<CodigoRobot> {
         if (!codigoRobot) {
@@ -32,6 +25,6 @@ export class CodigoRobot extends ValueObject<CodigoRobotProps> {
             return Result.fail<CodigoRobot>("O código do robot deve conter apenas letras, dígitos e espaços.");
         }
 
-        return Result.ok<CodigoRobot>(new CodigoRobot({ value: codigoRobot }));
+        return Result.ok<CodigoRobot>(new CodigoRobot(codigoRobot ));
     }
 }

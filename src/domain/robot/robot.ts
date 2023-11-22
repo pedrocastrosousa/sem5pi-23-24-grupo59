@@ -76,14 +76,14 @@ export class Robot extends AggregateRoot<RobotProps>{
     }
 
 
-    private constructor (props: RobotProps, id?: UniqueEntityID) {
-        super(props, id);
+    private constructor (props: RobotProps, codigoRobot: UniqueEntityID) {
+        super(props, codigoRobot);
         if (!props.estadoRobot) {
             this.props.estadoRobot = EstadoRobot.Ativo;
         }
     }
 
-    public static create (props: RobotProps, id?: UniqueEntityID): Result<Robot> {
+    public static create (props: RobotProps): Result<Robot> {
 
         const guardedProps = [
           { argument: props.codigoRobot, argumentName: 'codigoRobot' },
@@ -106,7 +106,7 @@ export class Robot extends AggregateRoot<RobotProps>{
           return Result.ok<Robot>(
             new Robot({
             ...props
-          }, id));
+          }, props.codigoRobot));
         }
 
     }

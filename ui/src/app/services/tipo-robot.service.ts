@@ -11,6 +11,7 @@ import { MessageService } from './message.service';
 })
 export class TipoRobotService {
   private tipoRobotUrl = 'http://localhost:4000/api/tipoRobots';
+  
   constructor(private messageService: MessageService, private http: HttpClient) {}
 
   httpOptions = {
@@ -23,6 +24,10 @@ export class TipoRobotService {
       tap((newTipoRobot: TipoRobot) => this.log(`tipoRobot foi criado!`)),
       catchError(this.handleError<TipoRobot>('addTipoRobot')),
     );
+  }
+
+  getAllTipoRobots(): Observable<TipoRobot[]> {
+    return this.http.get<TipoRobot[]>(this.tipoRobotUrl);
   }
 
   private handleError<T>(operation = 'operation', result?: T) {

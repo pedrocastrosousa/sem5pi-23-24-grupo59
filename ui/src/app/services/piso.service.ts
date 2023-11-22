@@ -13,6 +13,7 @@ import { MessageService } from './message.service';
 export class PisoService {
   private criarPisoUrl = 'http://localhost:4000/api/pisos/criarPiso';
   private listarPisosUrl = 'http://localhost:4000/api/pisos/listarAllPisos';
+  private listarPisosEdificio = 'http://localhost:4000/api/pisos/listarPisosEdificio';
 
   constructor(private messageService: MessageService, private http: HttpClient) {}
 
@@ -55,4 +56,10 @@ export class PisoService {
   getAllPisos(): Observable<Piso[]> {
     return this.http.get<Piso[]>(this.listarPisosUrl);
   }
+
+  getPisosEdificio(codigoEdificio: string): Observable<Piso[]> {
+    const url = `${this.listarPisosEdificio}/${codigoEdificio}`;
+    return this.http.get<Piso[]>(url);
+  }
+
 }

@@ -17,7 +17,7 @@ export class Passagem extends AggregateRoot<PassagemProps> {
         return this._id;
     }
 
-    get passagemId(): UniqueEntityID {
+    get passagemId(): PassagemId {
         return this.props.passagemId;
     }
 
@@ -33,12 +33,12 @@ export class Passagem extends AggregateRoot<PassagemProps> {
         return `${this.piso1.codigoPiso}-${this.piso2.codigoPiso}`;
     }
 
-    private constructor(props: PassagemProps, id?: UniqueEntityID) {
-        super(props, id);
+    private constructor(props: PassagemProps, passagemId: PassagemId) {
+        super(props, passagemId);
     }
 
 
-    public static create(props: PassagemProps, id?: UniqueEntityID): Result<Passagem> {
+    public static create(props: PassagemProps): Result<Passagem> {
 
         const guardedProps = [    
             { argument: props.passagemId, argumentName: 'passagemId' },

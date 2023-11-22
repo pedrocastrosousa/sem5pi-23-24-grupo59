@@ -33,6 +33,7 @@ import { PassagemService } from '../services/passagem.service';
 import { EditarPassagemComponent } from '../components/editar-passagem/editar-passagem.component';
 import { ListaPassagemComponent } from '../components/lista-passagem/lista-passagem.component';
 import { DeleteEdificioComponent } from '../components/delete-edificio/delete-edificio.component';
+import { CriarRobotsComponent } from '../components/criar-robots/criar-robots.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
@@ -53,7 +54,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     CriarPassagemComponent, 
     EditarPassagemComponent,
     ListaPassagemComponent,
-    DeleteEdificioComponent
+    DeleteEdificioComponent,
+    CriarRobotsComponent
   ],
   imports: [
     MatSnackBarModule,

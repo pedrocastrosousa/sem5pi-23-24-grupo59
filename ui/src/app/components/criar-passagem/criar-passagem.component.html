@@ -1,23 +1,39 @@
 <!-- criar-passagem.component.html -->
 
 <div>
-    <h2>Criar Passagem</h2>
+    <header>Criar Passagem</header>
   
     <form (submit)="onSubmit()">
+      
       <div>
         <label for="passagemId">Id da passagem:</label>
         <input type="text" id="passagemId" name="passagemId" [(ngModel)]="passagemId" required>
       </div>
   
+      <!-- <div>
+        <label for="edificio1">Edificio 1:</label>
+        <select id="edificio1" name="edificio1" [(ngModel)]="selectedEdificio1" required>
+          <option *ngFor="let edificio1 of edificios" [value]="edificio1.codigoEdificio">{{ edificio1.codigoEdificio}}</option>
+        </select>
+      </div> -->
+<label for="edificio1">Devem ser selecionados pisos de edificios diferentes.</label>
+
       <div>
-        <label for="piso1">Piso 1:</label>
+        <label for="piso1">Piso 1 (Edificio-Piso):</label>
         <select id="piso1" name="piso1" [(ngModel)]="selectedPiso1" required>
           <option *ngFor="let piso1 of pisos" [value]="piso1.codigoPiso">{{ piso1.codigoPiso}}</option>
         </select>
       </div>
   
+      <!-- <div>
+        <label for="edificio2">Edificio 2:</label>
+        <select id="edificio2" name="edificio2" [(ngModel)]="selectedEdificio2" required>
+          <option *ngFor="let edificio2 of edificios" [value]="edificio2.codigoEdificio">{{ edificio2.codigoEdificio}}</option>
+        </select>
+      </div> -->
+
       <div>
-        <label for="piso2">Piso 2:</label>
+        <label for="piso2">Piso 2 (Edificio-Piso):</label>
         <select id="piso2" name="piso2" [(ngModel)]="selectedPiso2" required>
           <option *ngFor="let piso2 of pisos" [value]="piso2.codigoPiso">{{ piso2.codigoPiso }}</option>
         </select>

@@ -17,11 +17,11 @@ export default (app: Router) => {
     route.post('/criarRobot',
         celebrate({
             body: Joi.object({
-                codigo: Joi.string().required(),
-                nickname: Joi.string().required(),
-                tipo: Joi.string().required(),
-                numeroSerie: Joi.string().required(),
-                descricao: Joi.string().optional(),
+                codigoRobot: Joi.string().required(),
+                nicknameRobot: Joi.string().required(),
+                tipoRobot: Joi.string().required(),
+                numeroSerieRobot: Joi.string().required(),
+                descricaoRobot: Joi.string().optional(),
             })
         }),
         async (req, res, next) => ctrl.createRobot(req, res, next));
