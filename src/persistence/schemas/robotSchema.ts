@@ -3,36 +3,33 @@ import mongoose from 'mongoose';
 
 const RobotSchema = new mongoose.Schema(
     {
-        domainId: {
-            type: String,
-            unique: true,
-        },  
-        
-        codigo: {
+        codigoRobot: {
             type: String,
             required: true,
+            unique: true,
         },
-        nickname: {
+        nicknameRobot: {
             type: String,
             required: true,
         },
 
-        tipo: {
+        tipoRobot: {
             type: String,
             required: true,
             index: true,
         },
 
-        numeroSerie: {
+        numeroSerieRobot: {
             type: String,
             required: true,
         },
 
-        descricao: {
+        descricaoRobot: {
             type: String,
             required: false,
         },
-        estado: {
+
+        estadoRobot: {
             type: String,
             required: true,
         },

@@ -72,4 +72,12 @@ export default class TipoRobotRepo implements ITipoRobotRepo {
   }
 
   
+  public async findAll(): Promise<TipoRobot[]> {
+    const tipoRobotList= await this.tipoRobotSchema.find({});
+    if (tipoRobotList != null) {
+     
+      return TipoRobotMap.toDomainBulk(tipoRobotList);
+    }
+    
+  }
 }

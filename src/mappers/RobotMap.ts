@@ -18,13 +18,13 @@ export class RobotMap extends Mapper<Robot> {
   public static toDTO(robot: Robot): IRobotDTO {
     return {
       id: robot.id.toString(),
-      codigo: robot.codigoRobot.value,
-      nickname: robot.nicknameRobot.value,
-      tipo: robot.tipoRobot.designacaoTipoRobot.designacao,
-      numeroSerie: robot.numeroserieRobot.value,
-      descricao: robot.descricaoRobot.value,
-      estado: robot.estadoRobot.toString(),
-    } as IRobotDTO;
+      codigoRobot: robot.codigoRobot,
+      nicknameRobot: robot.nicknameRobot.value,
+      tipoRobot: robot.tipoRobot.designacaoTipoRobot.designacao,
+      numeroSerieRobot: robot.numeroserieRobot.value,
+      descricaoRobot: robot.descricaoRobot.value,
+      estadoRobot: robot.estadoRobot.toString(),
+    } as unknown as IRobotDTO;
   }
 
   public static async toDomain(raw: any): Promise<Robot> {
@@ -35,11 +35,11 @@ export class RobotMap extends Mapper<Robot> {
       throw new Error("Tipo de Robot não encontrado");
     }
 
-    const codigoOrError = CodigoRobot.create(raw.codigo).getValue();
-    const nicknameOrError = NicknameRobot.create(raw.nickname).getValue();
-    const numeroSerieOrError = NumeroSerieRobot.create(raw.numeroSerie).getValue();
-    const descricaoOrError = raw.descricao ? DescricaoRobot.create(raw.descricao).getValue() : undefined;
-    const estadoOrError = raw.estado;
+    const codigoOrError = CodigoRobot.create(raw.codigoRobot).getValue();
+    const nicknameOrError = NicknameRobot.create(raw.nicknameRobot).getValue();
+    const numeroSerieOrError = NumeroSerieRobot.create(raw.numeroSerieRobot).getValue();
+    const descricaoOrError = raw.descricao ? DescricaoRobot.create(raw.descricaoRobot).getValue() : undefined;
+    const estadoOrError = raw.estadoRobot;
     const robotOrError = Robot.create({
       codigoRobot: codigoOrError,
       nicknameRobot: nicknameOrError,
@@ -48,8 +48,7 @@ export class RobotMap extends Mapper<Robot> {
       descricaoRobot: descricaoOrError,
       estadoRobot: estadoOrError
     }
-      , new UniqueEntityID(raw.domainId));
-
+    );
     robotOrError.isFailure ? console.log(robotOrError.error) : "";
     return robotOrError.isSuccess ? robotOrError.getValue() : null;
 
@@ -58,13 +57,12 @@ export class RobotMap extends Mapper<Robot> {
 
   public static toPersistence(robot: Robot): any {
     const a = {
-      id: robot.id.toString(),
-      codigo: robot.codigoRobot.value,
-      nickname: robot.nicknameRobot.value,
-      tipo: robot.tipoRobot.designacaoTipoRobot.designacao,
-      numeroSerie: robot.numeroserieRobot.value,
-      descricao: robot.descricaoRobot.value,
-      estado: robot.estadoRobot.toString(),
+      codigoRobot: robot.codigoRobot,
+      nicknameRobot: robot.nicknameRobot.value,
+      tipoRobot: robot.tipoRobot.designacaoTipoRobot.designacao,
+      numeroSerieRobot: robot.numeroserieRobot.value,
+      descricaoRobot: robot.descricaoRobot.value,
+      estadoRobot: robot.estadoRobot.toString(),
     }
     return a;
   }

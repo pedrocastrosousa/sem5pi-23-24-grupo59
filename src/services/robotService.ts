@@ -30,11 +30,11 @@ export default class RobotService implements IRobotService {
   public async createRobot(robotDTO: IRobotDTO): Promise<Result<IRobotDTO>> {
     try {
 
-      const codigo = await CodigoRobot.create(robotDTO.numeroSerie).getValue();
-      const nickname = await NicknameRobot.create(robotDTO.nickname).getValue();
-      const numeroSerie = await NumeroSerieRobot.create(robotDTO.numeroSerie).getValue();
-      const descricao = await DescricaoRobot.create(robotDTO.descricao).getValue();
-      const tipoRobotOrError = await this.getTipoRobot(robotDTO.tipo);
+      const codigo = await CodigoRobot.create(robotDTO.codigoRobot).getValue();
+      const nickname = await NicknameRobot.create(robotDTO.nicknameRobot).getValue();
+      const numeroSerie = await NumeroSerieRobot.create(robotDTO.numeroSerieRobot).getValue();
+      const descricao = await DescricaoRobot.create(robotDTO.descricaoRobot).getValue();
+      const tipoRobotOrError = await this.getTipoRobot(robotDTO.tipoRobot.toString());
 
       const RobotOrError = Robot.create({
         codigoRobot: codigo,

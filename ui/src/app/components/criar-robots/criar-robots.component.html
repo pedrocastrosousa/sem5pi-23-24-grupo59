@@ -1,0 +1,37 @@
+
+<div>
+    <header>Criar Robot</header>
+  
+    <form (submit)="onSubmit()">
+      <div>
+        <label for="codigo">Codigo:</label>
+        <input type="text" id="codigo" name="codigo" [(ngModel)]="codigoRobot" required>
+      </div>
+      <div>
+        <label for="nickname">Nickname:</label>
+        <textarea id="nickname" name="nickname" [(ngModel)]="nicknameRobot" required></textarea>
+      </div>
+      <div>
+        <label for="descricao">Descrição:</label>
+        <textarea id="descricao" name="descricao" [(ngModel)]="descricaoRobot" required></textarea>
+      </div>
+  
+      <div>
+        <label for="tipoRobot">Tipo de Robot:</label>
+        <select id="tipoRobot" name="tipoRobot" [(ngModel)]="selectedTipoRobot" required>
+          <option *ngFor="let robot of tipoRobots" [value]="robot.designacaoTipoRobot">{{ robot.designacaoTipoRobot }}</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="numeroSerie">Número de Serie:</label>
+        <textarea id="numeroSerie" name="numeroSerie" [(ngModel)]="numeroSerieRobot" required></textarea>
+      </div>
+  
+      <button type="submit">Guardar</button>
+    </form>
+
+    <footer>
+        <button class="back-button" routerLink="/gestor-campus">Back</button>
+    </footer>
+  </div>

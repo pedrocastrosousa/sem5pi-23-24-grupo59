@@ -25,4 +25,6 @@ export default (app: Router) => {
 
     (req, res, next) => ctrl.createTipoRobot(req, res, next),
   );
+
+  route.get('', (req, res, next) => ctrl.getAllTipoRobots(req, res, next));
 };

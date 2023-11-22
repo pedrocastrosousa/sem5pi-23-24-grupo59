@@ -1,9 +1,8 @@
 export interface IRobotPersistence{
-    id: string;
-    codigo: string;
-    nickname: string;
-    tipo: string;
-    numeroSerie: string;
-    descricao?: string;
-    estado: string;
+    codigoRobot: string;
+    nicknameRobot: string;
+    tipoRobot: string;
+    numeroSerieRobot: string;
+    descricaoRobot?: string;
+    estadoRobot: string;
   }

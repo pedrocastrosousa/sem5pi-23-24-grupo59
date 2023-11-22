@@ -11,12 +11,22 @@ import { MessageService } from './message.service';
 })
 export class RobotService {
   private robotUrl = 'http://localhost:4000/api/robots/listar';
+  private criarRobotUrl = 'http://localhost:4000/api/robots/criarRobot';
   constructor(private messageService: MessageService, private http: HttpClient) {}
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
   };
 
+  createRobot(robot: Robot): Observable<Robot> {
+    return this.http.post<Robot>(this.criarRobotUrl, robot, this.httpOptions).pipe(
+      tap((newRobot: Robot) => {
+        this.log(`robot foi criado!`);
+        alert(`New Robot was created with ID: ${newRobot.codigoRobot}`);
+      }),
+      catchError(this.handleError<Robot>('createRobot')),
+    );
+  }
 
   getAllRobots(): Observable<Robot[]> {
     return this.http.get<Robot[]>(this.robotUrl);

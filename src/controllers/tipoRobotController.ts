@@ -29,4 +29,19 @@ export default class TipoRobotController
       return next(e);
     }
   };
+
+  public async getAllTipoRobots(req: Request, res: Response, next: NextFunction) {
+    try {
+      const tipoRobotsOrError = await this.tipoRobotInstance.getAllTipoRobots();
+
+      if (tipoRobotsOrError.isFailure) {
+        return res.status(404).send();
+      }
+
+      const tipoRobotsDTO = tipoRobotsOrError.getValue();
+      return res.json(tipoRobotsDTO).status(200);
+    } catch (e) {
+      return res.json(e.message).status(400);
+    }
+  };
 }

@@ -42,4 +42,19 @@ export class TipoRobotMap extends Mapper<TipoRobot> {
       tipoTarefaTipoRobot: tipoRobot.tipoTarefaTipoRobot.tipoTarefa
     };
   }
+
+
+  public static async toDomainBulk(rawList: any[]): Promise<TipoRobot[]> {
+    const tipoRobots: TipoRobot[] = [];
+
+    for (const raw of rawList) {
+      const tipoRobot = await this.toDomain(raw);
+      if (tipoRobot) {
+        tipoRobots.push(tipoRobot);
+      }
+    }
+
+    return tipoRobots;
+  }
+
 }
