@@ -21,3 +21,28 @@ body {
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.cdk-overlay-pane{
+  width: 600px;
+  .mat-mdc-snack-bar-container {
+    &.success-snackbar {
+      .mdc-snackbar__surface {
+        --mdc-snackbar-container-color: rgb(41, 172, 41);
+      }
+    }
+    &.error-snackbar {
+      .mdc-snackbar__surface {
+        --mdc-snackbar-container-color: rgb(172, 41, 41);
+      }
+    }
+  }
+    .mdc-snackbar__surface {
+      width: 90%;
+      .mdc-button__label {
+        font-size: 19px;
+      }
+      .mdc-snackbar__label {
+        font-size: 19px;
+      }
+  }
+}

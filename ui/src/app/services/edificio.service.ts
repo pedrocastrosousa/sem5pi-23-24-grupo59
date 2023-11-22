@@ -8,13 +8,14 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { Edificio } from '../domain/edificio';
 import { MessageService } from './message.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root',
 })
 export class EdificioService {
   private edificioUrl = 'http://localhost:4000/api/edificios';
-  constructor(private messageService: MessageService, private http: HttpClient) {}
+  constructor(private messageService: MessageService, private http: HttpClient, private snackBar: MatSnackBar) {}
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -24,7 +25,7 @@ export class EdificioService {
     return this.http.post<Edificio>(this.edificioUrl, edificio, this.httpOptions).pipe(
       tap((newEdificio: Edificio) => {
         this.log(`edificio foi criado!`);
-        alert(`New edificio was created with ID: ${newEdificio.codigoEdificio}`);
+        this.openSnackBar(`Edifício com o código ${newEdificio.codigoEdificio} foi criado com sucesso!`, 'success');
       }),
       catchError(this.handleError<Edificio>('createEdificio')),
     );
@@ -38,7 +39,7 @@ export class EdificioService {
     return this.http.put<any>(this.edificioUrl, updatedEdificio, this.httpOptions).pipe(
       tap((newEdificio: Edificio) => {
         this.log(`edificio foi atualizado!`);
-        alert(`Edificio ${newEdificio.codigoEdificio} was updated`);
+        this.openSnackBar(`Edifício com o código ${newEdificio.codigoEdificio} foi editado com sucesso!`, 'success');
       }),
       catchError(this.handleError<Edificio>('updateEdificio')),
     );
@@ -54,7 +55,7 @@ export class EdificioService {
       // TODO: send the error to remote logging infrastructure
       console.error(error); // log to console instead
 
-      alert('Ocorreu um erro!');
+      this.openSnackBar('Ocorreu um erro!', 'error');
       // TODO: better job of transforming error for user consumption
       this.log(`${operation} failed: ${error.message}`);
 
@@ -66,5 +67,15 @@ export class EdificioService {
   /** Log a HeroService message with the MessageService */
   private log(message: string) {
     this.messageService.add(`EdificioService: ${message}`);
+  }
+
+  private openSnackBar(message: string, action: 'success' | 'error') {
+    const snackClass = action === 'success' ? 'success-snackbar' : 'error-snackbar';
+    this.snackBar.open(message, 'Close', {
+      duration: 5000,
+      horizontalPosition: 'right',
+      verticalPosition: 'top',
+      panelClass: [snackClass],
+    });
   }
 }
