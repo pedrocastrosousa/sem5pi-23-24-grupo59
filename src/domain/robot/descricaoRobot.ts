@@ -8,6 +8,7 @@ interface DescricaoRobotProps {
 }
 
 export class DescricaoRobot extends ValueObject<DescricaoRobotProps> {
+    
     get value(): string {
         return this.props.value;
     }

@@ -4,4 +4,5 @@ export interface Robot {
   tipoRobot: string;
   numeroSerieRobot: string;
   descricaoRobot?: string;
+  estadoRobot: string;
 }

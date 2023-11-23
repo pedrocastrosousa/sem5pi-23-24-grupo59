@@ -35,6 +35,7 @@ import { ListaPassagemComponent } from '../components/lista-passagem/lista-passa
 import { DeleteEdificioComponent } from '../components/delete-edificio/delete-edificio.component';
 import { CriarRobotsComponent } from '../components/criar-robots/criar-robots.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { InibirRobotComponent } from '../components/inibir-robot/inibir-robot.component';
 import {SidebarComponent} from '../components/sidebar/sidebar.component'
 
 @NgModule({
@@ -57,7 +58,9 @@ import {SidebarComponent} from '../components/sidebar/sidebar.component'
     ListaPassagemComponent,
     DeleteEdificioComponent,
     CriarRobotsComponent,
-    SidebarComponent
+    SidebarComponent,
+    CriarRobotsComponent,
+    InibirRobotComponent
   ],
   imports: [
     MatSnackBarModule,
