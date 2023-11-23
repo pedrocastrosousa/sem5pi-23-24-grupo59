@@ -1,25 +1,20 @@
-
-
 <body>
-    <header>
-        <h1>Menu de seleção utilizador</h1>
-    </header>
-    <div class="container">
-        <h2>Selecione um Utilizador</h2>
+  <header>
+    <h1>Menu de seleção utilizador</h1>
+  </header>
+  <div class="container">
+    <h2>Selecione um Utilizador</h2>
 
+    <div class="dropdown">
+      <button class="dropbtn">Utilizador</button>
 
-        <div class="dropdown">
-            <button class="dropbtn">Utilizador</button>
-
-            <div class="dropdown-content">
-                <a routerLink="/administrador">Administrador</a>
-                <a routerLink="/utente">Utente</a>
-                <a routerLink="/gestor-frota">Gestor Frota</a>
-                <a routerLink="/gestor-tarefas">Gestor Tarefas</a>
-                <a routerLink="/gestor-campus">Gestor Campus</a>
-            </div>
-        </div>
-        </div>
+      <div class="dropdown-content">
+        <a routerLink="/administrador">Administrador</a>
+        <a routerLink="/utente">Utente</a>
+        <a routerLink="/gestor-frota">Gestor Frota</a>
+        <a routerLink="/gestor-tarefas">Gestor Tarefas</a>
+        <a routerLink="/gestor-campus">Gestor Campus</a>
+      </div>
+    </div>
+  </div>
 </body>
-
-<router-outlet></router-outlet>

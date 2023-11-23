@@ -1,0 +1,23 @@
+<!-- sidebar.component.html -->
+<div class="sidebar">
+    <div class="sidebar-item" routerLink="/rightSide" routerLinkActive="active">
+        Right Side
+        <div class="sub-menu">
+            <div class="sidebar-item" routerLink="/rightSide/sub-item1">Sub-Item 1</div>
+            <div class="sidebar-item" routerLink="/rightSide/sub-item2">Sub-Item 2</div>
+            <!-- Add more sub-menu items as needed -->
+        </div>
+    </div>
+
+    <div class="sidebar-item with-dropdown" routerLink="/edificio" routerLinkActive="active">
+        Edificio
+        <div class="sub-menu">
+            <div class="sidebar-item" routerLink="/criar-edificio">Criar Edificio</div>
+            <div class="sidebar-item" routerLink="/editar-edificio">Editar Edificio</div>
+            <div class="sidebar-item" routerLink="/listar-edificios">Listar Edificios</div>
+            <!-- Add more sub-menu items as needed -->
+        </div>
+    </div>
+
+    <!-- Add more items as needed -->
+</div>

@@ -1,5 +1,11 @@
 /* Reset some default styles */
 
+.page-container {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 200px 1fr;
+}
+
 .criar-edificio-container {
   display: flex;
   flex-direction: column;
@@ -11,7 +17,7 @@
 
 .criar-edificio-form-container {
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 1rem;

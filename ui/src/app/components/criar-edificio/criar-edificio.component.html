@@ -1,35 +1,45 @@
-<section class="criar-edificio-container">
+<div class="page-container">
+  <app-sidebar></app-sidebar>
+
+  <section class="criar-edificio-container">
     <header>
-        <h1>Criar Edificio</h1>
+      <h1>Criar Edificio</h1>
     </header>
     <div class="criar-edificio-form-container">
-        <h2>Criar Edificio</h2>
-        <form
-        (ngSubmit)="createEdificio(codigoEdificio.value, descricaoEdificio.value, nomeEdificio.value, comprimento.valueAsNumber, largura.valueAsNumber)"
+      <h2>Criar Edificio</h2>
+      <form
+        (ngSubmit)="
+          createEdificio(
+            codigoEdificio.value,
+            descricaoEdificio.value,
+            nomeEdificio.value,
+            comprimento.valueAsNumber,
+            largura.valueAsNumber
+          )
+        "
         #edificioForm="ngForm"
-        > 
-        
+      >
         <label for="codigoEdificio">Código do Edifício</label>
         <input type="text" id="codigoEdificio" name="codigoEdificio" required #codigoEdificio />
-  
+
         <label for="descricaoEdificio">Descrição do Edifício</label>
         <input type="text" id="descricaoEdificio" name="descricaoEdificio" required #descricaoEdificio />
-  
+
         <label for="nomeEdificio">Nome do Edifício</label>
-        <input type="text" id="nomeEdificio" name="nomeEdificio" #nomeEdificio /> <!--optional-->
+        <input type="text" id="nomeEdificio" name="nomeEdificio" #nomeEdificio />
+        <!--optional-->
 
         <label for="comprimento">Comprimento do Edifício</label>
         <input type="number" id="comprimento" name="comprimento" required #comprimento />
 
         <label for="largura">Largura do Edifício</label>
         <input type="number" id="largura" name="largura" required #largura />
-        
-        <button type="submit" [disabled]="edificioForm.invalid">Criar</button> 
-        </form>
+
+        <button type="submit" [disabled]="edificioForm.invalid">Criar</button>
+      </form>
     </div>
     <footer>
-        <button class="back-button" routerLink="/gestor-campus">Back</button>
+      <button class="back-button" routerLink="/gestor-campus">Back</button>
     </footer>
-</section>
-
-  
+  </section>
+</div>

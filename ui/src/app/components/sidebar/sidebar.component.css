@@ -1,0 +1,47 @@
+/* sidebar.component.css */
+.sidebar {
+    background-color: #222;
+    color: white;
+    padding: 10px;
+    width: 200px;
+    height: 100%;
+}
+
+.sidebar-item {
+    color: white;
+    text-decoration: none;
+    display: block;
+    padding: 8px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+    position: relative;
+}
+
+.sidebar-item:hover {
+    background-color: #555;
+}
+
+.sidebar-item.with-dropdown:hover .sub-menu {
+    display: block;
+}
+
+.sub-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    width: 100%;
+    left: 0;
+    background-color: #555;
+    border-radius: 0 4px 4px 0;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    flex-direction: column;
+}
+
+.sub-menu .sidebar-item {
+    padding: 8px;
+    border-radius: 0;
+}
+
+.sub-menu .sidebar-item:hover {
+    background-color: #777;
+}
