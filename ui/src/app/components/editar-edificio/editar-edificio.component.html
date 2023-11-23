@@ -1,5 +1,9 @@
+<div class="page-container">
+  <app-sidebar></app-sidebar>
 <div class="container">
-  <h2>Atualizar Edificio</h2>
+  <header>
+      <h1>Editar Edificio</h1>
+  </header>
 
   <label for="edificioSelect">Selecione um Edificio:</label>
   <select id="edificioSelect" [(ngModel)]="selectedEdificio" (change)="selectEdificio()">
@@ -34,4 +38,5 @@
    <footer>
         <button class="back-button" routerLink="/gestor-campus">Back</button>
     </footer>
+</div>
 </div>

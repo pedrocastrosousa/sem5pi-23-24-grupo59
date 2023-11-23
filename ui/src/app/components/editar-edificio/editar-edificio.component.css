@@ -1,7 +1,15 @@
 /* atualizar-edificio.component.css */
+.page-container {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 200px 1fr;
+}
 
 .container {
-  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  max-width: 800px;
   margin: 0 auto;
   padding: 20px;
   border: 1px solid #ddd;
@@ -29,6 +37,13 @@ button {
   box-sizing: border-box;
 }
 
+header {
+  text-align: center;
+  background-color: rgb(22, 21, 21) 262;
+  color: rgb(255, 255, 255);
+  padding: 20px;
+}
+
 button {
   background-color: #4caf50;
   color: white;
@@ -49,6 +64,7 @@ button:disabled {
 
 .back-button {
   /* or use 'absolute' based on your layout needs */
+  display: flex;
   background-color: #555;
   color: white;
   padding: 10px 15px;
