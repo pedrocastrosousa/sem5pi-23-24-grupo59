@@ -44,21 +44,23 @@ export class ListarEdificiosMaxMinComponent {
       const minPisos = this.form.value.minPisos;
       const maxPisos = this.form.value.maxPisos;
 
-      this.pisoService.listarEdificiosComMinMaxPisos(minPisos, maxPisos)
-        .subscribe((edificios: Edificio[]) => {
-          this.edificios = edificios;
+      this.pisoService.listarEdificiosComMinMaxPisos(minPisos, maxPisos).subscribe({
+        next: (response) => {
+          console.log('Edifícios listados:', response);
+          this.edificios = response;
+        },
+        error: (error) => {
+          console.error('Erro ao criar edifício:', error);
+          if (error.error && error.error.error) {
+            this.mostrarMensagem('Erro ao criar edifício: ' + error.error.error);
 
-        });
-      if(this.edificios.length == 0 && this.edificios){
-        this.erroListarEdificios = 'Não existem edifícios com o número de pisos mínimo e máximo especificados.'
-        this.mostrarMensagem(this.erroListarEdificios)
-      }else{
-        this.erroListarEdificios = ''
-      }
+          } else {
+            this.mostrarMensagem('Erro ao criar edifício. Por favor, tente novamente.');
 
+          }
+        }
+      });
     }
-
-
   }
   mostrarMensagem(mensagem: string) {
     this._snackBar.open(mensagem, 'Fechar', {
