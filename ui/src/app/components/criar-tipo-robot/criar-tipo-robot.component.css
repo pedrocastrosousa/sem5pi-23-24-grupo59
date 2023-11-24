@@ -6,7 +6,7 @@
   justify-content: space-around;
   align-items: center;
   height: 100%;
-  background-color: #a8a8a8;
+  background-color: #685e5e;
 }
 
 .gestorFrotaFormContainer {
@@ -16,6 +16,51 @@
   align-items: center;
   gap: 1rem;
   background-color: #c9c5c5;
+}
+
+.custom-select {
+  position: relative;
+  width: 100%;
+}
+
+.custom-select select {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  -webkit-appearance: none; /* Remove a seta padrão no Safari */
+  -moz-appearance: none; /* Remove a seta padrão no Firefox */
+  appearance: none;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.custom-select::after {
+  content: '\25BC'; /* Unicode para um triângulo invertido */
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.custom-select:hover select,
+.custom-select:focus select {
+  border-color: #007bff; /* Cor quando em estado de hover ou focado */
+}
+
+/* Estilos para a lista suspensa */
+.custom-select select option {
+  background-color: #fff;
+  color: #333;
+}
+
+/* Adiciona um estilo de hover à opção quando o mouse está sobre ela */
+.custom-select select option:hover {
+  background-color: #007bff; /* Cor quando em estado de hover */
+  color: #fff;
 }
 
 body {
@@ -32,6 +77,11 @@ nav {
   /* Add a subtle shadow */
 }
 
+button:disabled {
+  background-color: #faf8f8;
+  cursor: not-allowed;
+}
+
 nav a {
   float: left;
   display: block;
@@ -41,9 +91,6 @@ nav a {
   text-decoration: none;
 }
 
-nav a:hover {
-  background-color: #555;
-}
 
 /* Dropdown Menu */
 .dropdown {
@@ -65,11 +112,6 @@ nav a:hover {
   /* Add a smooth transition effect */
 }
 
-.navbar a,
-.dropdown:hover .dropbtn {
-  background-color: #555;
-}
-
 .dropdown-content {
   display: none;
   position: absolute;
@@ -85,14 +127,6 @@ nav a:hover {
   text-decoration: none;
   display: block;
   text-align: left;
-}
-
-.dropdown-content a:hover {
-  background-color: #ddd;
-}
-
-.dropdown:hover .dropdown-content {
-  display: block;
 }
 
 header {
@@ -115,6 +149,10 @@ header {
   border-radius: 5px;
   cursor: pointer;
   font-size: 14px;
+}
+
+button:not([disabled]):hover {
+  background-color: #157e1f;
 }
 
 .back-button:hover {
@@ -172,10 +210,6 @@ button {
   border-radius: 4px;
   cursor: pointer;
   width: 100%;
-}
-
-button:hover {
-  background-color: #4b554c;
 }
 
 

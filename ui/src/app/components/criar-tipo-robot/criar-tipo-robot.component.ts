@@ -9,12 +9,20 @@ import { TipoRobotService } from 'src/app/services/tipo-robot.service';
 })
 export class CriarTipoRobotComponent {
   constructor(private tipoRobotService: TipoRobotService) {}
+  tipoRobot: TipoRobot = {
+    designacaoTipoRobot: '',
+    tipoTarefaTipoRobot: [],
+  };
 
-  createTipoRobot(designacaoTipoRobot: string, tipoTarefaTipoRobot: string[]): void {
-    this.tipoRobotService
-      .createTipoRobot({ designacaoTipoRobot, tipoTarefaTipoRobot } as TipoRobot)
-      .subscribe(response => {
-        console.log(response);
-      });
+  tipoTarefasChanged() {
+    if (this.tipoRobot.tipoTarefaTipoRobot.includes('ambas')) {
+      this.tipoRobot.tipoTarefaTipoRobot = ['pickupndelivery', 'vigilancia'];
+    }
+  }
+
+  createTipoRobot(): void {
+    this.tipoRobotService.createTipoRobot(this.tipoRobot).subscribe(response => {
+      console.log(response);
+    });
   }
 }

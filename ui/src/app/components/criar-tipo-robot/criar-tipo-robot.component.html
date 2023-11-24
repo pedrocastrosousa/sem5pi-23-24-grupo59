@@ -1,19 +1,34 @@
 <section class="gestorFrotaContainer">
   <header>
-    <h1>Menu Gestor Frota</h1>
+    <h1>Criar Tipo Robot</h1>
   </header>
   <div class="gestorFrotaFormContainer">
-    <h2>Create Tipo Robot</h2>
-    <form
-      (ngSubmit)="createTipoRobot(designacaoTipoRobot.value, tipoTarefaTipoRobot.value.split(','))"
-      #tipoRobotForm="ngForm"
-    >
-      <label for="designacaoTipoRobot">Designacao Tipo Robot:</label>
-      <input type="text" id="designacaoTipoRobot" name="designacaoTipoRobot" required #designacaoTipoRobot />
-
-      <label for="tipoTarefaTipoRobot">Tipo Tarefa Tipo Robot (separado por virgulas):</label>
-      <input type="text" id="tipoTarefaTipoRobot" name="tipoTarefaTipoRobot" required #tipoTarefaTipoRobot />
-
+    <h2>Criar Tipo Robot</h2>
+    <form (ngSubmit)="createTipoRobot()" #tipoRobotForm="ngForm">
+      <div class="form-group">
+        <label for="designacaoTipoRobot">Designação:</label>
+        <input
+          type="text"
+          id="designacaoTipoRobot"
+          name="designacaoTipoRobot"
+          [(ngModel)]="tipoRobot.designacaoTipoRobot"
+          required
+        />
+      </div>
+      <div class="form-group custom-select">
+        <label for="tipodeTarefas">Tipo de Tarefas:</label>
+        <select
+          id="tipodeTarefas"
+          name="tipodeTarefas"
+          [(ngModel)]="tipoRobot.tipoTarefaTipoRobot"
+          (change)="tipoTarefasChanged()"
+          required
+        >
+          <option value="pickupndelivery">Pickup and Delivery</option>
+          <option value="vigilancia">Vigilância</option>
+          <option value="ambas">Ambas</option>
+        </select>
+      </div>
       <button type="submit" [disabled]="tipoRobotForm.invalid">Criar</button>
     </form>
   </div>
