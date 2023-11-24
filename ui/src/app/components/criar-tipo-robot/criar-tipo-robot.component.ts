@@ -9,20 +9,27 @@ import { TipoRobotService } from 'src/app/services/tipo-robot.service';
 })
 export class CriarTipoRobotComponent {
   constructor(private tipoRobotService: TipoRobotService) {}
-  tipoRobot: TipoRobot = {
-    designacaoTipoRobot: '',
-    tipoTarefaTipoRobot: [],
-  };
+
+  designacaoTipoRobot: string = '';
+  tipoTarefaTipoRobot: string[] = [];
 
   tipoTarefasChanged() {
-    if (this.tipoRobot.tipoTarefaTipoRobot.includes('ambas')) {
-      this.tipoRobot.tipoTarefaTipoRobot = ['pickupndelivery', 'vigilancia'];
+    if (this.tipoTarefaTipoRobot.includes('ambas')) {
+      this.tipoTarefaTipoRobot = ['pickupndelivery', 'vigilancia'];
+    } else if (this.tipoTarefaTipoRobot.includes('pickupndelivery')) {
+      this.tipoTarefaTipoRobot = ['pickupndelivery'];
+    } else if (this.tipoTarefaTipoRobot.includes('vigilancia')) {
+      this.tipoTarefaTipoRobot = ['vigilancia'];
     }
   }
 
   createTipoRobot(): void {
-    this.tipoRobotService.createTipoRobot(this.tipoRobot).subscribe(response => {
-      console.log(response);
-    });
+    this.tipoRobotService
+      .createTipoRobot(
+        this.designacaoTipoRobot,
+        this.tipoTarefaTipoRobot)
+      .subscribe(response => {
+        console.log(response);
+      });
   }
 }
