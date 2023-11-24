@@ -12,7 +12,7 @@ export class EditarEdificioComponent implements OnInit {
   edificios: Edificio[] = [];
   selectedEdificio: Edificio | null = null;
 
-  constructor(private edificioService: EdificioService, private fb: FormBuilder) {}
+  constructor(private edificioService: EdificioService) {}
 
   edificio: Edificio = {
     codigoEdificio: '',
@@ -47,8 +47,6 @@ export class EditarEdificioComponent implements OnInit {
 
   updateEdificio(): void {
     if (this.selectedEdificio) {
-
-      console.log(this.edificio)
 
       this.edificioService.updateEdificio(this.edificio).subscribe(
         response => {

@@ -1,15 +1,19 @@
 <div class="page-container">
   <app-sidebar></app-sidebar>
 <div class="container">
+  <div class="editar-container">
   <header>
       <h1>Editar Edificio</h1>
   </header>
 
+  <div class="select-container">
   <label for="edificioSelect">Selecione um Edificio:</label>
   <select id="edificioSelect" [(ngModel)]="selectedEdificio" (change)="selectEdificio()">
     <option *ngFor="let edificio of edificios" [ngValue]="edificio">{{ edificio.codigoEdificio }}</option>
   </select>
+  </div> 
 
+  <div *ngIf="selectedEdificio" class="editar-edificio-form-container">
   <form (ngSubmit)="updateEdificio()" #edificioForm="ngForm">
 
     <div class="form-group">
@@ -32,11 +36,13 @@
       <input type="number" id="largura" name="largura" [(ngModel)]="edificio.dimensaoMaximaPisos.largura" required>
     </div>
 
-    <button type="submit" [disabled]="!edificioForm.valid">Atualizar Edificio</button>
+    <button type="submit" [disabled]="!edificioForm.valid">Atualizar</button>
 
   </form>
+  </div>
    <footer>
         <button class="back-button" routerLink="/gestor-campus">Back</button>
     </footer>
+    </div>
 </div>
 </div>
