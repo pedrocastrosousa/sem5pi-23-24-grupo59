@@ -1,0 +1,33 @@
+<!-- listar-edificios-max-min.component.html -->
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <h2>Listar Edifícios com número mínimo e máximo de pisos</h2>
+
+  <div>
+    <label for="minPisos">Número Mínimo de Pisos:</label>
+    <input type="number" id="minPisos" formControlName="minPisos">
+  </div>
+  <div>
+    <label for="maxPisos">Número Máximo de Pisos:</label>
+    <input type="number" id="maxPisos" formControlName="maxPisos">
+  </div>
+  <button type="submit" [disabled]="!form.valid">Listar Edifícios</button>
+
+  <!-- Exibir a lista de edifícios -->
+
+  <div *ngIf="edificios && edificios.length > 0">
+    <ul>
+      <li *ngFor="let edificio of edificios">
+        <h3>{{ edificio.nomeEdificio }}</h3>
+        <p><strong>Código:</strong> {{ edificio.codigoEdificio }}</p>
+        <p><strong>Dimensões:</strong> Comprimento: {{ edificio.dimensaoMaximaPisos.comprimento }}, Largura: {{ edificio.dimensaoMaximaPisos.largura }}</p>
+        <p *ngIf="edificio.descricaoEdificio"><strong>Descrição:</strong> {{ edificio.descricaoEdificio }}</p>
+      </li>
+    </ul>
+  </div>
+  <div *ngIf="!edificios || edificios.length == 0" class="lista-edificios">
+    <p>Nenhum edifício encontrado.</p>
+  </div>
+</form>
+
+

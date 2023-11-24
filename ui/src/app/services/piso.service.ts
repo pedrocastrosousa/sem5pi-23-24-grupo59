@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { Piso } from '../domain/pisos';
 import { MessageService } from './message.service';
+import {Edificio} from "../domain/edificio";
 
 
 @Injectable({
@@ -14,6 +15,8 @@ export class PisoService {
   private criarPisoUrl = 'http://localhost:4000/api/pisos/criarPiso';
   private listarPisosUrl = 'http://localhost:4000/api/pisos/listarAllPisos';
   private listarPisosEdificio = 'http://localhost:4000/api/pisos/listarPisosEdificio';
+  private listarEdificios = 'http://localhost:4000/api/passagem/listarPassagensEdificio1Edificio2';
+  private listarEdificiosComMinMaxPisosUrl = 'http://localhost:4000/api/pisos/listarEdificioMinMaxPisos';
 
   constructor(private messageService: MessageService, private http: HttpClient) {}
 
@@ -62,4 +65,9 @@ export class PisoService {
     return this.http.get<Piso[]>(url);
   }
 
+  listarEdificiosComMinMaxPisos(minPisos: any, maxPisos: any) {
+    const url = `${this.listarEdificiosComMinMaxPisosUrl}?min=${minPisos}&max=${maxPisos}`;
+
+    return this.http.get<Edificio[]>(this.listarEdificiosComMinMaxPisosUrl, {params: {min: minPisos, max: maxPisos}});
+  }
 }
