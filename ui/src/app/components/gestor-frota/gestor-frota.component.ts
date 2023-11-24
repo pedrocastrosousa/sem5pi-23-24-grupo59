@@ -16,9 +16,4 @@ export class GestorFrotaComponent implements OnInit {
 
    ngOnInit(): void {}
 
-   createTipoRobot(designacaoTipoRobot: string, tipoTarefaTipoRobot: string[]):void{
-     this.tipoRobotService
-       .createTipoRobot({designacaoTipoRobot, tipoTarefaTipoRobot } as TipoRobot).subscribe((response) => {console.log(response)});
-   }
-
 }

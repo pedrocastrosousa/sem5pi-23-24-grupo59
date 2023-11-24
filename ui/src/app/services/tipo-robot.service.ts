@@ -11,15 +11,19 @@ import { MessageService } from './message.service';
 })
 export class TipoRobotService {
   private tipoRobotUrl = 'http://localhost:4000/api/tipoRobots';
-  
+
   constructor(private messageService: MessageService, private http: HttpClient) {}
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
   };
 
-  createTipoRobot(tipoRobot: TipoRobot): Observable<TipoRobot> {
-    console.log(tipoRobot);
+  createTipoRobot(designacaoTipoRobot: string, tipoTarefaTipoRobot: string[]): Observable<TipoRobot> {
+    const tipoRobot: TipoRobot = {
+      designacaoTipoRobot: designacaoTipoRobot,
+      tipoTarefaTipoRobot: tipoTarefaTipoRobot,
+    };
+
     return this.http.post<TipoRobot>(this.tipoRobotUrl, tipoRobot, this.httpOptions).pipe(
       tap((newTipoRobot: TipoRobot) => this.log(`tipoRobot foi criado!`)),
       catchError(this.handleError<TipoRobot>('addTipoRobot')),
