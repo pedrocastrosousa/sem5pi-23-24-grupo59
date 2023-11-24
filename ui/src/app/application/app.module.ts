@@ -33,6 +33,7 @@ import { PassagemService } from '../services/passagem.service';
 import { EditarPassagemComponent } from '../components/editar-passagem/editar-passagem.component';
 import { ListaPassagemComponent } from '../components/lista-passagem/lista-passagem.component';
 import { DeleteEdificioComponent } from '../components/delete-edificio/delete-edificio.component';
+import { CriarSalaComponent } from '../components/criar-sala/criar-sala.component';
 import { CriarRobotsComponent } from '../components/criar-robots/criar-robots.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { InibirRobotComponent } from '../components/inibir-robot/inibir-robot.component';
@@ -60,6 +61,7 @@ import {
     EditarPassagemComponent,
     ListaPassagemComponent,
     DeleteEdificioComponent,
+    CriarSalaComponent,
     CriarRobotsComponent,
     SidebarComponent,
     CriarRobotsComponent,

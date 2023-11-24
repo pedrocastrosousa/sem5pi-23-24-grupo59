@@ -1,0 +1,44 @@
+<section class="criar-sala-container">
+    <header>
+        <h1>Criar Sala</h1>
+    </header>
+    <div class="criar-edificio-form-container">
+        <h2>Criar Sala</h2>
+        <form
+        (ngSubmit)="createSala(nomeSala.value, categoriaSala.value, x1.valueAsNumber, y1.valueAsNumber, x2.valueAsNumber, y2.valueAsNumber, descricaoSala.value, pisoSelecionado.value)"
+        #salaForm="ngForm"
+        > 
+        
+        <label for="nomeSala">Nome da Sala</label>
+        <input type="text" id="nomeSala" name="nomeSala" required #nomeSala />
+  
+        <label for="categoriaSala">Categoria da Sala</label>
+        <select id="categoriaSala" name="categoriaSala" required #categoriaSala>
+            <option *ngFor="let categoria of categoriasSala" [value]="categoria">{{ categoria}}</option>
+        </select>
+        
+        <label>Dimensões da Sala:</label>
+        <label for="x1">x1</label>
+        <input type="number" id="x1" name="x1" required #x1 /> 
+        <label for="y1">y1</label>
+        <input type="number" id="y1" name="y1" required #y1 /> 
+        <label for="x2">x2</label>
+        <input type="number" id="x2" name="x2" required #x2 /> 
+        <label for="y2">y2</label>
+        <input type="number" id="y2" name="y2" required #y2 /> 
+
+        <label for="descricaoSala">Descrição da sala</label>
+        <input type="text" id="descricaoSala" name="descricaoSala" required #descricaoSala />
+
+        <label for="piso">Piso da Sala</label>
+        <select id="piso" name="piso" required #pisoSelecionado>
+            <option *ngFor="let piso of pisos" [value]="piso.codigoPiso">{{ piso.codigoPiso}}</option>
+        </select>
+        
+        <button type="submit" [disabled]="salaForm.invalid">Criar</button> 
+        </form>
+    </div>
+    <footer>
+        <button class="back-button" routerLink="/gestor-campus">Back</button>
+    </footer>
+</section>
