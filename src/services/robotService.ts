@@ -1,11 +1,10 @@
 import { Service, Inject } from 'typedi';
-import config from "../../config";
+import config from '../../config';
 import { IRobotDTO } from '../dto/IRobotDTO';
 import { Robot } from '../domain/robot/robot';
 
 import { RobotMap } from '../mappers/RobotMap';
-import { Result } from "../core/logic/Result";
-
+import { Result } from '../core/logic/Result';
 
 import { Edificio } from '../domain/edificio/edificio';
 import { Piso } from '../domain/piso/piso';
@@ -24,12 +23,11 @@ import IRobotRepo from './IRepos/IRobotRepo';
 export default class RobotService implements IRobotService {
   constructor(
     @Inject(config.repos.robot.name) private robotRepo: IRobotRepo,
-    @Inject(config.repos.tipoRobot.name) private tipoRobotRepo: ITipoRobotRepo
-  ) { }
+    @Inject(config.repos.tipoRobot.name) private tipoRobotRepo: ITipoRobotRepo,
+  ) {}
 
   public async createRobot(robotDTO: IRobotDTO): Promise<Result<IRobotDTO>> {
     try {
-
       const codigo = await CodigoRobot.create(robotDTO.codigoRobot).getValue();
       const nickname = await NicknameRobot.create(robotDTO.nicknameRobot).getValue();
       const numeroSerie = await NumeroSerieRobot.create(robotDTO.numeroSerieRobot).getValue();
@@ -42,10 +40,8 @@ export default class RobotService implements IRobotService {
         tipoRobot: tipoRobotOrError.getValue(),
         numeroserieRobot: numeroSerie,
         descricaoRobot: descricao,
-        estadoRobot: EstadoRobot.Ativo
+        estadoRobot: EstadoRobot.Ativo,
       });
-
-
 
       if (RobotOrError.isFailure) {
         return Result.fail<IRobotDTO>(RobotOrError.errorValue());
@@ -53,30 +49,23 @@ export default class RobotService implements IRobotService {
 
       const RobotResult = RobotOrError.getValue();
 
-
       await this.robotRepo.save(RobotResult);
       const RobotDTOResult = RobotMap.toDTO(RobotResult) as IRobotDTO;
-      return Result.ok<IRobotDTO>(RobotDTOResult)
-
-
+      return Result.ok<IRobotDTO>(RobotDTOResult);
     } catch (e) {
       throw e;
     }
-
   }
 
-
   private async getTipoRobot(tipoRobotId: string): Promise<Result<TipoRobot>> {
-
     const tipo = await this.tipoRobotRepo.findByDesignation(tipoRobotId);
     const found = !!tipo;
     if (found) {
       return Result.ok<TipoRobot>(tipo);
     } else {
-      return Result.fail<TipoRobot>("Não foi possivel encontrar o Tipo de Robot" + tipoRobotId);
+      return Result.fail<TipoRobot>('Não foi possivel encontrar o Tipo de Robot' + tipoRobotId);
     }
   }
-
 
   public async getRobots(): Promise<Result<IRobotDTO[]>> {
     try {
@@ -90,17 +79,14 @@ export default class RobotService implements IRobotService {
         return Result.ok<IRobotDTO[]>(robotListDto);
       }
 
-      return Result.fail<IRobotDTO[]>("Não existem Robots para listar.");
+      return Result.fail<IRobotDTO[]>('Não existem Robots para listar.');
     } catch (e) {
       throw e;
     }
   }
 
-
-
   public async inibirRobot(robotID: string, robotDTO: IRobotDTO): Promise<Result<IRobotDTO>> {
     try {
-
       if (!robotID) {
         return Result.fail<IRobotDTO>('ID do robot não fornecido para atualização.');
       }
@@ -108,7 +94,6 @@ export default class RobotService implements IRobotService {
       const existingRobot = await this.robotRepo.findByCodigo(robotID);
 
       if (existingRobot != null) {
-
         existingRobot.updateEstado(await EstadoRobot.Inibido);
 
         await this.robotRepo.save(existingRobot);
@@ -116,17 +101,14 @@ export default class RobotService implements IRobotService {
         return Result.ok<IRobotDTO>(RobotMap.toDTO(existingRobot));
       }
 
-
       return Result.fail<IRobotDTO>('Não foi possível encontrar o robot.');
     } catch (e) {
       return Result.fail<IRobotDTO>(e.message);
     }
   }
 
-
   public async reativarRobot(robotID: string, robotDTO: IRobotDTO): Promise<Result<IRobotDTO>> {
     try {
-
       if (!robotID) {
         return Result.fail<IRobotDTO>('ID do robot não fornecido para atualização.');
       }
@@ -134,7 +116,6 @@ export default class RobotService implements IRobotService {
       const existingRobot = await this.robotRepo.findByCodigo(robotID);
 
       if (existingRobot != null) {
-
         existingRobot.updateEstado(await EstadoRobot.Ativo);
 
         await this.robotRepo.save(existingRobot);
@@ -171,5 +152,4 @@ export default class RobotService implements IRobotService {
 
 }
 */
-
 }

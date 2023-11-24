@@ -18,13 +18,13 @@ export class RobotMap extends Mapper<Robot> {
   public static toDTO(robot: Robot): IRobotDTO {
     return {
       id: robot.id.toString(),
-      codigoRobot: robot.codigoRobot.toString(),
-      nicknameRobot: robot.nicknameRobot,
-      tipoRobot: robot.tipoRobot.designacaoTipoRobot,
-      numeroSerieRobot: robot.numeroserieRobot,
-      descricaoRobot: robot.descricaoRobot,
+      codigoRobot: robot.codigoRobot.toValue(),
+      nicknameRobot: robot.nicknameRobot.value,
+      tipoRobot: robot.tipoRobot.designacaoTipoRobot.designacao,
+      numeroSerieRobot: robot.numeroserieRobot.value,
+      descricaoRobot: robot.descricaoRobot?.value,
       estadoRobot: robot.estadoRobot.toString(),
-    } as unknown as IRobotDTO;
+    } as IRobotDTO;
   }
 
   public static async toDomain(raw: any): Promise<Robot> {

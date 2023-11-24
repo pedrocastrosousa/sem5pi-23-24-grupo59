@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Robot} from '../../domain/robot'
+import { Robot } from '../../domain/robot';
 import { RobotService } from 'src/app/services/robot.service';
 
 @Component({
