@@ -12,7 +12,4 @@ export class GestorCampusComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  createEdificio(codigoEdificio: string, nomeEdificio: string): void {
-    this.edificioService.createEdificio({ codigoEdificio, nomeEdificio } as Edificio);
-  }
 }

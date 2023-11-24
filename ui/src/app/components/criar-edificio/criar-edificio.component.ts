@@ -9,21 +9,20 @@ import { EdificioService } from 'src/app/services/edificio.service';
 })
 export class CriarEdificioComponent implements OnInit {
   constructor(private edificioService: EdificioService) {}
-  edificio: Edificio = {
-    codigoEdificio: '',
-    descricaoEdificio: '',
-    nomeEdificio: '',
-    dimensaoMaximaPisos: {
-      comprimento: 0,
-      largura: 0,
-    },
-  };
+
+  codigoEdificio: string = '';
+  descricaoEdificio: string = '';
+  nomeEdificio: string = '';
+  comprimento: number = 0;
+  largura: number = 0;
+
   ngOnInit(): void {}
 
   createEdificio(): void {
-    console.log(this.edificio)
-    this.edificioService.createEdificio(this.edificio).subscribe(response => {
-      console.log(response);
-    });
+    this.edificioService
+      .createEdificio(this.codigoEdificio, this.descricaoEdificio, this.nomeEdificio, this.comprimento, this.largura)
+      .subscribe(response => {
+        console.log(response);
+      });
   }
 }

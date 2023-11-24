@@ -21,7 +21,23 @@ export class EdificioService {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
   };
 
-  createEdificio(edificio: Edificio): Observable<Edificio> {
+  createEdificio(
+    codigoEdificio: string,
+    descricaoEdificio: string,
+    nomeEdificio: string,
+    comprimento: number,
+    largura: number,
+  ): Observable<Edificio> {
+    const edificio: Edificio = {
+      codigoEdificio: codigoEdificio,
+      descricaoEdificio: descricaoEdificio,
+      nomeEdificio: nomeEdificio,
+      dimensaoMaximaPisos: {
+        comprimento: comprimento,
+        largura: largura,
+      },
+    };
+
     return this.http.post<Edificio>(this.edificioUrl, edificio, this.httpOptions).pipe(
       tap((newEdificio: Edificio) => {
         this.log(`edificio foi criado!`);
