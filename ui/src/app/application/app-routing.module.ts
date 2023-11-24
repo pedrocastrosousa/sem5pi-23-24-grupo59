@@ -19,6 +19,7 @@ import { ListaPassagemComponent } from '../components/lista-passagem/lista-passa
 import { DeleteEdificioComponent } from '../components/delete-edificio/delete-edificio.component';
 import { CriarSalaComponent } from '../components/criar-sala/criar-sala.component';
 import { CriarElevadorComponent } from '../components/criar-elevador/criar-elevador.component';
+import { ListarElevadoresComponent } from '../components/listar-elevadores/listar-elevadores.component';
 import { CriarRobotsComponent } from '../components/criar-robots/criar-robots.component';
 import { InibirRobotComponent } from '../components/inibir-robot/inibir-robot.component';
 import {
@@ -43,6 +44,7 @@ const routes: Routes = [
   { path: 'lista-passagem', component: ListaPassagemComponent },
   { path: 'delete-edificio', component: DeleteEdificioComponent },
   { path: 'criar-elevador', component: CriarElevadorComponent },
+  { path: 'listar-elevador', component: ListarElevadoresComponent },
   { path: 'criar-sala', component: CriarSalaComponent },
   { path: 'criar-robots', component: CriarRobotsComponent },
   { path: 'inibir-robot', component: InibirRobotComponent },

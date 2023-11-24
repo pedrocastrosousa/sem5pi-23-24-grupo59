@@ -1,0 +1,46 @@
+<h2>Listagem de todos os elevadores</h2>
+
+<table mat-table [dataSource]="elevadores">
+    <!-- Columns -->
+    <ng-container matColumnDef="numeroIdentificativo">
+        <th mat-header-cell *matHeaderCellDef>Número identificativo</th>
+        <td mat-cell *matCellDef="let elevador">{{ elevador.numeroIdentificativo }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="edificio">
+        <th mat-header-cell *matHeaderCellDef>Edificio</th>
+        <td mat-cell *matCellDef="let elevador">{{ elevador.edificio }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="pisos">
+        <th mat-header-cell *matHeaderCellDef>Pisos</th>
+        <td mat-cell *matCellDef="let elevador">{{ elevador.pisos }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="numeroSerie">
+        <th mat-header-cell *matHeaderCellDef>Número de série</th>
+        <td mat-cell *matCellDef="let elevador">{{ elevador.numeroSerie }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="marca">
+        <th mat-header-cell *matHeaderCellDef>Marca</th>
+        <td mat-cell *matCellDef="let elevador">{{ elevador.marca }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="modelo">
+        <th mat-header-cell *matHeaderCellDef>Modelo</th>
+        <td mat-cell *matCellDef="let elevador">{{ elevador.modelo }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="descricao">
+        <th mat-header-cell *matHeaderCellDef>Descrição</th>
+        <td mat-cell *matCellDef="let elevador">{{ elevador.descricao }}</td>
+    </ng-container>
+
+    <!-- Row with columns -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>
+<footer>
+    <button class="back-button" routerLink="/gestor-campus">Back</button>
+</footer>
