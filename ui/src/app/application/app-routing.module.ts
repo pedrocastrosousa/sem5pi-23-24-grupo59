@@ -18,6 +18,7 @@ import { EditarPassagemComponent } from '../components/editar-passagem/editar-pa
 import { ListaPassagemComponent } from '../components/lista-passagem/lista-passagem.component';
 import { DeleteEdificioComponent } from '../components/delete-edificio/delete-edificio.component';
 import { CriarSalaComponent } from '../components/criar-sala/criar-sala.component';
+import { CriarElevadorComponent } from '../components/criar-elevador/criar-elevador.component';
 import { CriarRobotsComponent } from '../components/criar-robots/criar-robots.component';
 import { InibirRobotComponent } from '../components/inibir-robot/inibir-robot.component';
 import {
@@ -41,6 +42,7 @@ const routes: Routes = [
   { path: 'editar-passagem', component: EditarPassagemComponent },
   { path: 'lista-passagem', component: ListaPassagemComponent },
   { path: 'delete-edificio', component: DeleteEdificioComponent },
+  { path: 'criar-elevador', component: CriarElevadorComponent },
   { path: 'criar-sala', component: CriarSalaComponent },
   { path: 'criar-robots', component: CriarRobotsComponent },
   { path: 'inibir-robot', component: InibirRobotComponent },

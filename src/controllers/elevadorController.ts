@@ -22,7 +22,7 @@ export default class ElevadorController implements IElevadorController /* TODO: 
       }
 
       const elevadorDTO = elevadorOrError.getValue();
-      return res.json(elevadorDTO).status(201);
+      return res.status(201).json(elevadorDTO);
     }
     catch (e) {
       return next(e);
@@ -68,6 +68,6 @@ export default class ElevadorController implements IElevadorController /* TODO: 
       if (deleteElevadorOrError.isFailure) {
         return res.status(400).json({ error: deleteElevadorOrError.error});
       }
-      return res.json(deleteElevadorOrError.getValue()).status(204);
+      return res.status(204).json(deleteElevadorOrError.getValue());
   }
 }

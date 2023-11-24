@@ -1,0 +1,47 @@
+<section class="criar-elevador-container">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Sign Up Form</title>
+    </head>
+    <div class="criar-elevador-form-container">
+        
+        <form
+        (ngSubmit)="createElevador(edificioSelecionado.value, numeroSerieElevador.value, marcaElevador.value, modeloElevador.value, descricaoElevador.value)"
+        #salaForm="ngForm"
+        > 
+        <h1>Criar Elevador</h1>
+        <label for="edificio">Edifico do elevador</label>
+        <select id="edificio" name="edificio" (change)="getPisosDeEdificio(this.edificioSelecionado.value)" required #edificioSelecionado>
+            <option *ngFor="let edificio of edificios" [value]="edificio.codigoEdificio">{{ edificio.codigoEdificio }}</option>
+        </select>
+
+        <label>Pisos com acesso ao elevador</label>
+        <div class="pisos-checkbox">
+            <div *ngFor="let piso of pisos">
+                <input (change)="pisoCheckbuttonChange(piso.codigoPiso)" type="checkbox" value="{{ piso.codigoPiso }}">{{piso.codigoPiso}}
+            </div>
+        </div>
+
+        <label for="numeroSerie">Numero de série</label>
+        <input type="text" id="numeroSerie" name="numeroSerie" #numeroSerieElevador />
+        
+        <label for="marca">Marca</label>
+        <input type="text" id="marca" name="marca" #marcaElevador />
+        
+        <label for="modelo">Modelo</label>
+        <input type="text" id="modelo" name="modelo" #modeloElevador />
+        
+        <label for="descricao">Descrição</label>
+        <input type="text" id="descricao" name="descricao" #descricaoElevador />
+
+        
+        <button type="submit" >Criar</button> 
+        
+        </form>
+        
+        <button class="back-button" routerLink="/gestor-campus">Back</button>
+    </div>
+    <footer>
+    </footer>
+</section>
