@@ -166,7 +166,12 @@ button {
 }
 
 button:hover {
-  background-color: #4b554c;
+  background-color: #157e1f;
+}
+
+button:disabled {
+  background-color: #faf8f8;
+  cursor: not-allowed;
 }
 
 /* Responsive Navigation */

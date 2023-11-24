@@ -1,5 +1,3 @@
-/* eslint-disable prettier/prettier */
-
 import { Component, OnInit } from '@angular/core';
 import { Edificio } from 'src/app/domain/edificio';
 import { EdificioService } from 'src/app/services/edificio.service';
@@ -7,29 +5,25 @@ import { EdificioService } from 'src/app/services/edificio.service';
 @Component({
   selector: 'app-criar-edificio',
   templateUrl: './criar-edificio.component.html',
-  styleUrls: ['./criar-edificio.component.css']
+  styleUrls: ['./criar-edificio.component.css'],
 })
-
 export class CriarEdificioComponent implements OnInit {
-  
-  constructor(private edificioService: EdificioService){}
-
+  constructor(private edificioService: EdificioService) {}
+  edificio: Edificio = {
+    codigoEdificio: '',
+    descricaoEdificio: '',
+    nomeEdificio: '',
+    dimensaoMaximaPisos: {
+      comprimento: 0,
+      largura: 0,
+    },
+  };
   ngOnInit(): void {}
 
-  createEdificio(
-    codigoEdificio: string,
-    descricaoEdificio: string,
-    nomeEdificio: string,
-    comprimento: number,
-    largura: number,
-  ): void {
-    this.edificioService.createEdificio({
-      codigoEdificio,
-      descricaoEdificio,
-      nomeEdificio,
-      dimensaoMaximaPisos: {
-        comprimento,
-        largura,
-    }} as Edificio).subscribe((response) => {console.log(response)});
+  createEdificio(): void {
+    console.log(this.edificio)
+    this.edificioService.createEdificio(this.edificio).subscribe(response => {
+      console.log(response);
+    });
   }
 }
