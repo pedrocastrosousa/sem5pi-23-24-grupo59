@@ -1,36 +1,32 @@
-
 <div>
-    <header>Editar Passagem</header>
-  
-
-    
-
-
-    <form (ngSubmit)="updatePassagem()" #passagemForm="ngForm">
-  
+  <header>Editar Passagem</header>
+  <form (ngSubmit)="updatePassagem()" #passagemForm="ngForm">
+    <div>
       <label for="passagemSelect">Selecione uma passagem:</label>
-    <select id="passagemSelect" [(ngModel)]="selectedPassagem" (change)="selectPassagem()">
-      <option *ngFor="let passagem of passagens" [ngValue]="passagem">{{ passagem.codigoPassagem}}</option>
-    </select>
+      <select id="passagemSelect" [(ngModel)]="selectedPassagem" (change)="selectPassagem()">
+        <option *ngFor="let passagem of passagens" [ngValue]="passagem">{{ passagem.codigoPassagem}}</option>
+      </select>
+    </div>
     <label for="">Devem ser selecionados pisos de diferentes edificios.</label>
-      <div>
-        <label for="piso1">Editar Piso 1 (Edificio-Piso):</label>
-        <select id="piso1" name="piso1" [(ngModel)]="selectedPiso1" required>
-          <option *ngFor="let piso1 of pisos" [value]="piso1.codigoPiso">{{ piso1.codigoPiso}}</option>
-        </select>
-      </div>
-  
-      <div>
-        <label for="piso2">Editar Piso 2 (Edificio-Piso):</label>
-        <select id="piso2" name="piso2" [(ngModel)]="selectedPiso2" required>
-          <option *ngFor="let piso2 of pisos" [value]="piso2.codigoPiso">{{ piso2.codigoPiso }}</option>
-        </select>
-      </div>
 
-      <button type="submit">Guardar</button>
-    </form>
-    
-    <footer>
-        <button class="back-button" routerLink="/gestor-campus">Back</button>
-    </footer>
-  </div>
+    <div>
+      <label for="piso1">Editar Piso 1 (Edificio-Piso):</label>
+      <select id="piso1" name="piso1" [(ngModel)]="selectedPiso1" required>
+        <option *ngFor="let piso1 of pisos" [value]="piso1.codigoPiso">{{ piso1.codigoPiso}}</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="piso2">Editar Piso 2 (Edificio-Piso):</label>
+      <select id="piso2" name="piso2" [(ngModel)]="selectedPiso2" required>
+        <option *ngFor="let piso2 of pisos" [value]="piso2.codigoPiso">{{ piso2.codigoPiso }}</option>
+      </select>
+    </div>
+
+    <button type="submit">Guardar</button>
+  </form>
+
+  <footer>
+    <button class="back-button" routerLink="/gestor-campus">Back</button>
+  </footer>
+</div>

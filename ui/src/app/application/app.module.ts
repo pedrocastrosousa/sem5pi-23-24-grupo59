@@ -42,6 +42,8 @@ import { InibirRobotComponent } from '../components/inibir-robot/inibir-robot.co
 import {SidebarComponent} from '../components/sidebar/sidebar.component'
 import { ListarEdificiosMaxMinComponent} from "../components/listar-edificios-max-min/listar-edificios-max-min.component";
 import { CubeComponent } from '../components/cube/cube.component';
+import { ListarPisosEdificioComponent } from '../components/listar-pisos-edificio/listar-pisos-edificio.component';
+import { EditarPisoComponent } from '../components/editar-piso/editar-piso.component';
 
 @NgModule({
   declarations: [
@@ -69,7 +71,9 @@ import { CubeComponent } from '../components/cube/cube.component';
     SidebarComponent,
     InibirRobotComponent,
     ListarEdificiosMaxMinComponent,
-    CubeComponent
+    CubeComponent,
+    ListarPisosEdificioComponent,
+    EditarPisoComponent
   ],
   imports: [
     MatSnackBarModule,

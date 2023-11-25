@@ -15,8 +15,8 @@ export class PisoService {
   private criarPisoUrl = 'http://localhost:4000/api/pisos/criarPiso';
   private listarPisosUrl = 'http://localhost:4000/api/pisos/listarAllPisos';
   private listarPisosEdificio = 'http://localhost:4000/api/pisos/listarPisosEdificio';
-  private listarEdificios = 'http://localhost:4000/api/passagem/listarPassagensEdificio1Edificio2';
   private listarEdificiosComMinMaxPisosUrl = 'http://localhost:4000/api/pisos/listarEdificioMinMaxPisos';
+  private editarPisoUrl = 'http://localhost:4000/api/pisos/';
 
   constructor(private messageService: MessageService, private http: HttpClient) {}
 
@@ -69,5 +69,18 @@ export class PisoService {
     const url = `${this.listarEdificiosComMinMaxPisosUrl}?min=${minPisos}&max=${maxPisos}`;
 
     return this.http.get<Edificio[]>(this.listarEdificiosComMinMaxPisosUrl, {params: {min: minPisos, max: maxPisos}});
+  }
+
+
+  updatePiso(codigoPiso: string, piso: Partial<Piso>): Observable<Piso> {
+    const url = `${this.editarPisoUrl}${codigoPiso}`;
+    console.log(url);
+    return this.http.put<Piso>(url, piso, this.httpOptions).pipe(
+      tap((newPiso: Piso) => {
+        this.log(`Piso foi atualizada!`);
+        alert(`Piso ${newPiso.codigoPiso} was updated`);
+      }),
+      catchError(this.handleError<Piso>('updatePiso')),
+    );
   }
 }

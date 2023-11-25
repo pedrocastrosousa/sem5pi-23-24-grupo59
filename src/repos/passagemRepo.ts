@@ -62,8 +62,9 @@ export default class PassagemRepo implements IPassagemRepo {
         }
     }
     public async findAll(): Promise<Passagem[]> {
-        const passagemList = await this.passagemSchema.find();
-
+        console.log("PassagemRepo: findAll");
+        const passagemList = await this.passagemSchema.find({});
+        console.log(passagemList);
         if (passagemList != null) {
             return PassagemMap.toDomainBulk(passagemList);
         }

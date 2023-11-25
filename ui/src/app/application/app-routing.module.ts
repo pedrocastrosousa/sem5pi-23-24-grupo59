@@ -27,6 +27,8 @@ import {
 } from "../components/listar-edificios-max-min/listar-edificios-max-min.component";
 
 import { CubeComponent } from '../components/cube/cube.component';
+import { ListarPisosEdificioComponent } from '../components/listar-pisos-edificio/listar-pisos-edificio.component';
+import { EditarPisoComponent } from '../components/editar-piso/editar-piso.component';
 
 const routes: Routes = [
   { path: '', component: MenuComponent, pathMatch: 'full' },
@@ -52,7 +54,10 @@ const routes: Routes = [
   { path: 'criar-robots', component: CriarRobotsComponent },
   { path: 'inibir-robot', component: InibirRobotComponent },
   { path: 'listar-edificios-max-min', component: ListarEdificiosMaxMinComponent },
-  {path: 'cube', component: CubeComponent}
+  { path: 'cube', component: CubeComponent},
+  { path: 'listar-pisos-edificio', component: ListarPisosEdificioComponent },
+  { path: 'editar-piso', component: EditarPisoComponent },
+
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

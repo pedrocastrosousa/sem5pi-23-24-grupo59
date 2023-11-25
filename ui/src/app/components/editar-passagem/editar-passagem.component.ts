@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { error } from 'console';
 import { Passagem } from 'src/app/domain/passagem';
 import { Piso } from 'src/app/domain/pisos';
 import { PassagemService } from 'src/app/services/passagem.service';
@@ -36,12 +35,13 @@ export class EditarPassagemComponent implements OnInit {
   getPassagens(): void {
     this.passagemService.listPassagens().subscribe(
       passagens => {
-        this.passagens = passagens
+        this.passagens = passagens;
       },
       error => {
         console.error('Error fetching Passagens:', error)
       }
     );
+    console.log(this.passagens);
   }
 
   selectPassagem(): void {
@@ -53,7 +53,6 @@ export class EditarPassagemComponent implements OnInit {
   updatePassagem(): void {
     if (this.selectedPassagem) {
       const passagemAtualizada: Partial<Passagem> = {};
-      console.log(this.passagem)
       const selectedPiso1 = this.pisos.find(piso1 => piso1.codigoPiso === String(this.selectedPiso1));
       const selectedPiso2 = this.pisos.find(piso2 => piso2.codigoPiso === String(this.selectedPiso2));
 
