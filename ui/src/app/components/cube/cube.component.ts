@@ -78,14 +78,13 @@ export class CubeComponent {
               selectedFloorData = floor.mapa;
             }
           });
-
-
           mazeDataBackend.url = selectedFloorData;
           
           mazeDataBackend.isString = true;
 
           const jsonObject = JSON.parse(mazeDataBackend.url);
            mazeDataBackend.url = jsonObject;
+           console.log(mazeDataBackend.url);
           robotDroneGo.changeMaze(mazeDataBackend.url, new THREE.Vector3(1.0, 1.0, 1.0),  {});
 
         } else {

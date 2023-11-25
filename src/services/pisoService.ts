@@ -183,22 +183,18 @@ export default class PisoService implements IPisoService {
   public async carregarMapa(file: IMapaDTO): Promise<Result<boolean>> {
 
     try {
-console.log(file.mapa.codigoEdificio);
       const edificio = await this.edificioRepo.findByCodigo(file.mapa.codigoEdificio);
       if (edificio === null) {
         return Result.fail<boolean>("Edificio not found");
       }
-
-
       const maxLargura = edificio.dimensaoMaximaPisos.props.largura;
       const maxComprimento = edificio.dimensaoMaximaPisos.props.comprimento;
       const tamanhoMapa = file.mapa.tamanho;
-      if (file.mapa.tamanho.comprimento == maxComprimento || file.mapa.tamanho.largura == maxLargura) {
+      if (file.mapa.tamanho.comprimento !== maxComprimento || file.mapa.tamanho.largura !== maxLargura) {
         return Result.fail<boolean>("Tamanho do piso invalido");
       }
 
       const jsonString = JSON.stringify(file);
-console.log(jsonString);
       const piso = await this.pisoRepo.findByCodigo(file.mapa.codigoPiso);
 
       if (piso === null) {

@@ -1,6 +1,6 @@
 {
-    "groundTextureUrl": "./textures/EDIFICIOB-PISO2.png",
-    "wallTextureUrl": "./textures/parede2.jpg",
+    "groundTextureUrl": "assets/textures/EDIFICIOB-PISO2.png",
+    "wallTextureUrl": "assets/textures/parede2.jpg",
     "size": {
         "width": 22,
         "height": 10
@@ -28,7 +28,7 @@
         6.0
     ],
     "mapa": {
-        "codigoPiso": "EdifB-piso2",
+        "codigoPiso": "EdifB-Piso2",
         "codigoEdificio": "EdifB",
         "tamanho": {
             "comprimento": 22,
@@ -116,13 +116,20 @@
         },
         "passagem": [
             {
-                "piso1": "EdifB-piso2",
-                "piso2": "EdifA-piso2",
+                "piso1": "EdifA-piso2",
+                "piso2": "EdifB-piso2",
                 "fromX": 1,
                 "fromY": 5,
                 "toX": 22,
                 "toY": 5
             }
         ]
+    },
+    "player": {
+        "initialPosition": [
+            21.0,
+            1.0
+        ],
+        "initialDirection": 90.0
     }
 }

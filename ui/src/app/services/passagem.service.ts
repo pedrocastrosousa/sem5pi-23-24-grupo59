@@ -28,7 +28,7 @@ export class PassagemService {
     return this.http.post<Passagem>(this.criarPassagemUrl, passagem, this.httpOptions).pipe(
     tap((newPassagem: Passagem) => {
       this.log(`passagem foi criada!`);
-      alert(`New Passsagem was created with ID: ${newPassagem.passagemId.valueOf()}`);
+      alert(`New Passsagem was created with ID: ${newPassagem.passagemId}`);
     }),
     catchError(this.handleError<Passagem>('createPassagem')),
   );;

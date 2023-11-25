@@ -29,7 +29,7 @@ export class PisoService {
     return this.http.post<Piso>(this.criarPisoUrl, piso, this.httpOptions).pipe(
       tap((newPiso: Piso) => {
         this.log(`piso foi criado!`);
-        alert(`New Passagem was created with ID: ${newPiso.nome}`);
+        alert(`New Piso was created with ID: ${newPiso.nome}`);
       }),
       catchError(this.handleError<Piso>('createPiso')),
     );;

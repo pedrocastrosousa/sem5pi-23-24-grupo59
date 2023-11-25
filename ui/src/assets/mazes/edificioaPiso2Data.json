@@ -1,6 +1,6 @@
 {
-    "groundTextureUrl": "./textures/EDIFICIOA-PISO2.png",
-    "wallTextureUrl": "./textures/parede2.jpg",
+    "groundTextureUrl": "assets/textures/EDIFICIOA-PISO2.png",
+    "wallTextureUrl": "assets/textures/parede2.jpg",
     "size": {
         "width": 22,
         "height": 10
@@ -29,7 +29,7 @@
         6.0
     ],
     "mapa": {
-        "codigoPiso": "EdifA-piso2",
+        "codigoPiso": "EdifA-Piso2",
         "codigoEdificio": "EdifA",
         "tamanho": {
             "comprimento": 22,

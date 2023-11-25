@@ -33,11 +33,11 @@
         "codigoEdificio": "EdifA",
         "tamanho": {
             "comprimento": 22,
-            "largura": 11
+            "largura": 10
         },
         "salas": [
             {
-                "nomeSala": "A201",
+                "nomeSala": "A101",
                 "dimensaoSala": {
                     "x1": 1,
                     "y1": 1,
@@ -51,7 +51,7 @@
                 }
             },
             {
-                "nomeSala": "A203",
+                "nomeSala": "A103",
                 "dimensaoSala": {
                     "x1": 1,
                     "y1": 7,
@@ -65,7 +65,7 @@
                 }
             },
             {
-                "nomeSala": "A205",
+                "nomeSala": "A105",
                 "dimensaoSala": {
                     "x1": 3,
                     "y1": 1,
@@ -79,7 +79,7 @@
                 }
             },
             {
-                "nomeSala": "A207",
+                "nomeSala": "A107",
                 "dimensaoSala": {
                     "x1": 5,
                     "y1": 1,
@@ -93,7 +93,7 @@
                 }
             },
             {
-                "nomeSala": "A209",
+                "nomeSala": "A109",
                 "dimensaoSala": {
                     "x1": 7,
                     "y1": 1,
@@ -107,7 +107,7 @@
                 }
             },
             {
-                "nomeSala": "A202",
+                "nomeSala": "A102",
                 "dimensaoSala": {
                     "x1": 5,
                     "y1": 7,
@@ -121,7 +121,7 @@
                 }
             },
             {
-                "nomeSala": "A204",
+                "nomeSala": "A104",
                 "dimensaoSala": {
                     "x1": 5,
                     "y1": 7,
@@ -135,7 +135,7 @@
                 }
             },
             {
-                "nomeSala": "A206",
+                "nomeSala": "A106",
                 "dimensaoSala": {
                     "x1": 13,
                     "y1": 7,
@@ -149,7 +149,7 @@
                 }
             },
             {
-                "nomeSala": "A208",
+                "nomeSala": "A108",
                 "dimensaoSala": {
                     "x1": 17,
                     "y1": 9,
@@ -173,12 +173,12 @@
         },
         "passagem": [
             {
-                "piso1": "EdifA-piso2",
-                "piso2": "EdifB-piso2",
-                "fromX": 22,
-                "fromY": 5,
-                "toX": 1,
-                "toY": 5
+                "piso1":"",
+                "piso2": "",
+                "fromX": 0,
+                "fromY": 0,
+                "toX": 0,
+                "toY": 0
             }
         ]
     },

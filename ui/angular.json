@@ -30,7 +30,7 @@
             ],
             "allowedCommonJsDependencies": [
               "lodash"
-           ],
+            ],
             "scripts": []
           },
           "configurations": {
@@ -94,9 +94,8 @@
               "@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.css"
             ],
-            "scripts": [
-              
-            ]
+            "scripts": [],
+            "karmaConfig": "karma.conf.js"
           }
         },
         "cypress-run": {
@@ -150,6 +149,7 @@
   "cli": {
     "analytics": "33b8ca00-92ad-4d32-a995-3f02353e7ba9",
     "schematicCollections": [
+      "@cypress/schematic",
       "@cypress/schematic",
       "@cypress/schematic",
       "@schematics/angular"
