@@ -198,7 +198,7 @@ console.log(file.mapa.codigoEdificio);
       }
 
       const jsonString = JSON.stringify(file);
-
+console.log(jsonString);
       const piso = await this.pisoRepo.findByCodigo(file.mapa.codigoPiso);
 
       if (piso === null) {

@@ -43,140 +43,100 @@ export default {
   schema: {
     type: "object",
     properties: {
-      mapa: {
-        codigoPiso: { type: "string" },
-        codigoEdificio: { type: "string" },
-        tamanho: {
-          type: "object",
-          properties: {
-            comprimento: { type: "integer" },
-            largura: { type: "integer" },
-          },
-          required: ["comprimento", "largura"],
+      groundTextureUrl: { type: "string" },
+      wallTextureUrl: { type: "string" },
+      size: {
+        type: "object",
+        properties: {
+          width: { type: "integer" },
+          height: { type: "integer" },
         },
-        map: {
+        required: ["width", "height"],
+      },
+      map: {
+        type: "array",
+        items: {
           type: "array",
-          items: {
+          items: { type: "integer" },
+        },
+      },
+      initialPosition: { type: "array", items: { type: "number" } },
+      initialDirection: { type: "number" },
+      exitLocation: { type: "array", items: { type: "number" } },
+      mapa: {
+        type: "object",
+        properties: {
+          codigoPiso: { type: "string" },
+          codigoEdificio: { type: "string" },
+          tamanho: {
+            type: "object",
+            properties: {
+              comprimento: { type: "integer" },
+              largura: { type: "integer" },
+            },
+            required: ["comprimento", "largura"],
+          },
+          salas: {
             type: "array",
             items: {
-              type: "integer",
+              type: "object",
+              properties: {
+                nomeSala: { type: "string" },
+                dimensaoSala: {
+                  type: "object",
+                  properties: {
+                    x1: { type: "integer" },
+                    y1: { type: "integer" },
+                    x2: { type: "integer" },
+                    y2: { type: "integer" },
+                  },
+                  required: ["x1", "y1", "x2", "y2"],
+                },
+                porta: {
+                  type: "object",
+                  properties: {
+                    x1: { type: "number" },
+                    y1: { type: "number" },
+                    direcao: { type: "number" },
+                  },
+                  required: ["x1", "y1", "direcao"],
+                },
+              },
+              required: ["nomeSala", "dimensaoSala", "porta"],
             },
           },
-        },
-        salas: {
-          type: "array",
-          items: {
+          elevadores: {
             type: "object",
             properties: {
-              nomeSala: { type: "string" },
-              dimensaoSala: {
-                type: "object",
-                properties: {
-                  x1: { type: "integer" },
-                  y1: { type: "integer" },
-                  x2: { type: "integer" },
-                  y2: { type: "integer" },
-                },
-                required: ["x1", "y1", "x2", "y2"],
-              },
-              porta: {
-                type: "object",
-                properties: {
-                  posicaoX: { type: "integer" },
-                  posicaoY: { type: "integer" },
-                  direcao: { type: "string" },
-                },
-                required: ["posicaoX", "posicaoY", "direcao"],
-              },
+              numeroIdentificativo: { type: "string" },
+              posicao: { type: "array", items: { type: "number" } },
+              direcao: { type: "number" },
             },
-            required: ["nomeSala", "dimensaoSala", "porta"],
+            required: ["numeroIdentificativo", "posicao", "direcao"],
           },
-        },
-        elevadores: {
-          type: "object",
-          properties: {
-            numeroIdentificativo: { type: "string" },
-            posicaoX: { type: "integer" },
-            posicaoY: { type: "integer" },
-            direcao: { type: "string" },
-          },
-          required: ["numeroIdentificativo", "posicaoX", "posicaoY", "direcao"],
-        },
-        passagem: {
-          type: "array",
-          items: {
-            type: "object",
-            properties: {
-              piso1: { type: "string" },
-              piso2: { type: "string" },
-              fromX: { type: "integer" },
-              fromY: { type: "integer" },
-              toX: { type: "integer" },
-              toY: { type: "integer" },
+          passagem: {
+            type: "array",
+            items: {
+              type: "object",
+              properties: {
+                piso1: { type: "string" },
+                piso2: { type: "string" },
+                fromX: { type: "integer" },
+                fromY: { type: "integer" },
+                toX: { type: "integer" },
+                toY: { type: "integer" },
+              },
+              required: ["piso1", "piso2", "fromX", "fromY", "toX", "toY"],
             },
-            required: ["piso1", "piso2", "fromX", "fromY", "toX", "toY"],
           },
         },
         required: [
           "codigoPiso",
           "codigoEdificio",
           "tamanho",
-          "map",
           "salas",
           "elevadores",
           "passagem",
-        ],
-      },
-      ground: {
-        type: "object",
-        properties: {
-          size: { type: "object" },
-          segments: { type: "object" },
-          primaryColor: { type: "string" },
-          maps: { type: "object" },
-          wrapS: { type: "number" },
-          wrapT: { type: "number" },
-          repeat: { type: "object" },
-          magFilter: { type: "number" },
-          minFilter: { type: "number" },
-          secondaryColor: { type: "string" },
-        },
-        required: [
-          "size",
-          "segments",
-          "primaryColor",
-          "maps",
-          "wrapS",
-          "wrapT",
-          "repeat",
-          "magFilter",
-          "minFilter",
-          "secondaryColor",
-        ],
-      },
-      wall: {
-        type: "object",
-        properties: {
-          segments: { type: "object" },
-          primaryColor: { type: "string" },
-          maps: { type: "object" },
-          wrapS: { type: "number" },
-          wrapT: { type: "number" },
-          repeat: { type: "object" },
-          magFilter: { type: "number" },
-          minFilter: { type: "number" },
-          secondaryColor: { type: "string" },
-        },
-        required: [
-          "segments",
-          "primaryColor",
-          "maps",
-          "wrapS",
-          "wrapT",
-          "repeat",
-          "magFilter",
-          "minFilter",
-          "secondaryColor",
         ],
       },
       player: {
@@ -188,8 +148,9 @@ export default {
         required: ["initialPosition", "initialDirection"],
       },
     },
+    required: ["groundTextureUrl", "wallTextureUrl", "size", "map", "initialPosition", "initialDirection", "exitLocation", "mapa", "player"],
   },
-     
+
 
   controllers: {
     role: {

@@ -36,6 +36,7 @@ import { DeleteEdificioComponent } from '../components/delete-edificio/delete-ed
 import { CriarRobotsComponent } from '../components/criar-robots/criar-robots.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { InibirRobotComponent } from '../components/inibir-robot/inibir-robot.component';
+import { CubeComponent } from '../components/cube/cube.component';
 
 @NgModule({
   declarations: [
@@ -56,9 +57,9 @@ import { InibirRobotComponent } from '../components/inibir-robot/inibir-robot.co
     EditarPassagemComponent,
     ListaPassagemComponent,
     DeleteEdificioComponent,
-    CriarRobotsComponent
     CriarRobotsComponent,
-    InibirRobotComponent
+    InibirRobotComponent,
+    CubeComponent
   ],
   imports: [
     MatSnackBarModule,

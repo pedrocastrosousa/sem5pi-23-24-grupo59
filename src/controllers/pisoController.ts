@@ -117,7 +117,6 @@ export default class PisoController implements IPisoController /* TODO: extends 
   public async carregarMapa(req: Request, res: Response, next: NextFunction) {
     try {
       const ficheiroDTO = req.body as IMapaDTO;
-
       const carregarMapaOrError = await this.pisoServiceInstance.carregarMapa(ficheiroDTO);
 
       if (carregarMapaOrError.isFailure) {

@@ -19,6 +19,7 @@ import { ListaPassagemComponent } from '../components/lista-passagem/lista-passa
 import { DeleteEdificioComponent } from '../components/delete-edificio/delete-edificio.component';
 import { CriarRobotsComponent } from '../components/criar-robots/criar-robots.component';
 import { InibirRobotComponent } from '../components/inibir-robot/inibir-robot.component';
+import { CubeComponent } from '../components/cube/cube.component';
 const routes: Routes = [
   { path: '', component: MenuComponent, pathMatch: 'full' },
   { path: 'menu', component: MenuComponent },
@@ -39,6 +40,7 @@ const routes: Routes = [
   { path: 'delete-edificio', component: DeleteEdificioComponent },
   { path: 'criar-robots', component: CriarRobotsComponent },
   { path: 'inibir-robot', component: InibirRobotComponent },
+  {path: 'cube', component: CubeComponent}
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
