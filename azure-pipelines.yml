@@ -10,29 +10,19 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-- task: NodeTool@1
+- task: UseNode@1
   inputs:
     versionSpec: '18.x'
+    checkLatest: true
   displayName: 'Install Node.js'
 
 - script: |
-#    npm install -g @angular/cli
-    npm install
-#    ng build --prod
-  displayName: 'npm install and build'
+    npm ci
+    npm run build
+  displayName: 'Install dependencies and build'
 
-- task: CopyFiles@2
+- task: PublishBuildArtifacts@1
   inputs:
-    sourceFolder: '$(Build.SourcesDirectory)'
-    contents: |
-      src/*
-      public/*
-    targetFolder: '$(Build.ArtifactStagingDirectory)'
-  displayName: 'Copy project files'
-
-- task: PublishPipelineArtifact@1
-  inputs:
-    artifactName: e2e-server
-    targetPath: '$(Build.ArtifactStagingDirectory)'
-    publishLocation: 'pipeline'
-  displayName: 'Publish npm artifact'
+    pathtoPublish: '$(System.DefaultWorkingDirectory)/dist'
+    artifactName: 'drop'
+    publishLocation: 'Container'
