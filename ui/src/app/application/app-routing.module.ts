@@ -25,6 +25,9 @@ import { InibirRobotComponent } from '../components/inibir-robot/inibir-robot.co
 import {
   ListarEdificiosMaxMinComponent
 } from "../components/listar-edificios-max-min/listar-edificios-max-min.component";
+
+import { CubeComponent } from '../components/cube/cube.component';
+
 const routes: Routes = [
   { path: '', component: MenuComponent, pathMatch: 'full' },
   { path: 'menu', component: MenuComponent },
@@ -48,10 +51,11 @@ const routes: Routes = [
   { path: 'criar-sala', component: CriarSalaComponent },
   { path: 'criar-robots', component: CriarRobotsComponent },
   { path: 'inibir-robot', component: InibirRobotComponent },
-  { path: 'listar-edificios-max-min', component: ListarEdificiosMaxMinComponent }
+  { path: 'listar-edificios-max-min', component: ListarEdificiosMaxMinComponent },
+  {path: 'cube', component: CubeComponent}
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
