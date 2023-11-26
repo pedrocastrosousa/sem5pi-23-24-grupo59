@@ -151,12 +151,17 @@ header {
   font-size: 14px;
 }
 
-button:not([disabled]):hover {
+.back-button:hover {
+  background-color: #777;
+}
+
+button:hover {
   background-color: #157e1f;
 }
 
-.back-button:hover {
-  background-color: #777;
+button:disabled {
+  background-color: #faf8f8;
+  cursor: not-allowed;
 }
 
 .listar-button {

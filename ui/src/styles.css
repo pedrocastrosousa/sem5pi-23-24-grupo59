@@ -40,6 +40,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
       width: 90%;
       .mdc-button__label {
         font-size: 19px;
+        color: white
       }
       .mdc-snackbar__label {
         font-size: 19px;
