@@ -1,8 +1,3 @@
-# Node.js with Angular
-# Build a Node.js project that uses Angular.
-# Add steps that analyze code, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
-
 trigger:
 - main
 
@@ -23,6 +18,16 @@ steps:
 
 - task: PublishBuildArtifacts@1
   inputs:
-    pathtoPublish: '$(System.DefaultWorkingDirectory)/dist'
+    pathtoPublish: '$(System.DefaultWorkingDirectory)/build'
     artifactName: 'drop'
     publishLocation: 'Container'
+  displayName: 'Publish Build Artifact'
+
+#- task: AzureRmWebAppDeployment@4
+#  inputs:
+#    ConnectionType: 'AzureRM'
+#    azureSubscription: '<pipelineToken>'
+#    appType: 'webAppLinux'
+#    WebAppName: 'sem5pi-23-24-grupo59-be'
+#    packageForLinux: '$(System.DefaultWorkingDirectory)/drop/*.zip'
+#  displayName: 'Deploy to Azure Web App'
