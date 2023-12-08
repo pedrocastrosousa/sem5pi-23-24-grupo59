@@ -16,6 +16,8 @@ import { Piso } from '../domain/piso/piso';
 import IElevadorService from './IServices/IElevadoreService';
 import IElevadorRepo from './IRepos/IElevadorRepo';
 import { NumeroIdentificativo } from '../domain/elevador/numeroIdentificativo';
+import { IPisoDTO } from '../dto/IPisoDTO';
+import { PisoMap } from '../mappers/PisoMap';
 
 @Service()
 export default class ElevadorService implements IElevadorService {
@@ -200,4 +202,27 @@ export default class ElevadorService implements IElevadorService {
 
   }
 
+
+
+  public async listarPisosDeElevadorPorEdificio(edificio: string): Promise<Result<IPisoDTO[]>> {
+    try {
+      const elevadorList: Elevador[] = await this.elevadorRepo.findAllByEdificio(edificio);
+      console.log(elevadorList);
+      let pisoListDto: IPisoDTO[] = [];
+      if (elevadorList != null) {
+        for (let i = 0; i < elevadorList.length; i++) {
+          if (elevadorList[i].edificio.codigoEdificio.toString() == edificio) {
+            for (let j = 0; j < elevadorList[i].pisos.length; j++) {
+              pisoListDto.push(PisoMap.toDTO(elevadorList[i].pisos[j]));
+            }
+          }
+        }
+        return Result.ok<IPisoDTO[]>(pisoListDto);
+      }
+
+      return Result.fail<IPisoDTO[]>("Não existem pisos para listar.");
+    } catch (e) {
+      throw e;
+    }
+  }
 }

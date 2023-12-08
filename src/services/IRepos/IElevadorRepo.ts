@@ -8,4 +8,5 @@ export default interface IelevadorRepo extends Repo<Elevador> {
 	findByNumeroIdentificativo (numeroIdentificativo: string): Promise<Elevador>;
 	getLastNumeroIdentificativoOfGivenEdificio(codigoEdificio: string): Promise<string>;
 	findAll() : Promise<Array<Elevador>>;
+	findAllByEdificio(codigoEdificio: string): Promise<Array<Elevador>>;
 }

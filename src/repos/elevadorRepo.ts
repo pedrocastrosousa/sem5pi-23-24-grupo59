@@ -89,4 +89,13 @@ export default class ElevadorRepo implements IElevadorRepo {
     public async exists(t: Elevador): Promise<boolean> {
         throw new Error('Method not implemented.');
     }
+
+    public async findAllByEdificio(codigoEdificio: string): Promise<Elevador[]> {
+        const query = { edificio: codigoEdificio };
+        const elevadorList = await this.elevadorSchema.find(query as FilterQuery<IElevadorPersistence & Document>);
+        if (elevadorList != null) {
+            return ElevadorMap.toDomainBulk(elevadorList);
+        }
+    }
 }
+

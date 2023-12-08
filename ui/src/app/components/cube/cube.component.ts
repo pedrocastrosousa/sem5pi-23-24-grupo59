@@ -25,7 +25,7 @@ export class CubeComponent {
 
     let robotDroneGo: RobDroneGO;
     function initialize() {
-      // Create the game
+      // Create the games
       let parameters = merge({}, mazeData);
       robotDroneGo = new RobDroneGO(
         parameters, // Game parameters

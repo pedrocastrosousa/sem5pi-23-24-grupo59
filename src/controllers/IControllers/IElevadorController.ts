@@ -5,4 +5,5 @@ export default interface IElevadorController  {
   listarElevadores(req: Request, res: Response, next: NextFunction);
   updateElevador(req: Request, res: Response, next: NextFunction);
   deleteElevador(req: Request, res: Response, next: NextFunction);
+  listarPisosDeElevadorPorEdificio(req: Request, res: Response, next: NextFunction);
 }

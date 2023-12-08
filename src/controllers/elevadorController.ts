@@ -70,4 +70,23 @@ export default class ElevadorController implements IElevadorController /* TODO: 
       }
       return res.status(204).json(deleteElevadorOrError.getValue());
   }
+
+
+  public async listarPisosDeElevadorPorEdificio(req: Request, res: Response, next: NextFunction) {
+    const edificio = req.params.edificio;
+
+    if (!edificio) {
+      return res.status(400).json({ error: 'Erro no parametro edificio do json fornecido' });
+    }
+    try {
+      const elevadorListOrError = await this.elevadorServiceInstance.listarPisosDeElevadorPorEdificio( edificio);
+
+      if (elevadorListOrError.isFailure) {
+        return res.status(400).json({ error: elevadorListOrError.error });
+      }
+      return res.json(elevadorListOrError.getValue()).status(200);
+    } catch (e) {
+      return res.json(e.message).status(400);
+    }
+  }
 }

@@ -57,4 +57,14 @@ export default (app: Router) => {
             }),
             (req, res, next) => ctrl.deleteElevador(req, res, next),
           );
+
+
+
+          route.get('/listarPisosDeElevadorPorEdificio/:edificio',
+            celebrate({
+                params: Joi.object({
+                edificio: Joi.string().required(),
+                }),
+            }),(req, res, next) => ctrl.listarPisosDeElevadorPorEdificio(req, res, next),
+            );
 }
