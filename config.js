@@ -101,8 +101,16 @@ export default {
                   },
                   required: ["x1", "y1", "direcao"],
                 },
+                acesso: {
+                  type: "object",
+                  properties: {
+                    x1: { type: "number" },
+                    y1: { type: "number" },
+                  },
+                  required: ["x1", "y1"],
+                },
               },
-              required: ["nomeSala", "dimensaoSala", "porta"],
+              required: ["nomeSala", "dimensaoSala", "porta", "acesso"],
             },
           },
           elevadores: {
@@ -111,22 +119,40 @@ export default {
               numeroIdentificativo: { type: "string" },
               posicao: { type: "array", items: { type: "number" } },
               direcao: { type: "number" },
+              acesso: {
+                type: "object",
+                properties: {
+                  x1: { type: "number" },
+                  y1: { type: "number" },
+                },
+                required: ["x1", "y1"],
+              },
             },
-            required: ["numeroIdentificativo", "posicao", "direcao"],
+            required: ["numeroIdentificativo", "posicao", "direcao", "acesso"],
           },
           passagem: {
             type: "array",
             items: {
               type: "object",
               properties: {
+                edificio1: { type: "string" },
+                edificio2: { type: "string" },
                 piso1: { type: "string" },
                 piso2: { type: "string" },
                 fromX: { type: "integer" },
                 fromY: { type: "integer" },
                 toX: { type: "integer" },
                 toY: { type: "integer" },
+                acesso: {
+                  type: "object",
+                  properties: {
+                    x1: { type: "number" },
+                    y1: { type: "number" },
+                  },
+                  required: ["x1", "y1"],
+                },
               },
-              required: ["piso1", "piso2", "fromX", "fromY", "toX", "toY"],
+              required: ["edificio1", "edificio2", "piso1", "piso2", "fromX", "fromY", "toX", "toY", "acesso"],
             },
           },
         },
@@ -150,7 +176,6 @@ export default {
     },
     required: ["groundTextureUrl", "wallTextureUrl", "size", "map", "initialPosition", "initialDirection", "exitLocation", "mapa", "player"],
   },
-
 
   controllers: {
     role: {

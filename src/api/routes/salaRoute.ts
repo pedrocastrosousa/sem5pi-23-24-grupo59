@@ -33,4 +33,8 @@ export default (app: Router) => {
             })
         }),
         async (req, res, next) => ctrl.createSala(req, res, next));
+
+        route.get('/listarSalas', async (req, res, next) => {
+            ctrl.listarSalas(req, res, next);
+          });
 }

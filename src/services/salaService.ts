@@ -55,4 +55,21 @@ export default class SalaService implements ISalaService {
       throw e;
     }
   }
+
+  public async getAllSalas(): Promise<Result<ISalaDTO[]>> {
+    try {
+      const salaList: Sala[] = await this.salaRepo.findAll();
+      let salaListDto: ISalaDTO[] = [];
+      if (salaList != null) {
+        for (let i = 0; i < salaList.length; i++) {
+          salaListDto.push(SalaMap.toDTO(salaList[i]));
+        }
+        return Result.ok<ISalaDTO[]>(salaListDto);
+      }
+
+      return Result.fail<ISalaDTO[]>("Não existem salas para listar.");
+    } catch (e) {
+      throw e;
+    }
+  }
 }
