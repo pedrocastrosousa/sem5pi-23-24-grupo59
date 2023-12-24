@@ -31,10 +31,20 @@ const User = new mongoose.Schema(
 
     salt: String,
 
+    telefone: {
+      type: Number,
+      required: [true, 'Please enter telefone'],
+      index: true,
+    },
+    numeroContribuinte: {
+      type: Number,
+      index: true,
+    },
     role: {
       type: String,
       default: 'user',
     },
+  
   },
   { timestamps: true },
 );

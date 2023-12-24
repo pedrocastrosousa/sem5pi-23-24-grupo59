@@ -18,6 +18,7 @@ export class UserEmail extends ValueObject<UserEmailProps> {
 
   public static create (email: string): Result<UserEmail> {
     const guardResult = Guard.againstNullOrUndefined(email, 'email');
+    console.log("guardResult", guardResult);
     if (!guardResult.succeeded) {
       return Result.fail<UserEmail>(guardResult.message);
     } else {
