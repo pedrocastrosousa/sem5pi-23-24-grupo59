@@ -62,7 +62,6 @@ export default class UserRepo implements IUserRepo {
   public async findByEmail (email: string): Promise<User> {
     const query = { email: email.toString()};
     const userRecord = await this.userSchema.findOne(query as FilterQuery<IUserPersistence & Document>);
-    console.log("userRecord", userRecord);
     if (userRecord != null) {
       return UserMap.toDomain(userRecord);
     }
@@ -70,5 +69,10 @@ export default class UserRepo implements IUserRepo {
     return null;
   }
 
+  public async deleteUser (user: User): Promise<void> {
+    console.log("user", user.email.value);
+    const query = { email: user.email.value };
+    await this.userSchema.deleteOne(query);
+  }
 
 }

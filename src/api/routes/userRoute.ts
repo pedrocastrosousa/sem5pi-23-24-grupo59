@@ -90,6 +90,7 @@ export default (app: Router) => {
    * It's really annoying to develop that but if you had to, please use Redis as your data store
    */
   route.post('/logout', middlewares.isAuth, (req: Request, res: Response, next: NextFunction) => {
+    
     const logger = Container.get('logger') as winston.Logger;
     logger.debug('Calling Sign-Out endpoint with body: %o', req.body)
     try {
@@ -100,6 +101,34 @@ export default (app: Router) => {
       return next(e);
     }
   });
+
+
+  route.post(
+    '/delete',
+    celebrate({
+      body: Joi.object({
+        email: Joi.string().required(),
+        password: Joi.string().required(),
+      }),
+    }),
+    async (req: Request, res: Response, next: NextFunction) => {
+      const logger = Container.get('logger') as winston.Logger;
+      logger.debug('Calling Sign-In endpoint with body: %o', req.body)
+      try {
+        const { email, password } = req.body;
+        const authServiceInstance = Container.get(AuthService);
+        const result = await authServiceInstance.DeleteUser(email, password);
+        
+        if( result.isFailure )
+          return res.json().status(403);
+
+        return res.json().status(200);
+      } catch (e) {
+        logger.error('🔥 error: %o',  e );
+        return next(e);
+      }
+    },
+  );
 
   app.use('/users', route);
 

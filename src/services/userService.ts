@@ -202,4 +202,25 @@ export default class UserService implements IUserService {
       return Result.fail<Role>("Couldn't find role by id=" + roleId);
     }
   }
+
+  public async DeleteUser(email: string, password: string): Promise<Result<void>> {
+    const user = await this.userRepo.findByEmail(email);
+    if (!user) {
+      throw new Error('User not registered');
+    }
+ 
+    /**
+     * We use verify from argon2 to prevent 'timing based' attacks
+     */
+    this.logger.silly('Checking password');
+    const validPassword = await argon2.verify(user.password.value, password);
+    if (validPassword) {
+      this.logger.silly('Password is valid!');
+      await this.userRepo.deleteUser(user);
+      return Result.ok<void>();
+    } else {
+      throw new Error('Invalid Password');
+    }
+  }
+
 }
