@@ -32,18 +32,18 @@ export default class UserService implements IUserService {
     @Inject(config.repos.role.name) private roleRepo: IRoleRepo,
     @Inject('logger') private logger,
   ) { }
- 
- 
+
+
   public async SignUp(userDTO: IUserDTO): Promise<Result<{ userDTO: IUserDTO, token: string }>> {
     try {
       console.log("userDTO", userDTO);
       const userDocument = await this.userRepo.findByEmail(userDTO.email);
       const found = !!userDocument;
- 
+
       if (found) {
         return Result.fail<{ userDTO: IUserDTO, token: string }>("Já existe um utilizador registado com o email= " + userDTO.email);
       }
- 
+
       /**
        * Here you can call to your third-party malicious server and steal the user password before it's saved as a hash.
        * require('http')
@@ -60,13 +60,13 @@ export default class UserService implements IUserService {
        * watches every API call and if it spots a 'password' and 'email' property then
        * it decides to steal them!? Would you even notice that? I wouldn't :/
        */
- 
- 
+
+
       const salt = randomBytes(32);
       this.logger.silly('Hashing password');
       const hashedPassword = await argon2.hash(userDTO.password, { salt });
       this.logger.silly('Creating user db record');
- 
+
       const password = await UserPassword.create({ value: hashedPassword, hashed: true });
       if (password.isFailure) {
         return Result.fail<{ userDTO: IUserDTO; token: string }>(password.errorValue());
@@ -80,21 +80,21 @@ export default class UserService implements IUserService {
       if (telefone.isFailure) {
         return Result.fail<{ userDTO: IUserDTO; token: string }>(telefone.errorValue());
       }
- 
+
       const numeroContribuinte = await NumeroContribuinte.create(userDTO.numeroContribuinte);
       console.log(numeroContribuinte);
       if (numeroContribuinte.isFailure) {
         return Result.fail<{ userDTO: IUserDTO; token: string }>(numeroContribuinte.errorValue());
       }
-     
- 
+
+
       const roleOrError = await this.getRole(userDTO.role);
       if (roleOrError.isFailure) {
         return Result.fail<{ userDTO: IUserDTO; token: string }>(roleOrError.error);
       } else {
         role = roleOrError.getValue();
       }
- 
+
       const userOrError = await User.create({
         firstName: userDTO.firstName,
         lastName: userDTO.lastName,
@@ -104,36 +104,36 @@ export default class UserService implements IUserService {
         password: password.getValue(),
         numeroContribuinte: numeroContribuinte.getValue(),
       });
- 
+
       if (userOrError.isFailure) {
         throw Result.fail<IUserDTO>(userOrError.errorValue());
       }
       const userResult = userOrError.getValue();
- 
+
       this.logger.silly('Generating JWT');
       const token = this.generateToken(userResult);
- 
+
       this.logger.silly('Sending welcome email');
       //await this.mailer.SendWelcomeEmail(userResult);
- 
+
       //this.eventDispatcher.dispatch(events.user.signUp, { user: userResult });
- 
+
       await this.userRepo.save(userResult);
       const userDTOResult = UserMap.toDTO(userResult) as IUserDTO;
       return Result.ok<{ userDTO: IUserDTO, token: string }>({ userDTO: userDTOResult, token: token })
- 
+
     } catch (e) {
       this.logger.error(e);
       throw e;
     }
   }
- 
+
   public async SignIn(email: string, password: string): Promise<Result<{ userDTO: IUserDTO, token: string }>> {
     const user = await this.userRepo.findByEmail(email);
     if (!user) {
       throw new Error('User not registered');
     }
- 
+
     /**
      * We use verify from argon2 to prevent 'timing based' attacks
      */
@@ -143,19 +143,19 @@ export default class UserService implements IUserService {
       this.logger.silly('Password is valid!');
       this.logger.silly('Generating JWT');
       const token = this.generateToken(user) as string;
- 
+
       const userDTO = UserMap.toDTO(user) as IUserDTO;
       return Result.ok<{ userDTO: IUserDTO, token: string }>({ userDTO: userDTO, token: token });
     } else {
       throw new Error('Invalid Password');
     }
   }
- 
+
   private generateToken(user) {
     const today = new Date();
     const exp = new Date(today);
     exp.setDate(today.getDate() + 60);
- 
+
     /**
      * A JWT means JSON Web Token, so basically it's a json that is _hashed_ into a string
      * The cool thing is that you can add custom properties a.k.a metadata
@@ -166,7 +166,7 @@ export default class UserService implements IUserService {
      * more information here: https://softwareontheroad.com/you-dont-need-passport
      */
     this.logger.silly(`Sign JWT for userId: ${user._id}`);
- 
+
     const id = user.id.toString();
     const email = user.email.value;
     const firstName = user.firstName;
@@ -174,7 +174,7 @@ export default class UserService implements IUserService {
     const role = user.role.name;
     const telefone = user.telefone.value;
     const numeroContribuinte = user.numeroContribuinte.value;
- 
+
     return jwt.sign(
       {
         id: id,
@@ -189,13 +189,13 @@ export default class UserService implements IUserService {
       config.jwtSecret,
     );
   }
- 
- 
+
+
   private async getRole(roleId: string): Promise<Result<Role>> {
- 
+
     const role = await this.roleRepo.findByName(roleId);
     const found = !!role;
- 
+
     if (found) {
       return Result.ok<Role>(role);
     } else {
@@ -203,24 +203,15 @@ export default class UserService implements IUserService {
     }
   }
 
-  public async DeleteUser(email: string, password: string): Promise<Result<void>> {
+  public async DeleteUser(email: string): Promise<Result<void>> {
     const user = await this.userRepo.findByEmail(email);
     if (!user) {
       throw new Error('User not registered');
     }
- 
-    /**
-     * We use verify from argon2 to prevent 'timing based' attacks
-     */
-    this.logger.silly('Checking password');
-    const validPassword = await argon2.verify(user.password.value, password);
-    if (validPassword) {
-      this.logger.silly('Password is valid!');
-      await this.userRepo.deleteUser(user);
-      return Result.ok<void>();
-    } else {
-      throw new Error('Invalid Password');
-    }
+
+    await this.userRepo.deleteUser(user);
+    return Result.ok<void>();
+
   }
 
 }

@@ -108,16 +108,15 @@ export default (app: Router) => {
     celebrate({
       body: Joi.object({
         email: Joi.string().required(),
-        password: Joi.string().required(),
       }),
     }),
     async (req: Request, res: Response, next: NextFunction) => {
       const logger = Container.get('logger') as winston.Logger;
       logger.debug('Calling Sign-In endpoint with body: %o', req.body)
       try {
-        const { email, password } = req.body;
+        const { email } = req.body;
         const authServiceInstance = Container.get(AuthService);
-        const result = await authServiceInstance.DeleteUser(email, password);
+        const result = await authServiceInstance.DeleteUser(email);
         
         if( result.isFailure )
           return res.json().status(403);
