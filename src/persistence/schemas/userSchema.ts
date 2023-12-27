@@ -44,7 +44,9 @@ const User = new mongoose.Schema(
       type: String,
       default: 'user',
     },
-  
+    estado: {
+      type: String,
+    },
   },
   { timestamps: true },
 );

@@ -8,6 +8,7 @@ import { UserPassword } from "./userPassword";
 import { Guard } from "../core/logic/Guard";
 import { Telefone } from "./telefone";
 import { NumeroContribuinte } from "./numeroContribuinte";
+import { UserEstado } from "./userEstado";
 
 
 interface UserProps {
@@ -18,6 +19,7 @@ interface UserProps {
   password: UserPassword;
   role: Role;
   numeroContribuinte?: NumeroContribuinte;
+  estado: UserEstado;
 }
  
 export class User extends AggregateRoot<UserProps> {
@@ -61,6 +63,11 @@ export class User extends AggregateRoot<UserProps> {
     return this.props.numeroContribuinte;
   }
  
+  get estado (): UserEstado {
+    return this.props.estado;
+  }
+
+ 
   private constructor (props: UserProps, id?: UniqueEntityID) {
     super(props, id);
   }
@@ -73,7 +80,8 @@ export class User extends AggregateRoot<UserProps> {
       { argument: props.email, argumentName: 'email' },
       { argument: props.role, argumentName: 'role' },
       {argument: props.telefone, argumentName: 'telefone'},
-     {argument: props.numeroContribuinte, argumentName: 'numeroContribuinte'}
+     {argument: props.numeroContribuinte, argumentName: 'numeroContribuinte'},
+      {argument: props.estado, argumentName: 'estado'},
     ];
  
     const guardResult = Guard.againstNullOrUndefinedBulk(guardedProps);
@@ -89,4 +97,11 @@ export class User extends AggregateRoot<UserProps> {
       return Result.ok<User>(user);
     }
   }
+
+  updateEstado(estado: UserEstado): void {
+    if (estado) {
+        this.props.estado = estado;
+    }
+  }
+
 }

@@ -8,4 +8,5 @@ export interface IUserPersistence {
 	role: string;
 	telefone: number;
 	numeroContribuinte?: number;
+	estado: string;
   }

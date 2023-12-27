@@ -5,4 +5,7 @@ export default interface IUserService  {
   SignUp(userDTO: IUserDTO): Promise<Result<{userDTO: IUserDTO, token: string}>>;
   SignIn(email: string, password: string): Promise<Result<{ userDTO: IUserDTO, token: string }>>;
   DeleteUser(email: string, password: string): Promise<Result<void>>;
+  getPendentes(): Promise<Result<IUserDTO[]>>;
+  aprovarUser(email: string): Promise<Result<IUserDTO>>;
+  recusarUser(email: string): Promise<Result<IUserDTO>>;
 }

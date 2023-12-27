@@ -24,6 +24,8 @@ import { Telefone } from '../domain/telefone';
 import { Result } from "../core/logic/Result";
 import { NumeroContribuinte } from '../domain/numeroContribuinte';
 import { ConstantColorFactor } from 'three';
+import { UserEstado } from '../domain/userEstado';
+import e from 'express';
 
 @Service()
 export default class UserService implements IUserService {
@@ -94,7 +96,16 @@ export default class UserService implements IUserService {
       } else {
         role = roleOrError.getValue();
       }
-
+      let estado = UserEstado.pendente;
+if(userDTO.estado == "pendente"){
+  estado = await UserEstado.pendente;
+}
+else if(userDTO.estado == "aprovado"){
+  estado = await UserEstado.aprovado;
+}
+else if(userDTO.estado == "recusado"){
+  estado = await UserEstado.recusado;
+}
       const userOrError = await User.create({
         firstName: userDTO.firstName,
         lastName: userDTO.lastName,
@@ -103,6 +114,7 @@ export default class UserService implements IUserService {
         role: role,
         password: password.getValue(),
         numeroContribuinte: numeroContribuinte.getValue(),
+        estado: estado,
       });
 
       if (userOrError.isFailure) {
@@ -174,6 +186,7 @@ export default class UserService implements IUserService {
     const role = user.role.name;
     const telefone = user.telefone.value;
     const numeroContribuinte = user.numeroContribuinte.value;
+    const estado = user.estado.estado;
 
     return jwt.sign(
       {
@@ -184,6 +197,7 @@ export default class UserService implements IUserService {
         lastName: lastName,
         telefone: telefone,
         numeroContribuinte: numeroContribuinte,
+        estado: estado,
         exp: exp.getTime() / 1000,
       },
       config.jwtSecret,
@@ -214,4 +228,33 @@ export default class UserService implements IUserService {
 
   }
 
+  public async getPendentes(): Promise<Result<IUserDTO[]>> {
+    const estado = await UserEstado.pendente;
+    const users = await this.userRepo.getByEstado(estado);
+    const usersDTO = users.map(user => UserMap.toDTO(user) as IUserDTO);
+    return Result.ok<IUserDTO[]>(usersDTO);
+  }
+
+  public async aprovarUser(email: string): Promise<Result<IUserDTO>> {
+    const user = await this.userRepo.findByEmail(email);
+    if (!user) {
+      throw new Error('User not registered');
+    }
+    user.updateEstado(await  UserEstado.aprovado);
+    await this.userRepo.save(user);
+    const userDTO = UserMap.toDTO(user) as IUserDTO;
+    return Result.ok<IUserDTO>(userDTO);
+  }
+
+  public async recusarUser(email: string): Promise<Result<IUserDTO>> {
+    const user = await this.userRepo.findByEmail(email);
+    if (!user) {
+      throw new Error('User not registered');
+    }
+
+    user.updateEstado(await  UserEstado.recusado);
+    await this.userRepo.save(user);
+    const userDTO = UserMap.toDTO(user) as IUserDTO;
+    return Result.ok<IUserDTO>(userDTO);
+  }
 }

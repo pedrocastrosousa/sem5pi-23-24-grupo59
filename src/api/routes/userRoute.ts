@@ -26,6 +26,7 @@ export default (app: Router) => {
         role: Joi.string().required(),
         telefone: Joi.number().optional(),
         numeroContribuinte: Joi.number().optional(),
+        estado: Joi.string().required(),
       }),
     }),
     async (req: Request, res: Response, next: NextFunction) => {
@@ -132,4 +133,86 @@ export default (app: Router) => {
   app.use('/users', route);
 
   route.get('/me', middlewares.isAuth, middlewares.attachCurrentUser, user_controller.getMe);
+
+
+  route.get(
+    '/listarPendentes',
+    async (req: Request, res: Response, next: NextFunction) => {
+      const logger = Container.get('logger') as winston.Logger;
+      try {
+        const authServiceInstance = Container.get(AuthService);
+        const result = await authServiceInstance.getPendentes();
+        console.log("result", result);
+  
+        if (result.isFailure) {
+          return res.status(403).json(); // Ajuste a resposta HTTP aqui, se necessário
+        }
+  
+        const users = result.getValue();
+        return res.json(users);
+      } catch (e) {
+        logger.error('🔥 error: %o', e);
+        return next(e);
+      }
+    }
+  );
+
+  route.patch(
+    '/aprovar/:email',
+    celebrate({
+      body: Joi.object({
+                
+      }),
+      params: Joi.object({ 
+          email: Joi.string().required()
+      })
+    }),
+    async (req: Request, res: Response, next: NextFunction) => {
+      const logger = Container.get('logger') as winston.Logger;
+      logger.debug('Calling Sign-In endpoint with body: %o', req.body)
+      try {
+        const { email } = req.body;
+        const authServiceInstance = Container.get(AuthService);
+        
+        const result = await authServiceInstance.aprovarUser(req.params.email);
+        
+        if( result.isFailure )
+          return res.json().status(403);
+
+        return res.json().status(200);
+      } catch (e) {
+        logger.error('🔥 error: %o',  e );
+        return next(e);
+      }
+    },
+  );
+
+  route.patch(
+    '/recusar/:email',
+    celebrate({
+      body: Joi.object({
+                
+      }),
+      params: Joi.object({ 
+          email: Joi.string().required()
+      })
+    }),
+    async (req: Request, res: Response, next: NextFunction) => {
+      const logger = Container.get('logger') as winston.Logger;
+      logger.debug('Calling Sign-In endpoint with body: %o', req.body)
+      try {
+        const { email } = req.body;
+        const authServiceInstance = Container.get(AuthService);
+        const result = await authServiceInstance.recusarUser(req.params.email);
+        
+        if( result.isFailure )
+          return res.json().status(403);
+
+        return res.json().status(200);
+      } catch (e) {
+        logger.error('🔥 error: %o',  e );
+        return next(e);
+      }
+    },
+  );
 };

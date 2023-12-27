@@ -7,4 +7,5 @@ export interface IUserDTO {
   role: string
   telefone: number;
   numeroContribuinte?: number;
+  estado: string;
 }

@@ -12,6 +12,7 @@ import { UserPassword } from "../domain/userPassword";
 
 import RoleRepo from "../repos/roleRepo";
 import { Telefone } from '../domain/telefone';
+import { UserEstado } from '../domain/userEstado';
 
 export class UserMap extends Mapper<User> {
 
@@ -25,6 +26,7 @@ export class UserMap extends Mapper<User> {
       role: user.role.name.toString(),
       telefone: user.telefone.props.numero,
       numeroContribuinte: user.numeroContribuinte.props.numero,
+      estado: user.estado,
     } as IUserDTO;
   }
 
@@ -44,6 +46,7 @@ export class UserMap extends Mapper<User> {
       role: role,
       telefone: telefoneOrError.getValue(),
       numeroContribuinte: numeroContribuinteOrError.getValue(),
+      estado: raw.estado,
     }, new UniqueEntityID(raw.domainId))
 
     userOrError.isFailure ? console.log(userOrError.error) : '';
@@ -61,6 +64,7 @@ export class UserMap extends Mapper<User> {
       role: user.role.name,
       telefone: user.telefone.props.numero,
       numeroContribuinte: user.numeroContribuinte.props.numero,
+      estado: user.estado,
     }
     return a;
   }
