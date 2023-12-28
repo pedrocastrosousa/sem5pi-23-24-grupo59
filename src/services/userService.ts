@@ -257,4 +257,14 @@ else if(userDTO.estado == "recusado"){
     const userDTO = UserMap.toDTO(user) as IUserDTO;
     return Result.ok<IUserDTO>(userDTO);
   }
+
+  public async getUser(email: string): Promise<Result<IUserDTO>> {
+    const user = await this.userRepo.findByEmail(email);
+    if (!user) {
+      throw new Error('User not registered');
+    }
+
+    const userDTO = UserMap.toDTO(user) as IUserDTO;
+    return Result.ok<IUserDTO>(userDTO);
+  }
 }
