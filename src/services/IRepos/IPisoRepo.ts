@@ -14,6 +14,6 @@ export default interface IPisoRepo extends Repo<Piso> {
 	findAll() : Promise<Array<Piso>>;
 	update(filter: FilterQuery<Piso>, piso: Partial<Piso>);
 	delete(codigoPiso: string);
-
+	findAllMapas(): Promise<string[]>;
 }
   

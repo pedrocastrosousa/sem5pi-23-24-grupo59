@@ -244,6 +244,334 @@ export default class PisoService implements IPisoService {
       throw e;
     }
   }
+
+
+  public async getSalasDeMapaDePiso(codigoPiso: string): Promise<Result<string[]>> {
+    const mapasPisosResult = await this.pisoRepo.findByCodigo(codigoPiso);
+    if (mapasPisosResult === null) {
+      return Result.fail<string[]>("O piso com o codigo -> " + codigoPiso + " <- não existe");
+    } else {
+      const mapasObjetos = JSON.parse(mapasPisosResult.mapa);
+      const salas = mapasObjetos.mapa.salas;
+      const codigosSalas = salas.map(sala => sala.nomeSala);
+      return Result.ok<string[]>(codigosSalas);
+    }
+  }
+
+  public async getSalasDeTodosOsMapas(): Promise<Result<string[]>> {
+    const mapasPisosResult = await this.pisoRepo.findAllMapas();
+    if (mapasPisosResult === null) {
+      return Result.fail<string[]>("Não existem pisos com mapas");
+    } else {
+      const mapasObjetos = mapasPisosResult.filter(mapa => mapa !== undefined).map(mapa => JSON.parse(mapa));
+      const salas = mapasObjetos.map(mapa => mapa.mapa.salas);
+      console.log(salas);
+      const todasAsSalas: string[] = salas.flatMap(salaArray => salaArray.map(sala => sala.nomeSala));
+      console.log(todasAsSalas);
+      return Result.ok<string[]>(todasAsSalas);
+    }
+  }
+
+  
+  //planeamento
+  public async melhorCaminho(origem: string, destino: string): Promise<Result<string>> {
+    const requestBody = {
+        origem: origem,
+        destino: destino
+    };
+
+    try {
+        const response = await fetch(config.url_planemaneto + '/melhorCaminho', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(requestBody)
+        });
+
+        if (!response.ok) {
+            Result.fail<string>('Erro ao obter melhor caminho');
+        }
+
+        const caminhoJSON = await response.json();
+        const caminhoString = JSON.stringify(caminhoJSON);
+        return Result.ok<string>(caminhoString);
+    } catch (error) {
+        Result.fail<string>(error);
+    }
+  }
+
+  public async obterBaseDeConhecimento(): Promise<Result<string>> {
+    try {
+      const mapasPisosResult = await this.pisoRepo.findAllMapas();
+      const mapasObjetos = mapasPisosResult.filter(mapa => mapa !== undefined).map(mapa => JSON.parse(mapa));
+      const factosPisos = await this.criarFactosPisos(mapasObjetos);
+      const factosSalas = await this.criarFactosSalas(mapasObjetos);
+      const factosMatriz = await this.criarFactosMatriz(mapasObjetos);
+      const factosLiga = await this.criarFactosLiga(mapasObjetos);
+      const factosElevadores = await this.criarFactosElevadores(mapasObjetos);
+      const factosCorredores = await this.criarFactosCorredoress(mapasObjetos);
+      const factosTamanhoPisos = await this.criarFactosTamanhoPisos(mapasObjetos);
+
+      let factosProlog = '';
+      factosProlog += factosPisos.getValue();
+      factosProlog += factosSalas.getValue();
+      factosProlog += factosMatriz.getValue();
+      factosProlog += factosLiga.getValue();
+      factosProlog += factosElevadores.getValue();
+      factosProlog += factosCorredores.getValue();
+      factosProlog += factosTamanhoPisos.getValue();
+
+      return Result.ok<string>(factosProlog);
+    } catch (error) {
+      return Result.fail<string>('Erro ao obter base de conhecimento');
+    }
+  }
+
+  private async criarFactosPisos(mapasPisos: any[]): Promise<Result<string>> {
+    try {
+        const pisosPorEdificio = new Map<string, string[]>();
+
+        mapasPisos.forEach((mapaObjeto) => {
+            const codigoPiso = mapaObjeto.mapa.codigoPiso;
+            const codigoEdificio = mapaObjeto.mapa.codigoEdificio;
+
+            if (!pisosPorEdificio.has(codigoEdificio)) {
+                pisosPorEdificio.set(codigoEdificio, [codigoPiso]);
+            } else {
+                const pisos = pisosPorEdificio.get(codigoEdificio);
+                if (pisos) {
+                    pisos.push(codigoPiso);
+                    pisosPorEdificio.set(codigoEdificio, pisos);
+                }
+            }
+        });
+        let factosPisos = '';
+        pisosPorEdificio.forEach((pisos, edificio) => {
+            factosPisos += `pisos('${edificio}', [${pisos.map(piso => `'${piso}'`).join(', ')}]).\n`;
+        });
+        return Result.ok<string>(factosPisos);
+    } catch (error) {
+        return Result.fail<string>('Erro ao criar factos de pisos');
+    }
+  }
+
+  private async criarFactosElevadores(mapasPisos: any[]): Promise<Result<string>> {
+      try {
+          const elevadoresPorEdificio = new Map<string, { pisos: string[], x1: number, y1: number }[]>();
+
+
+          mapasPisos.forEach(mapaObjeto => {
+              const codigoEdificio = mapaObjeto.mapa.codigoEdificio;
+              const elevador = mapaObjeto.mapa.elevadores;
+              const acesso_x1 = elevador.acesso.x1;
+              const acesso_y1 = elevador.acesso.y1;
+              let pisosServidos: string[] = [];
+              const codigoPiso = mapaObjeto.mapa.codigoPiso;
+              if (!elevadoresPorEdificio.has(codigoEdificio)) {
+                  elevadoresPorEdificio.set(codigoEdificio, [{
+                      pisos: [codigoPiso, ...pisosServidos],
+                      x1: acesso_x1,
+                      y1: acesso_y1
+                  }]);
+              } else {
+                  const elevadoresEdificio = elevadoresPorEdificio.get(codigoEdificio);
+                  if (elevadoresEdificio) {
+                      elevadoresEdificio[0].pisos.push(...[codigoPiso, ...pisosServidos]);
+                      elevadoresPorEdificio.set(codigoEdificio, elevadoresEdificio);
+                  }
+              }
+          });
+
+          let factosElevadores = '';
+
+          elevadoresPorEdificio.forEach((elevadores, edificio) => {
+
+              elevadores.forEach(elevador => {
+                  factosElevadores += `elevador('${edificio}', [${elevador.pisos.map(piso => `'${piso}'`).join(', ')}], ${elevador.x1}, ${elevador.y1}).\n`;
+              });
+          });
+          return Result.ok<string>(factosElevadores);
+      } catch (error) {
+          return Result.fail<string>('Erro ao criar factos de elevadores');
+      }
+  }
+  private async criarMatriz(data: any): Promise<string[]> {
+      const width = data.size.width;
+      const height = data.size.height;
+      const salas = data.mapa.salas;
+      let roomMap = [];
+      for (let y = 0; y < height; y++) {
+          roomMap[y] = [];
+          for (let x = 0; x < width; x++) {
+              roomMap[y][x] = 0;
+          }
+      }
+
+      salas.forEach(sala => {
+          const { x1, y1, x2, y2, nomeSala } = {
+              x1: sala.dimensaoSala.x1,
+              y1: sala.dimensaoSala.y1,
+              x2: sala.dimensaoSala.x2,
+              y2: sala.dimensaoSala.y2,
+              nomeSala: sala.nomeSala
+          };
+
+          for (let y = y1 - 1; y < y2; y++) {
+              for (let x = x1 - 1; x < x2; x++) {
+                  roomMap[y][x] = '1';
+              }
+          }
+      });
+      return roomMap;
+  }
+
+
+
+  private async criarFactosMatriz(mapasPisos: any[]): Promise<Result<string>> {
+      try {
+        console.log(mapasPisos);
+          let factosMatriz = '';
+
+          for (const mapaObjeto of mapasPisos) {
+              try {
+                  const matriz = await this.criarMatriz(mapaObjeto);
+                  const width = mapaObjeto.size.width;
+                  const height = mapaObjeto.size.height;
+                  const codigoEdificio = mapaObjeto.mapa.codigoEdificio;
+                  const codigoPiso = mapaObjeto.mapa.codigoPiso;
+                  console.log('-------------------');
+                  console.log('Matriz do piso: ' + codigoPiso);
+
+                  this.imprimirMatriz(matriz);
+                  console.log('-------------------');
+
+                  for (let i = 0; i < height; i++) {
+                      for (let j = 0; j < width; j++) {
+                          if (matriz[i][j] == '1') {
+                              factosMatriz += `m('${codigoEdificio}', '${codigoPiso}', ${j}, ${i}, ${1}).\n`;
+                          } else {
+                              factosMatriz += `m('${codigoEdificio}', '${codigoPiso}', ${j}, ${i}, ${0}).\n`;
+                          }
+                      }
+                  }
+
+              } catch (error) {
+                  console.log(error);
+                  return Result.fail<string>('Erro ao criar factos da matriz');
+              }
+          }
+
+          return Result.ok<string>(factosMatriz);
+      } catch (error) {
+          console.log(error);
+          return Result.fail<string>('Erro ao criar factos da matriz');
+      }
+  }
+  imprimirMatriz(matriz) {
+      for (let y = 0; y < matriz.length; y++) {
+          let row = '';
+          for (let x = 0; x < matriz[y].length; x++) {
+              row += matriz[y][x] + ' ';
+          }
+          console.log(row);
+      }
+  }
+
+  private async criarFactosSalas(mapasPisos: any[]): Promise<Result<string>> {
+      
+    try {
+      let factosSalas = '';
+
+      mapasPisos.forEach((mapaObjeto) => {
+        const codigoPiso = mapaObjeto.mapa.codigoPiso;
+        const codigoEdificio = mapaObjeto.mapa.codigoEdificio;
+        const salas = mapaObjeto.mapa.salas;
+
+        salas.forEach((sala: any) => {
+          const nomeSala = sala.nomeSala;
+          const portaX = sala.acesso.x1;
+          const portaY = sala.acesso.y1;
+
+          if (portaX && portaY) {
+              factosSalas += `sala('${codigoEdificio}', '${codigoPiso}', '${nomeSala}', ${portaX}, ${portaY}).\n`;
+          }
+        });
+      });
+
+      return Result.ok<string>(factosSalas);
+    } catch (error) {
+        return Result.fail<string>(codigoPiso + "\n" + error);
+    }
+  }
+
+  private async criarFactosCorredoress(mapasPisos: any[]): Promise<Result<string>> {
+      try {
+
+          let factosCorredores = '';
+
+          mapasPisos.forEach((mapaObjeto) => {
+              const corredores = mapaObjeto.mapa.passagem;
+
+              corredores.forEach((corredor: any) => {
+                  const edificio1 = corredor.edificio1;
+                  const piso1 = corredor.piso1;
+                  const edificio2 = corredor.edificio2;
+                  const piso2 = corredor.piso2;
+                  const x1 = corredor.fromX;
+                  const y1 = corredor.fromY;
+                  const x2 = corredor.toX;
+                  const y2 = corredor.toY;
+                  if (edificio1 && edificio2) {
+                      factosCorredores += `corredor('${edificio1}', '${edificio2}',  '${piso1}', ${x1}, ${y1}, '${piso2}', ${x2}, ${y2}).\n`;
+                  }
+              });
+          });
+          return Result.ok<string>(factosCorredores);
+      } catch (error) {
+          return Result.fail<string>('Erro ao criar factos dos corredores');
+      }
+  }
+
+  private async criarFactosLiga(mapasPisos: any[]): Promise<Result<string>> {
+      try {
+
+          let factosLiga = '';
+          mapasPisos.forEach((mapaObjeto) => {
+              const passagens = mapaObjeto.mapa.passagem;
+
+              passagens.forEach((passagem: any) => {
+                  const edificio1 = passagem.edificio1;
+                  const edificio2 = passagem.edificio2;
+                  if (edificio1 && edificio2) {
+                      factosLiga += `liga('${edificio1}', '${edificio2}').\n`;
+                  }
+
+              });
+          });
+          return Result.ok<string>(factosLiga);
+      } catch (error) {
+          return Result.fail<string>('Erro ao criar factos das ligações');
+      }
+  }
+
+  private async criarFactosTamanhoPisos(mapasPisos: any[]): Promise<Result<string>> {
+
+      try {
+
+          let factosTamanhoPisos = '';
+          mapasPisos.forEach((mapaObjeto) => {
+              const codigoPiso = mapaObjeto.mapa.codigoPiso;
+              const codigoEdificio = mapaObjeto.mapa.codigoEdificio;
+              const width = mapaObjeto.size.width + 1;
+              const height = mapaObjeto.size.height + 1;
+              factosTamanhoPisos += `tamanhoPiso('${codigoEdificio}', '${codigoPiso}', ${width}, ${height}).\n`;
+          });
+          return Result.ok<string>(factosTamanhoPisos);
+      } catch (error) {
+          return Result.fail<string>('Erro ao criar factos do tamanho dos pisos');
+      }
+  }
 }
 
 

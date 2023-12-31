@@ -169,6 +169,13 @@ export default class PisoRepo implements IPisoRepo {
     }
 }
 
+  public async findAllMapas(): Promise<string[]> {
+    const pisoList = await this.pisoSchema.find();
+
+    if (pisoList != null) {
+        return pisoList.map((piso) => piso.mapa);
+    }
+  }
 
 async update(filter: FilterQuery<Piso>, piso: Partial<Piso>) {
 

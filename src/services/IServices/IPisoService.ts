@@ -14,5 +14,8 @@ export default interface IPisoService  {
   carregarMapa(file: IMapaDTO): Promise<Result<boolean>>;
   listarPisos(): Promise<Result<IPisoDTO[]>>;
   delete(codigoPiso: string);
-
+  melhorCaminho(origem: string, destino: string): Promise<Result<string>>;
+  obterBaseDeConhecimento(): Promise<Result<string>>;
+  getSalasDeMapaDePiso(codigoPiso: string): Promise<Result<string[]>>;
+  getSalasDeTodosOsMapas(): Promise<Result<string[]>>;
 }
