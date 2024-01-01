@@ -81,6 +81,16 @@ export default (app: Router) => {
     ctrl.listarPisos(req, res, next);
   });
 
+  route.get('/map', async (req, res, next) => 
+    ctrl.getSalasDeTodosOsMapas(req, res, next),
+  );
+
+  
+route.get('/map/:codigoPiso',(req, res, next) => ctrl.getSalasDeMapaDePiso(req, res, next),
+  );
+route.get('/map', ctrl.getSalasDeTodosOsMapas);
+
+
   route.delete(
     '/:codigoPiso',
     celebrate({
