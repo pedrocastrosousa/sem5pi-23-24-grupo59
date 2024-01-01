@@ -8,5 +8,6 @@ export default interface IUserService {
   getPendentes(): Promise<Result<IUserDTO[]>>;
   aprovarUser(email: string): Promise<Result<IUserDTO>>;
   recusarUser(email: string): Promise<Result<IUserDTO>>;
+  getUtentes(): Promise<Result<IUserDTO[]>>;
   updateUser(userDTO: IUserDTO): Promise<Result<IUserDTO>>;
 }
