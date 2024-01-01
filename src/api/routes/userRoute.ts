@@ -158,7 +158,7 @@ export default (app: Router) => {
   );
 
   route.get(
-    '/:email',
+    '/user/:email',
     async (req: Request, res: Response, next: NextFunction) => {
       const logger = Container.get('logger') as winston.Logger;
       try {
@@ -235,5 +235,30 @@ export default (app: Router) => {
         return next(e);
       }
     },
+  );
+
+
+
+  route.get(
+    '/listarUsers',
+    async (req: Request, res: Response, next: NextFunction) => {
+      const logger = Container.get('logger') as winston.Logger;
+      try {
+
+        const authServiceInstance = Container.get(AuthService);
+        const result = await authServiceInstance.getUtentes();
+        console.log("result", result);
+  
+        if (result.isFailure) {
+          return res.status(403).json(); // Ajuste a resposta HTTP aqui, se necessário
+        }
+  
+        const users = result.getValue();
+        return res.json(users);
+      } catch (e) {
+        logger.error('🔥 error: %o', e);
+        return next(e);
+      }
+    }
   );
 };

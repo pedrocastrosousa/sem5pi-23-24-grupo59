@@ -26,6 +26,7 @@ import { NumeroContribuinte } from '../domain/numeroContribuinte';
 import { ConstantColorFactor } from 'three';
 import { UserEstado } from '../domain/userEstado';
 import e from 'express';
+import { convertToObject } from 'typescript';
 
 @Service()
 export default class UserService implements IUserService {
@@ -266,5 +267,13 @@ else if(userDTO.estado == "recusado"){
 
     const userDTO = UserMap.toDTO(user) as IUserDTO;
     return Result.ok<IUserDTO>(userDTO);
+  }
+
+  public async getUtentes(): Promise<Result<IUserDTO[]>> {
+    console.log("getUsers");
+    const estado = await UserEstado.aprovado;
+    const users = await this.userRepo.getByEstado(estado);
+    const usersDTO = users.map(user => UserMap.toDTO(user) as IUserDTO);
+    return Result.ok<IUserDTO[]>(usersDTO);
   }
 }
