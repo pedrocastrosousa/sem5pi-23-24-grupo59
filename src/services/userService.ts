@@ -33,17 +33,18 @@ export default class UserService implements IUserService {
     @Inject(config.repos.user.name) private userRepo: IUserRepo,
     @Inject(config.repos.role.name) private roleRepo: IRoleRepo,
     @Inject('logger') private logger,
-  ) { }
+  ) {}
 
-
-  public async SignUp(userDTO: IUserDTO): Promise<Result<{ userDTO: IUserDTO, token: string }>> {
+  public async SignUp(userDTO: IUserDTO): Promise<Result<{ userDTO: IUserDTO; token: string }>> {
     try {
-      console.log("userDTO", userDTO);
+      console.log('userDTO', userDTO);
       const userDocument = await this.userRepo.findByEmail(userDTO.email);
       const found = !!userDocument;
 
       if (found) {
-        return Result.fail<{ userDTO: IUserDTO, token: string }>("Já existe um utilizador registado com o email= " + userDTO.email);
+        return Result.fail<{ userDTO: IUserDTO; token: string }>(
+          'Já existe um utilizador registado com o email= ' + userDTO.email,
+        );
       }
 
       /**
@@ -62,7 +63,6 @@ export default class UserService implements IUserService {
        * watches every API call and if it spots a 'password' and 'email' property then
        * it decides to steal them!? Would you even notice that? I wouldn't :/
        */
-
 
       const salt = randomBytes(32);
       this.logger.silly('Hashing password');
@@ -89,7 +89,6 @@ export default class UserService implements IUserService {
         return Result.fail<{ userDTO: IUserDTO; token: string }>(numeroContribuinte.errorValue());
       }
 
-
       const roleOrError = await this.getRole(userDTO.role);
       if (roleOrError.isFailure) {
         return Result.fail<{ userDTO: IUserDTO; token: string }>(roleOrError.error);
@@ -97,15 +96,13 @@ export default class UserService implements IUserService {
         role = roleOrError.getValue();
       }
       let estado = UserEstado.pendente;
-if(userDTO.estado == "pendente"){
-  estado = await UserEstado.pendente;
-}
-else if(userDTO.estado == "aprovado"){
-  estado = await UserEstado.aprovado;
-}
-else if(userDTO.estado == "recusado"){
-  estado = await UserEstado.recusado;
-}
+      if (userDTO.estado == 'pendente') {
+        estado = await UserEstado.pendente;
+      } else if (userDTO.estado == 'aprovado') {
+        estado = await UserEstado.aprovado;
+      } else if (userDTO.estado == 'recusado') {
+        estado = await UserEstado.recusado;
+      }
       const userOrError = await User.create({
         firstName: userDTO.firstName,
         lastName: userDTO.lastName,
@@ -132,15 +129,14 @@ else if(userDTO.estado == "recusado"){
 
       await this.userRepo.save(userResult);
       const userDTOResult = UserMap.toDTO(userResult) as IUserDTO;
-      return Result.ok<{ userDTO: IUserDTO, token: string }>({ userDTO: userDTOResult, token: token })
-
+      return Result.ok<{ userDTO: IUserDTO; token: string }>({ userDTO: userDTOResult, token: token });
     } catch (e) {
       this.logger.error(e);
       throw e;
     }
   }
 
-  public async SignIn(email: string, password: string): Promise<Result<{ userDTO: IUserDTO, token: string }>> {
+  public async SignIn(email: string, password: string): Promise<Result<{ userDTO: IUserDTO; token: string }>> {
     const user = await this.userRepo.findByEmail(email);
     if (!user) {
       throw new Error('User not registered');
@@ -157,7 +153,7 @@ else if(userDTO.estado == "recusado"){
       const token = this.generateToken(user) as string;
 
       const userDTO = UserMap.toDTO(user) as IUserDTO;
-      return Result.ok<{ userDTO: IUserDTO, token: string }>({ userDTO: userDTO, token: token });
+      return Result.ok<{ userDTO: IUserDTO; token: string }>({ userDTO: userDTO, token: token });
     } else {
       throw new Error('Invalid Password');
     }
@@ -204,9 +200,7 @@ else if(userDTO.estado == "recusado"){
     );
   }
 
-
   private async getRole(roleId: string): Promise<Result<Role>> {
-
     const role = await this.roleRepo.findByName(roleId);
     const found = !!role;
 
@@ -225,7 +219,6 @@ else if(userDTO.estado == "recusado"){
 
     await this.userRepo.deleteUser(user);
     return Result.ok<void>();
-
   }
 
   public async getPendentes(): Promise<Result<IUserDTO[]>> {
@@ -240,7 +233,7 @@ else if(userDTO.estado == "recusado"){
     if (!user) {
       throw new Error('User not registered');
     }
-    user.updateEstado(await  UserEstado.aprovado);
+    user.updateEstado(await UserEstado.aprovado);
     await this.userRepo.save(user);
     const userDTO = UserMap.toDTO(user) as IUserDTO;
     return Result.ok<IUserDTO>(userDTO);
@@ -252,7 +245,7 @@ else if(userDTO.estado == "recusado"){
       throw new Error('User not registered');
     }
 
-    user.updateEstado(await  UserEstado.recusado);
+    user.updateEstado(await UserEstado.recusado);
     await this.userRepo.save(user);
     const userDTO = UserMap.toDTO(user) as IUserDTO;
     return Result.ok<IUserDTO>(userDTO);
@@ -266,5 +259,26 @@ else if(userDTO.estado == "recusado"){
 
     const userDTO = UserMap.toDTO(user) as IUserDTO;
     return Result.ok<IUserDTO>(userDTO);
+  }
+
+  public async updateUser(userDTO: IUserDTO): Promise<Result<IUserDTO>> {
+    try {
+      const user = await this.userRepo.findByEmail(userDTO.email);
+
+      if (user === null) {
+        return Result.fail<IUserDTO>('User not found');
+      } else {
+        user.firstName = userDTO.firstName;
+        user.lastName = userDTO.lastName;
+        user.telefone = Telefone.create(userDTO.telefone).getValue();
+        user.numeroContribuinte = NumeroContribuinte.create(userDTO.numeroContribuinte).getValue();
+
+        await this.userRepo.save(user);
+        const userDTOResult = UserMap.toDTO(user) as IUserDTO;
+        return Result.ok<IUserDTO>(userDTOResult);
+      }
+    } catch (e) {
+      throw e;
+    }
   }
 }

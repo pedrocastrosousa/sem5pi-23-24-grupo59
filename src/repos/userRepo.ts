@@ -13,46 +13,48 @@ import { Filter } from 'mongodb';
 @Service()
 export default class UserRepo implements IUserRepo {
   private models: any;
- 
+
   constructor(
-    @Inject('userSchema') private userSchema : Model<IUserPersistence & Document>,
-    @Inject('logger') private logger
-  ) { }
- 
-  private createBaseQuery (): any {
+    @Inject('userSchema') private userSchema: Model<IUserPersistence & Document>,
+    @Inject('logger') private logger,
+  ) {}
+
+  private createBaseQuery(): any {
     return {
       where: {},
-    }
+    };
   }
- 
-  public async exists (userId: UserId | string): Promise<boolean> {
- 
+
+  public async exists(userId: UserId | string): Promise<boolean> {
     const idX = userId instanceof UserId ? (<UserId>userId).id.toValue() : userId;
- 
-    const query = { domainId: idX};
-    const userDocument = await this.userSchema.findOne( query );
- 
+
+    const query = { domainId: idX };
+    const userDocument = await this.userSchema.findOne(query);
+
     return !!userDocument === true;
   }
- 
-  public async save (user: User): Promise<User> {
+
+  public async save(user: User): Promise<User> {
     const query = { domainId: user.id.toString() };
- console.log("query", user);
-    const userDocument = await this.userSchema.findOne( query );
+    console.log('query', user);
+    const userDocument = await this.userSchema.findOne(query);
     try {
-      if (userDocument === null ) {
+      if (userDocument === null) {
         const rawUser: any = UserMap.toPersistence(user);
 
         const userCreated = await this.userSchema.create(rawUser);
- 
+
         return UserMap.toDomain(userCreated);
       } else {
-
         userDocument.firstName = user.firstName;
         userDocument.lastName = user.lastName;
         userDocument.estado = user.estado;
+
+        userDocument.telefone = user.telefone.numero;
+        userDocument.numeroContribuinte = user.numeroContribuinte.numero;
+
         await userDocument.save();
- 
+
         return user;
       }
     } catch (err) {
@@ -60,32 +62,30 @@ export default class UserRepo implements IUserRepo {
     }
   }
 
-  public async findByEmail (email: string): Promise<User> {
-    const query = { email: email.toString()};
+  public async findByEmail(email: string): Promise<User> {
+    const query = { email: email.toString() };
     const userRecord = await this.userSchema.findOne(query as FilterQuery<IUserPersistence & Document>);
     if (userRecord != null) {
       return UserMap.toDomain(userRecord);
     }
- 
+
     return null;
   }
 
-  public async deleteUser (user: User): Promise<void> {
-    console.log("user", user.email.value);
+  public async deleteUser(user: User): Promise<void> {
+    console.log('user', user.email.value);
     const query = { email: user.email.value };
     await this.userSchema.deleteOne(query);
   }
 
-
-  public async getByEstado (estado: string): Promise<User[]> {
-    const query = { estado: estado.toString()};
+  public async getByEstado(estado: string): Promise<User[]> {
+    const query = { estado: estado.toString() };
     const userRecord = await this.userSchema.find(query as FilterQuery<IUserPersistence & Document>);
     if (userRecord != null) {
-      const users = await Promise.all(userRecord.map((item) => UserMap.toDomain(item)));
+      const users = await Promise.all(userRecord.map(item => UserMap.toDomain(item)));
       return users;
     }
 
     return null;
   }
-
 }

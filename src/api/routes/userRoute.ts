@@ -7,6 +7,8 @@ import { IUserDTO } from '../../dto/IUserDTO';
 import middlewares from '../middlewares';
 import { celebrate, Joi } from 'celebrate';
 import winston = require('winston');
+import IUserController from '../../controllers/IControllers/IUserController';
+import config from '../../../config';
 
 var user_controller = require('../../controllers/userController');
 
@@ -14,6 +16,7 @@ const route = Router();
 
 export default (app: Router) => {
   app.use('/auth', route);
+  const ctrl = Container.get(config.controllers.user.name) as IUserController;
 
   route.post(
     '/signup',
@@ -235,5 +238,22 @@ export default (app: Router) => {
         return next(e);
       }
     },
+  );
+
+  route.put(
+    '',
+    celebrate({
+      body: Joi.object({
+        firstName: Joi.string().required(),
+        lastName: Joi.string().required(),
+        email: Joi.string().required(),
+        password: Joi.string().allow(''),
+        role: Joi.string().required(),
+        telefone: Joi.number().optional(),
+        numeroContribuinte: Joi.number().optional(),
+        estado: Joi.string().required(),
+      }),
+    }),
+    (req, res, next) => ctrl.updateUser(req, res, next),
   );
 };

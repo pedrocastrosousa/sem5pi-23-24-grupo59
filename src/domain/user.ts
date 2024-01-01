@@ -23,85 +23,100 @@ interface UserProps {
 }
  
 export class User extends AggregateRoot<UserProps> {
-  get id (): UniqueEntityID {
-    return this._id;
-  }
- 
-  get userId (): UserId {
-    return UserId.caller(this.id)
-  }
- 
-  get email (): UserEmail {
-    return this.props.email;
-  }
- 
-  get firstName (): string {
-    return this.props.firstName
-  }
- 
-  get lastName (): string {
-    return this.props.lastName;
-  }
- 
-  get password (): UserPassword {
-    return this.props.password;
-  }
- 
-  get role (): Role {
-    return this.props.role;
-  }
- 
-  set role (value: Role) {
-      this.props.role = value;
-  }
- 
-  get telefone (): Telefone {
-    return this.props.telefone;
-  }
- 
-  get numeroContribuinte (): NumeroContribuinte | undefined {
-    return this.props.numeroContribuinte;
-  }
- 
-  get estado (): UserEstado {
-    return this.props.estado;
-  }
+         get id(): UniqueEntityID {
+           return this._id;
+         }
 
- 
-  private constructor (props: UserProps, id?: UniqueEntityID) {
-    super(props, id);
-  }
- 
-  public static create (props: UserProps, id?: UniqueEntityID): Result<User> {
- 
-    const guardedProps = [
-      { argument: props.firstName, argumentName: 'firstName' },
-      { argument: props.lastName, argumentName: 'lastName' },
-      { argument: props.email, argumentName: 'email' },
-      { argument: props.role, argumentName: 'role' },
-      {argument: props.telefone, argumentName: 'telefone'},
-     {argument: props.numeroContribuinte, argumentName: 'numeroContribuinte'},
-      {argument: props.estado, argumentName: 'estado'},
-    ];
- 
-    const guardResult = Guard.againstNullOrUndefinedBulk(guardedProps);
- 
-    if (!guardResult.succeeded) {
-      return Result.fail<User>(guardResult.message)
-    }    
-    else {
-      const user = new User({
-        ...props
-      }, id);
- 
-      return Result.ok<User>(user);
-    }
-  }
+         get userId(): UserId {
+           return UserId.caller(this.id);
+         }
 
-  updateEstado(estado: UserEstado): void {
-    if (estado) {
-        this.props.estado = estado;
-    }
-  }
+         get email(): UserEmail {
+           return this.props.email;
+         }
 
-}
+         get firstName(): string {
+           return this.props.firstName;
+         }
+
+         set firstName(firstName: string) {
+           this.props.firstName = firstName;
+         }
+
+         get lastName(): string {
+           return this.props.lastName;
+         }
+
+         set lastName(lastName: string) {
+           this.props.lastName = lastName;
+         }
+
+         get password(): UserPassword {
+           return this.props.password;
+         }
+
+         get role(): Role {
+           return this.props.role;
+         }
+
+         set role(value: Role) {
+           this.props.role = value;
+         }
+
+         get telefone(): Telefone {
+           return this.props.telefone;
+         }
+
+         set telefone(telefone: Telefone) {
+           this.props.telefone = telefone;
+         }
+
+         get numeroContribuinte(): NumeroContribuinte | undefined {
+           return this.props.numeroContribuinte;
+         }
+
+         set numeroContribuinte(numeroContribuinte: NumeroContribuinte | undefined) {
+           this.props.numeroContribuinte = numeroContribuinte;
+         }
+
+         get estado(): UserEstado {
+           return this.props.estado;
+         }
+
+         private constructor(props: UserProps, id?: UniqueEntityID) {
+           super(props, id);
+         }
+
+         public static create(props: UserProps, id?: UniqueEntityID): Result<User> {
+           const guardedProps = [
+             { argument: props.firstName, argumentName: 'firstName' },
+             { argument: props.lastName, argumentName: 'lastName' },
+             { argument: props.email, argumentName: 'email' },
+             { argument: props.role, argumentName: 'role' },
+             { argument: props.telefone, argumentName: 'telefone' },
+             { argument: props.numeroContribuinte, argumentName: 'numeroContribuinte' },
+             { argument: props.estado, argumentName: 'estado' },
+           ];
+
+           const guardResult = Guard.againstNullOrUndefinedBulk(guardedProps);
+
+           if (!guardResult.succeeded) {
+             return Result.fail<User>(guardResult.message);
+           } else {
+             const user = new User(
+               {
+                 ...props,
+               },
+               id,
+             );
+
+             return Result.ok<User>(user);
+           }
+         }
+
+         updateEstado(estado: UserEstado): void {
+           if (estado) {
+             this.props.estado = estado;
+           }
+         }
+       }

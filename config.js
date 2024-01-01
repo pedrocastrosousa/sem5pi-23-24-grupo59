@@ -210,6 +210,10 @@ export default {
       name: "RobotController",
       path: "../controllers/robotController"
     },
+    user: {
+      name: "UserController",
+      path: "../controllers/utilizadorController"
+    },
   },
 
   repos: {
@@ -284,6 +288,10 @@ export default {
     robot: {
       name: "RobotService",
       path: "../services/robotService"
+    },
+    user: {
+      name: "UserService",
+      path: "../services/userService"
     },
   },
 };
