@@ -11,7 +11,8 @@ import isAuth from '../middlewares/isAuth';
 const route = Router();
 
 export default (app: Router) => {
-    app.use('/elevadores', isAuth, route);
+    //should be app.use('/elevadores', isAuth, route);
+    app.use('/elevadores', route);
 
     const ctrl = Container.get(config.controllers.elevador.name) as IElevadorController;
 
