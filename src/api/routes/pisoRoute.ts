@@ -7,7 +7,7 @@ import IPisoController from '../../controllers/IControllers/IPisoController';
 
 import config from "../../../config";
 import { isElement, isEmpty } from 'lodash';
-
+import isAuth from '../middlewares/isAuth';
 const route = Router();
 
 const Ajv = require("ajv");
@@ -16,7 +16,7 @@ const schema= config.schema;
 const validate = ajv.compile(schema);
 
 export default (app: Router) => {
-  app.use('/pisos', route);
+  app.use('/pisos', isAuth, route);
   console.log('piso route');
 
   const ctrl = Container.get(config.controllers.piso.name) as IPisoController;

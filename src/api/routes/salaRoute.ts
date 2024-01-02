@@ -6,13 +6,13 @@ import middlewares from '../middlewares';
 import { celebrate, Joi } from 'celebrate';
 import winston = require('winston');
 import config from "../../../config";
-
+import isAuth from '../middlewares/isAuth';
 
 
 const route = Router();
 
 export default (app: Router) => {
-    app.use('/salas', route);
+    app.use('/salas', isAuth, route);
 
     const ctrl = Container.get(config.controllers.sala.name) as ISalaController;
 

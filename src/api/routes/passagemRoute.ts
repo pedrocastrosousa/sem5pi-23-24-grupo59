@@ -5,11 +5,11 @@ import { Container } from 'typedi';
 
 import config from "../../../config";
 import IPassagemController from '../../controllers/IControllers/IPassagemController';
-
+import isAuth from '../middlewares/isAuth';
 const route = Router();
 
 export default (app: Router) => {
-  app.use('/passagem', route);
+  app.use('/passagem', isAuth, route);
 
   const ctrl = Container.get(config.controllers.passagem.name) as IPassagemController;
   route.post('/criarPassagem',

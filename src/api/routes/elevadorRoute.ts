@@ -5,13 +5,13 @@ import { celebrate, Joi } from 'celebrate';
 import winston = require('winston');
 import config from "../../../config";
 import IElevadorController from '../../controllers/IControllers/IElevadorController';
-
+import isAuth from '../middlewares/isAuth';
 
 
 const route = Router();
 
 export default (app: Router) => {
-    app.use('/elevadores', route);
+    app.use('/elevadores', isAuth, route);
 
     const ctrl = Container.get(config.controllers.elevador.name) as IElevadorController;
 

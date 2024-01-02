@@ -265,9 +265,9 @@ export default class PisoService implements IPisoService {
     } else {
       const mapasObjetos = mapasPisosResult.filter(mapa => mapa !== undefined).map(mapa => JSON.parse(mapa));
       const salas = mapasObjetos.map(mapa => mapa.mapa.salas);
-      console.log(salas);
+console.log(salas);
       const todasAsSalas: string[] = salas.flatMap(salaArray => salaArray.map(sala => sala.nomeSala));
-      console.log(todasAsSalas);
+console.log(todasAsSalas);
       return Result.ok<string[]>(todasAsSalas);
     }
   }
