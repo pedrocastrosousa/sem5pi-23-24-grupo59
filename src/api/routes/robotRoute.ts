@@ -4,13 +4,13 @@ import { celebrate, Joi } from 'celebrate';
 import winston = require('winston');
 import config from "../../../config";
 import IRobotController from '../../controllers/IControllers/IRobotController';
-
+import isAuth from '../middlewares/isAuth';
 
 
 const route = Router();
 
 export default (app: Router) => {
-    app.use('/robots', route);
+    app.use('/robots', isAuth,route);
 
     const ctrl = Container.get(config.controllers.robot.name) as IRobotController;
 

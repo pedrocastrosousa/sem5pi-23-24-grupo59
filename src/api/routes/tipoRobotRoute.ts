@@ -4,11 +4,11 @@ import 'reflect-metadata';
 import { Container } from 'typedi';
 import config from '../../../config';
 import ITipoRobotController from '../../controllers/IControllers/ITipoRobotController';
-
+import isAuth from '../middlewares/isAuth';
 const route = Router();
 
 export default (app: Router) => {
-  app.use('/tipoRobots', route);
+  app.use('/tipoRobots', isAuth, route);
 
   const ctrl = Container.get(config.controllers.tipoRobot.name) as ITipoRobotController;
 
