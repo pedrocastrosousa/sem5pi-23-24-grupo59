@@ -27,6 +27,11 @@ export default {
   jwtSecret: process.env.JWT_SECRET || "my sakdfho2390asjod$%jl)!sdjas0i secret",
 
   /**
+   * URL para conecção ao planemaneto
+   */
+  url_planemaneto: process.env.URL_PLANEMANETO || "http://127.0.0.1:5005",
+
+  /**
    * Used by winston logger
    */
   logs: {
