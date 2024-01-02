@@ -16,7 +16,8 @@ const schema= config.schema;
 const validate = ajv.compile(schema);
 
 export default (app: Router) => {
-  app.use('/pisos', isAuth, route);
+  //should be app.use('/pisos', isAuth, route);
+  app.use('/pisos', route);
   console.log('piso route');
 
   const ctrl = Container.get(config.controllers.piso.name) as IPisoController;

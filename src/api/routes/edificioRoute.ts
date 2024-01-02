@@ -9,7 +9,9 @@ import isAuth from '../middlewares/isAuth';
 const route = Router();
 
 export default (app: Router) => {
-  app.use('/edificios', isAuth, route);
+  //should be app.use('/edificios', isAuth, route);
+  app.use('/edificios', route);
+  
 
   const ctrl = Container.get(config.controllers.edificio.name) as IEdificioController;
 
