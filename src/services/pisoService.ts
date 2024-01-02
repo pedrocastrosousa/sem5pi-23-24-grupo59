@@ -14,7 +14,7 @@ import { EdificioMap } from "../mappers/EdificioMap";
 import IPassagemRepo from "./IRepos/IPassagemRepo";
 import IMapaDTO from "../dto/IMapaDTO";
 import { toFinite } from "lodash";
-
+import fetch from 'node-fetch';
 
 @Service()
 export default class PisoService implements IPisoService {
@@ -272,7 +272,7 @@ export default class PisoService implements IPisoService {
     }
   }
 
-  
+
   //planeamento
   public async melhorCaminho(origem: string, destino: string): Promise<Result<string>> {
     const requestBody = {
@@ -479,7 +479,7 @@ export default class PisoService implements IPisoService {
   }
 
   private async criarFactosSalas(mapasPisos: any[]): Promise<Result<string>> {
-      
+
     try {
       let factosSalas = '';
 
@@ -501,7 +501,7 @@ export default class PisoService implements IPisoService {
 
       return Result.ok<string>(factosSalas);
     } catch (error) {
-        return Result.fail<string>(codigoPiso + "\n" + error);
+        return Result.fail<string>(error);
     }
   }
 

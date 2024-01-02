@@ -9,6 +9,7 @@ import sala from './routes/salaRoute';
 import passagem from './routes/passagemRoute';
 import elevador from './routes/elevadorRoute';
 import robot from './routes/robotRoute';
+import planeamentoRoute from './routes/planeamentoRoute';
 
 export default () => {
   const app = Router();
@@ -23,5 +24,6 @@ export default () => {
   passagem(app);
   elevador(app);
   robot(app);
+  planeamentoRoute(app);
   return app;
 };

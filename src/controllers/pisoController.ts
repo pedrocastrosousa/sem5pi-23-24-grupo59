@@ -159,6 +159,43 @@ export default class PisoController implements IPisoController /* TODO: extends 
     }
   }
 
+  //---planeamento---
+  public async obterBaseDeConhecimento(req: Request, res: Response, next: NextFunction) {
+    try {
+      const baseDeConhecimentoOrError = await this.pisoServiceInstance.obterBaseDeConhecimento() as Result<string>;
+
+      if (baseDeConhecimentoOrError.isFailure) {
+        return res.status(404).send();
+      }
+
+      const baseDeConhecimentoDTO = baseDeConhecimentoOrError.getValue();
+      return res.status(200).json(baseDeConhecimentoDTO);
+    }
+    catch (e) {
+      return next(e);
+    }
+  }
+
+  public async melhorCaminho(req: Request, res: Response, next: NextFunction) {
+    try {
+      const origem = req.query.origem as string;
+      const destino = req.query.destino as string;
+      console.log(origem);
+      console.log(destino);
+      const melhorCaminhoOrError = await this.pisoServiceInstance.melhorCaminho(origem,destino) as Result<string>;
+
+      if (melhorCaminhoOrError.isFailure) {
+        return res.status(404).send({error: melhorCaminhoOrError.error});
+      }
+
+      const melhorCaminho = melhorCaminhoOrError.getValue();
+      return res.status(200).json(melhorCaminho);
+    }
+    catch (e) {
+      return next(e);
+    }
+  }
+
   public async delete(req: Request, res: Response, next: NextFunction) {
     await this.pisoServiceInstance.delete(req.params.codigoPiso);
     return res.json('piso deleted').status(204);
