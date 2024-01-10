@@ -18,4 +18,9 @@ export default (app: Router) => {
         ctrl.melhorCaminho(req, res, next);
  
     });
+
+    route.post('/SequenciaTarefas', async (req, res, next) => {
+        
+        ctrl.getSequenciaTarefas(req, res, next);
+    });
 }

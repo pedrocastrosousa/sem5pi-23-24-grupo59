@@ -13,7 +13,7 @@ import IMapaDTO from '../dto/IMapaDTO';
 
 @Service()
 export default class PisoController implements IPisoController /* TODO: extends ../core/infra/BaseController */ {
-  constructor(@Inject(config.services.piso.name) private pisoServiceInstance: IPisoService) {}
+  constructor(@Inject(config.services.piso.name) private pisoServiceInstance: IPisoService) { }
 
   public async createPiso(req: Request, res: Response, next: NextFunction) {
     try {
@@ -132,7 +132,7 @@ export default class PisoController implements IPisoController /* TODO: extends 
     }
   }
 
-  public async getSalasDeMapaDePiso(req: Request, res: Response){
+  public async getSalasDeMapaDePiso(req: Request, res: Response) {
     const codigoPiso: string = req.params.codigoPiso;
     try {
       const result = await this.pisoServiceInstance.getSalasDeMapaDePiso(codigoPiso);
@@ -146,7 +146,7 @@ export default class PisoController implements IPisoController /* TODO: extends 
     }
   }
 
-  public async getSalasDeTodosOsMapas(req: Request, res: Response){
+  public async getSalasDeTodosOsMapas(req: Request, res: Response) {
     try {
       const result = await this.pisoServiceInstance.getSalasDeTodosOsMapas();
       if (result.isFailure) {
@@ -182,10 +182,10 @@ export default class PisoController implements IPisoController /* TODO: extends 
       const destino = req.query.destino as string;
       console.log(origem);
       console.log(destino);
-      const melhorCaminhoOrError = await this.pisoServiceInstance.melhorCaminho(origem,destino) as Result<string>;
+      const melhorCaminhoOrError = await this.pisoServiceInstance.melhorCaminho(origem, destino) as Result<string>;
 
       if (melhorCaminhoOrError.isFailure) {
-        return res.status(404).send({error: melhorCaminhoOrError.error});
+        return res.status(404).send({ error: melhorCaminhoOrError.error });
       }
 
       const melhorCaminho = melhorCaminhoOrError.getValue();
@@ -200,4 +200,41 @@ export default class PisoController implements IPisoController /* TODO: extends 
     await this.pisoServiceInstance.delete(req.params.codigoPiso);
     return res.json('piso deleted').status(204);
   }
+
+  public async getSequenciaTarefas(req: Request, res: Response, next: NextFunction) {
+    console.log("getSequenciaTarefas", req.body);
+    try {
+        const tarefas: any[] = req.body;
+
+       // Formatar cada tarefa no local
+       const tarefasFormatadas = tarefas.map(tarefa => {
+        const { codigo, idSalaPickUp, idSalaDelivery } = tarefa;
+
+        // Extrair informações do idSalaPickUp
+        const [edificioPickUp, pisoPickUp, salaPickUp] = idSalaPickUp.match(/[A-Z]+|[0-9]+/g);
+
+        // Extrair informações do idSalaDelivery
+        const [edificioDelivery, pisoDelivery, salaDelivery] = idSalaDelivery.match(/[A-Z]+|[0-9]+/g);
+
+        const formatoPisoPickUp = `Piso${idSalaPickUp[1]}`;
+        const formatoPisoDelivery = `Piso${idSalaDelivery[1]}`;
+
+        return `tarefa(${codigo}, sala('Edif${edificioPickUp}', 'Edif${edificioPickUp}-${formatoPisoPickUp}', '${idSalaPickUp}'), sala('Edif${edificioDelivery}', 'Edif${edificioDelivery}-${formatoPisoDelivery}', '${idSalaDelivery}')).`;
+    });
+
+    console.log(tarefasFormatadas);
+
+
+        const result = await this.pisoServiceInstance.getSequenciaTarefas(tarefasFormatadas);
+
+        if (result.isFailure) {
+            return res.status(404).json({ error: result.error });
+        } else {
+            return res.status(200).json(result.getValue());
+        }
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: 'Internal Server Error' });
+    }
+}
 };

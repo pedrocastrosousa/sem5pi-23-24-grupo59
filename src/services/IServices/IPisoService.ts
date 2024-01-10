@@ -18,4 +18,5 @@ export default interface IPisoService  {
   obterBaseDeConhecimento(): Promise<Result<string>>;
   getSalasDeMapaDePiso(codigoPiso: string): Promise<Result<string[]>>;
   getSalasDeTodosOsMapas(): Promise<Result<string[]>>;
+  getSequenciaTarefas(tarefas: string[]): Promise<Result<string>>;
 }

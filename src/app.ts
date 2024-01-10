@@ -5,10 +5,12 @@ import config from '../config';
 import express from 'express';
 
 import Logger from './loaders/logger';
+import bodyParser from 'body-parser';
 
 async function startServer() {
   const app = express();
-
+  app.use(bodyParser.json());
+  
   await require('./loaders').default({ expressApp: app });
 
   app.listen(config.port, () => {
@@ -20,12 +22,12 @@ async function startServer() {
       🛡️  Server listening on port: ${config.port} 🛡️ 
       ################################################
     `);
-    })
-    .on('error', (err) => {      
+  })
+    .on('error', (err) => {
       Logger.error(err);
       process.exit(1);
       return;
-  });
+    });
 }
 
 startServer();

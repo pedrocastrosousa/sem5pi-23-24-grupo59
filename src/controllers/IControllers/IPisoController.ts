@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 
-export default interface IPisoController  {
+export default interface IPisoController {
   createPiso(req: Request, res: Response, next: NextFunction);
   updatePiso(req: Request, res: Response, next: NextFunction);
   listarEdificiosComMinMaxPisos(req: Request, res: Response, next: NextFunction);
@@ -13,4 +13,5 @@ export default interface IPisoController  {
   getSalasDeTodosOsMapas(req: Request, res: Response, next: NextFunction);
   obterBaseDeConhecimento(req: Request, res: Response, next: NextFunction);
   melhorCaminho(req: Request, res: Response, next: NextFunction);
+  getSequenciaTarefas(req: Request, res: Response, next: NextFunction);
 }
