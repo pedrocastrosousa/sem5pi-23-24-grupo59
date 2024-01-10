@@ -202,8 +202,8 @@ export default class PisoController implements IPisoController /* TODO: extends 
   }
 
   public async getSequenciaTarefas(req: Request, res: Response, next: NextFunction) {
-    console.log("getSequenciaTarefas", req.body);
     try {
+      console.log(req.body);
         const tarefas: any[] = req.body;
 
        // Formatar cada tarefa no local
@@ -222,7 +222,7 @@ export default class PisoController implements IPisoController /* TODO: extends 
         return `tarefa(${codigo}, sala('Edif${edificioPickUp}', 'Edif${edificioPickUp}-${formatoPisoPickUp}', '${idSalaPickUp}'), sala('Edif${edificioDelivery}', 'Edif${edificioDelivery}-${formatoPisoDelivery}', '${idSalaDelivery}')).`;
     });
 
-    console.log(tarefasFormatadas);
+
 
 
         const result = await this.pisoServiceInstance.getSequenciaTarefas(tarefasFormatadas);

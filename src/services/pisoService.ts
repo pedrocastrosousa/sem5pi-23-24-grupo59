@@ -305,14 +305,13 @@ export default class PisoService implements IPisoService {
 
     // Construir o corpo da requisição no formato desejado
     const requestBody = {
-      base_robot: "base_robot (base_robot_loc, sala('EdifA', 'EdifA-Piso1', 'A101')).",
+      base_robot: "base_robot(base_robot_loc, sala('EdifA', 'EdifA-Piso1', 'A101')).",
       tarefas: tarefas
     };
 
-    console.log(JSON.stringify(requestBody));
-
+    console.log(requestBody);
     try {
-      const response = await fetch(config.url_planemaneto + '/melhor_sequencia_tarefas', {
+      const response = await fetch(config.url_planemaneto+'/melhor_sequencia_tarefas', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -325,8 +324,10 @@ export default class PisoService implements IPisoService {
         return Result.fail<string>('Erro ao obter sequencia de tarefas');
       }
 
+
       const sequenciaJSON = await response.json();
       const sequenciaString = JSON.stringify(sequenciaJSON);
+      
       return Result.ok<string>(sequenciaString);
     } catch (error) {
       return Result.fail<string>(error);

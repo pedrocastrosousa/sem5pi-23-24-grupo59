@@ -20,7 +20,7 @@ export default (app: Router) => {
     });
 
     route.post('/SequenciaTarefas', async (req, res, next) => {
-        
+        console.log( 'tarefas ' + req.body);
         ctrl.getSequenciaTarefas(req, res, next);
     });
 }
